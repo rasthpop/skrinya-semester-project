@@ -1,5 +1,5 @@
 import Sidebar from "@/components/sidebar";
-import App from "./app";
+import App from "./pages/profile/app";
 
 export default function Home() {
   return (
