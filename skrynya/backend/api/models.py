@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, ForeignKey, Table, DateTime
+from sqlalchemy import Column, Integer, String, ForeignKey, Table, DateTime, Text
 from sqlalchemy.orm import relationship
 from .database import Base
 from datetime import datetime
@@ -31,3 +31,27 @@ class Campaign(Base):
     created_at = Column(DateTime, default=datetime.utcnow)
 
     creator = relationship("User", back_populates="campaigns")
+
+
+class Donation(Base):
+    __tablename__ = "donations"
+
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"))
+    campaign_id = Column(Integer, ForeignKey("campaigns.id"))
+    amount = Column(Integer, nullable=False)
+    date = Column(DateTime, default=datetime.datetime.utcnow)
+
+    user = relationship("User", back_populates="donations")
+    campaign = relationship("Campaign", back_populates="donations")
+
+class Transaction(Base):
+    __tablename__ = "transactions"
+
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"))
+    type = Column(Text, nullable=False)  # donation, refund
+    amount = Column(Integer, nullable=False)
+    date = Column(DateTime, default=datetime.datetime.utcnow)
+
+    user = relationship("User", back_populates="transactions")
