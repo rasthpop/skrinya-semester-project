@@ -15,7 +15,8 @@ class User(Base):
     phone = Column(String, nullable=True)
     password_hash = Column(String, nullable=False)
     created_at = Column(DateTime, default=datetime.utcnow)
-
+    donations = relationship("Donation", back_populates="user")
+    transactions = relationship("Transaction", back_populates="user")
 
 
 class Campaign(Base):
@@ -31,7 +32,6 @@ class Campaign(Base):
     created_at = Column(DateTime, default=datetime.utcnow)
 
     creator = relationship("User", back_populates="campaigns")
-
 
 class Donation(Base):
     __tablename__ = "donations"
