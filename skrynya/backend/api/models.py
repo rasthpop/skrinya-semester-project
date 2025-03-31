@@ -10,11 +10,12 @@ class User(Base):
     __tablename__ = 'users'
 
     id = Column(Integer, primary_key=True, index=True)
-    name = Column(String, nullable=False)
+    username = Column(String, unique=True, nullable=False)
     email = Column(String, unique=True, nullable=False)
-    phone = Column(String, nullable=True)
-    password_hash = Column(String, nullable=False)
+    # phone = Column(String, nullable=True)
+    hashed_password = Column(String, nullable=False)
     created_at = Column(DateTime, default=datetime.utcnow)
+    campaings = relationship("Campaign", back_populates="creator")
 
 
 
@@ -30,4 +31,4 @@ class Campaign(Base):
     created_by = Column(Integer, ForeignKey('users.id'))
     created_at = Column(DateTime, default=datetime.utcnow)
 
-    creator = relationship("User", back_populates="campaigns")
+    creator = relationship("User", back_populates="campaings")

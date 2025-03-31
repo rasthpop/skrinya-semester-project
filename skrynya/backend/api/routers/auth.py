@@ -7,7 +7,7 @@ from jose import jwt
 from dotenv import load_dotenv
 import os
 from api.models import User
-from api.deps import db_dependency
+from api.deps import db_dependency, bcrypt_context
 
 load_dotenv()
 
@@ -24,13 +24,15 @@ ALGORITHM = os.getenv('AUTH_ALGORITHM')
 class UserCreatesRequest(BaseModel):
     username: str
     password: str
+    email: str
 
 class Token(BaseModel):
-    access_type: str
+    access_token: str
     token_type: str
 
 def authenticate_user(username: str, password: str, db):
-    user = db.query(User).filter(User.username == username).first
+    user = db.query(User).filter(User.username == username).first()
+    print('YOU ARE LOOKING FOR', user)
     if not user:
         return False
     if not bcrypt_context.verify(password, user.hashed_password):
@@ -47,7 +49,8 @@ def create_access_token(username: str, user_id: int, expires_delta: timedelta):
 async def create_user(db: db_dependency, create_user_request: UserCreatesRequest):
     create_user_model = User(
         username=create_user_request.username,
-        hashed_password=bcrypt_context.hash(create_user_request.password)
+        hashed_password=bcrypt_context.hash(create_user_request.password),
+        email=create_user_request.email
     )
     db.add(create_user_model)
     db.commit()
