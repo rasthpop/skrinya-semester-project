@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React from "react";
 import ProfileCard from "@/components/profilecard";
 import MyJars from "@/components/profile_myjars";
 import Header from "@/components/header";

@@ -1,7 +1,7 @@
 import Sidebar from "@/components/sidebar";
-import Profile from "./pages/profile/app";
+import Profile from "./pages/profile/page";
 import Header from "@/components/header";
-import Registration from "./pages/registration/app";
+import Registration from "./pages/registration/page";
 
 export default function Home() {
   return (

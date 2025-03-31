@@ -1,5 +1,6 @@
 'use client'
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import AuthContex from "@/app/AuthContext";
 
 interface FormData {
   username: string;
@@ -14,6 +15,10 @@ interface LogFormData {
 }
 
 export default function Registration() {
+  const { login } = useContext(AuthContex)
+  const [username, setUser] = useState('')
+  const [password, setPassword] = useState('')
+
   const [regformData, setregFormData] = useState<FormData>({
     username: "",
     email: "",
@@ -49,6 +54,7 @@ export default function Registration() {
       }
     }
     else{
+      login(logformData["login"], logformData["password"])
       console.log("Submitted Data:", logformData);
     }
   };
