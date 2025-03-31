@@ -1,12 +1,20 @@
-import React from "react";
+import React, {useState} from "react";
 import ProfileCard from "@/components/profilecard";
 import MyJars from "@/components/profile_myjars";
+import Header from "@/components/header";
 
-export default function App(){
+
+export default function Profile(){
+
   return(
-    <div className="ml-[260px] 2xl:ml-[360px] pt-8 px-8">
+    <div  className="font-lex ml-[260px] 2xl:ml-[290px] pt-8 px-8 flex flex-col gap-12">
       <ProfileCard/>
       <MyJars/>
+      <div>
+        
+      </div>
     </div>
+
+
   )
 }
