@@ -5,9 +5,32 @@
   --foreground: #171717;
 }
 
+@font-face {
+  font-family: lex;
+  font-style: normal;
+  font-weight: 200 700;
+  font-display: swap;
+  src: url("../fonts/LexendDeca-VariableFont_wght.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: romono;
+  font-style: normal;
+  font-weight: 200 700;
+  font-display: swap;
+  src: url("../fonts/Roboto-Mono-regular.woff2") format("woff2");
+}
+
 @theme {
   --color-main: #14111F;
+  --color-fallgray: #EDEDED;
+  --color-textgray: #B2B2B2;
+  --color-hiblue: #4E90EB;
+  --font-lex: "lex", sans-serif;
+  --font-romono: "romono", monospace;
+  
 }
+
 
 @media (prefers-color-scheme: dark) {
   :root { margin: 0}
