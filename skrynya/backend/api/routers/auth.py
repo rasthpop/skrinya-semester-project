@@ -8,6 +8,7 @@ from dotenv import load_dotenv
 import os
 from api.models import User
 from api.deps import db_dependency, bcrypt_context
+from sqlalchemy import or_
 
 load_dotenv()
 
@@ -30,9 +31,8 @@ class Token(BaseModel):
     access_token: str
     token_type: str
 
-def authenticate_user(username: str, password: str, db):
-    user = db.query(User).filter(User.username == username).first()
-    print('YOU ARE LOOKING FOR', user)
+def authenticate_user(login: str, password: str, db):
+    user = db.query(User).filter(or_(User.username == login, User.email == login)).first()
     if not user:
         return False
     if not bcrypt_context.verify(password, user.hashed_password):
