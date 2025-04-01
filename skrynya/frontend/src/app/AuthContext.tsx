@@ -13,11 +13,12 @@ interface User {
 
 interface AuthContextType {
     user: User | null;
-    Login(username: string, password: string): Promise<void>;
-    Logout(): void;
+    login(username: string, password: string): Promise<void>;
+    logout(): void;
 }
 
-export const AuthContext = createContext<AuthContextType | null>(null);
+const AuthContext = createContext<AuthContextType | null>(null);
+export default AuthContext;
 
 interface AuthProviderProps {
     children: ReactNode;
@@ -27,7 +28,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     const [user, setUser] = useState<User | null>(null);
     const router = useRouter();
 
-    async function Login(username: string, password: string): Promise<void> {
+    async function login(username: string, password: string): Promise<void> {
         try {
             const formData = new URLSearchParams();
             formData.append("username", username);
@@ -50,18 +51,17 @@ export function AuthProvider({ children }: AuthProviderProps) {
         }
     }
 
-    function Logout(): void {
+    function logout(): void {
         setUser(null);
         delete axios.defaults.headers.common["Authorization"];
         localStorage.removeItem("token");
+        localStorage.setItem("user", "")
         router.push("/registration");
     }
 
     return (
-        <AuthContext.Provider value={{ user, Login, Logout }}>
+        <AuthContext.Provider value={{ user, login, logout }}>
             {children}
         </AuthContext.Provider>
     );
 }
-
-export default AuthContext;
