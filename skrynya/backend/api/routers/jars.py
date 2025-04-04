@@ -73,7 +73,8 @@ def create_jar(db: db_dependency, jar: JarCreate, user: user_dependency):
 
 
 @router.delete('/')
-def delete_jar(db: db_dependency, user: user_dependency, jar_id: int):
+def delete_jar(db: db_dependency, jar_id: int):
+    '''Delete a jar by id'''
     db_workout = db.query(Campaign).filter(Campaign.id == jar_id).first()
     if db_workout:
         db.delete(db_workout)
