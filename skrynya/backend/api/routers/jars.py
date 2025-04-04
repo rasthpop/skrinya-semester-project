@@ -4,7 +4,7 @@ from fastapi import APIRouter, status
 from enum import Enum
 from fastapi import HTTPException
 
-from api.models import Campaign, Donation
+from api.models import Campaign
 from api.deps import db_dependency, user_dependency
 
 
@@ -33,24 +33,10 @@ class JarCreate(JarBase):
 
 
 
-@router.post('/donate')
-def donate_to_jar(db: db_dependency, jar_id: int, amount: int, user: user_dependency):
-    '''
-    Donate to a jar by id
-    '''
-    jar = db.query(Campaign).filter(Campaign.id == jar_id).first()
-    if not jar:
-        return
-    donation = Donation(amount=amount, campaign_id = jar.id, user_id = user.id)
-    db.add(donation)
-    jar.collected_amount += amount
-    db.commit()
 
 
 
-
-
-@router.get('/')
+@router.get('/{jar_id}')
 def get_jar(db: db_dependency, jar_id: int):
     """
     Get a jar by ID
@@ -61,26 +47,39 @@ def get_jar(db: db_dependency, jar_id: int):
     raise HTTPException(status_code=404, detail="Jar not found")
 
 
+@router.post('/edit/{jar_id}')
+def edit_jar(db: db_dependency, jar_id: int, user: user_dependency, new_jar: JarCreate):
+    '''
+    Edit jar by id
+    '''
+    jar = get_jar(db, jar_id)
+    if jar.created_by != user.username:
+        raise HTTPException(status_code=403, detail='Not your jar')
+    jar.title = new_jar.title
+    jar.description = new_jar.description
+    jar.goal_amount = new_jar.goal_amount
+    jar.collected_amount = new_jar.collected_amount
+    jar.status = new_jar.status
+    db.commit()
 
-# @router.post('/')
-# def edit_jar(db: db_dependency, jar_id: int, user: user_dependency):
-#     '''
-#     Edit jar by id
-#     '''
-#     jar = get_jar(db, jar_id)
-#     if jar.creator == user:
+
+def validate_jar_by_user(db: db_dependency, user: user_dependency, jar: Campaign):
+    if jar.created_by != user.username:
+        raise HTTPException(status_code=403, detail='Not your jar')
+    return True
 
 
 
-@router.get('/all')
+@router.get('/')
 def get_jars(db: db_dependency):
     """
     Get all jars
     """
-    jars = db.query(Campaign).all()
+    jars = db.query(Campaign).filter(Campaign.status == 'active').all()
     return jars
 
-@router.get('/my')
+
+@router.get('/my/')
 def get_my_jars(db: db_dependency, user: user_dependency):
     return db.query(Campaign).filter(Campaign.created_by == user.username).all()
 
@@ -106,11 +105,3 @@ def create_jar(db: db_dependency, jar: JarCreate, user: user_dependency):
     return new_jar
 
 
-@router.delete('/')
-def delete_jar(db: db_dependency, jar_id: int):
-    '''Delete a jar by id'''
-    db_workout = db.query(Campaign).filter(Campaign.id == jar_id).first()
-    if db_workout:
-        db.delete(db_workout)
-        db.commit()
-    return db_workout
