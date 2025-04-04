@@ -43,7 +43,7 @@ def get_jar(db: db_dependency, jar_id: int):
     raise HTTPException(status_code=404, detail="Jar not found")
 
 
-@router.get('/jars')
+@router.get('/all')
 def get_jars(db: db_dependency):
     """
     Get all jars
