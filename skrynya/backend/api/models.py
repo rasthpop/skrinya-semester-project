@@ -43,10 +43,9 @@ class Donation(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("users.id"))
-    campaign_id = Column(Integer, ForeignKey("campaigns.id"))
+    campaign_id = Column(Integer, nullable=False)
     amount = Column(Integer, nullable=False)
     date = Column(DateTime, default=datetime.utcnow)
-
     user = relationship("User", back_populates="donations")
     # campaign = relationship("Campaign", back_populates="donations")
 
@@ -55,8 +54,6 @@ class Transaction(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("users.id"))
-    type = Column(String, nullable=False)  # donation, refund
     amount = Column(Integer, nullable=False)
     date = Column(DateTime, default=datetime.utcnow)
-
     user = relationship("User", back_populates="transactions")

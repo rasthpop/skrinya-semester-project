@@ -4,7 +4,7 @@ from fastapi import APIRouter, status
 from enum import Enum
 from fastapi import HTTPException
 
-from api.models import Campaign
+from api.models import Campaign, Donation
 from api.deps import db_dependency, user_dependency
 
 
@@ -32,6 +32,24 @@ class JarCreate(JarBase):
     ...
 
 
+
+@router.post('/donate')
+def donate_to_jar(db: db_dependency, jar_id: int, amount: int, user: user_dependency):
+    '''
+    Donate to a jar by id
+    '''
+    jar = db.query(Campaign).filter(Campaign.id == jar_id).first()
+    if not jar:
+        return
+    donation = Donation(amount=amount, campaign_id = jar.id, user_id = user.id)
+    db.add(donation)
+    jar.collected_amount += amount
+    db.commit()
+
+
+
+
+
 @router.get('/')
 def get_jar(db: db_dependency, jar_id: int):
     """
@@ -43,6 +61,17 @@ def get_jar(db: db_dependency, jar_id: int):
     raise HTTPException(status_code=404, detail="Jar not found")
 
 
+
+# @router.post('/')
+# def edit_jar(db: db_dependency, jar_id: int, user: user_dependency):
+#     '''
+#     Edit jar by id
+#     '''
+#     jar = get_jar(db, jar_id)
+#     if jar.creator == user:
+
+
+
 @router.get('/all')
 def get_jars(db: db_dependency):
     """
@@ -50,6 +79,11 @@ def get_jars(db: db_dependency):
     """
     jars = db.query(Campaign).all()
     return jars
+
+@router.get('/my')
+def get_my_jars(db: db_dependency, user: user_dependency):
+    return db.query(Campaign).filter(Campaign.created_by == user.username).all()
+
 
 
 @router.post('/', status_code=status.HTTP_201_CREATED)
@@ -64,7 +98,7 @@ def create_jar(db: db_dependency, jar: JarCreate, user: user_dependency):
         goal_amount=jar.goal_amount,
         collected_amount=jar.collected_amount,
         status=jar.status,
-        created_by=user['username']
+        created_by=user.username
     )
     db.add(new_jar)
     db.commit()
