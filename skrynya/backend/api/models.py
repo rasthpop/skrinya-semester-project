@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, ForeignKey, Table, DateTime
+from sqlalchemy import Column, Integer, String, ForeignKey, Table, DateTime, Boolean
 from sqlalchemy.orm import relationship
 from .database import Base
 from datetime import datetime
@@ -18,6 +18,7 @@ class User(Base):
     # phone = Column(String, nullable=True)
     hashed_password = Column(String, nullable=False)
     created_at = Column(DateTime, default=datetime.utcnow)
+    is_admin = Column(Boolean, default=False)
     campaings = relationship("Campaign", back_populates="creator")
     donations = relationship("Donation", back_populates="user")
     transactions = relationship("Transaction", back_populates="user")
