@@ -7,7 +7,7 @@ from fastapi import HTTPException
 
 from api.routers.jars import get_jar 
 
-from api.models import Donation
+from api.models import Donation, Campaign, User
 from api.deps import db_dependency, user_dependency
 
 router = APIRouter(
@@ -17,7 +17,7 @@ router = APIRouter(
 
 
 
-@router.post('/donate/{jar_id}')
+@router.post('/{jar_id}')
 def donate_to_jar(db: db_dependency, jar_id: int, amount: int, user: user_dependency):
     '''
     Donate to a jar by id
@@ -27,3 +27,9 @@ def donate_to_jar(db: db_dependency, jar_id: int, amount: int, user: user_depend
     db.add(donation)
     jar.collected_amount += amount
     db.commit()
+
+
+@router.get('/my/')
+def get_my_donations(db: db_dependency, user: user_dependency):
+    donations = db.query(Campaign).filter(Campaign.created_by == user.username).all()
+    return donations
