@@ -28,12 +28,17 @@ def delete_jar(db: db_dependency, jar_id: int, admin: admin_dependency):
 def get_all_jars(db: db_dependency, admin: admin_dependency):
     return db.query(Campaign).all()
 
+@router.get('/users/')
+def get_all_users(db: db_dependency, admin: admin_dependency):
+    return db.query(User).all()
+
 @router.delete('/users/{user_id}')
 def delete_user(db: db_dependency, admin: admin_dependency, user_id: int):
     user = get_user(db, admin, user_id)
     if user:
         db.delete(user)
         db.commit()
+    return user
 
 @router.get('/users/{user_id}')
 def get_user(db: db_dependency, admin: admin_dependency, user_id: int):
