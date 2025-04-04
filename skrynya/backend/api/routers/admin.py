@@ -4,7 +4,7 @@ from fastapi import APIRouter, status
 from enum import Enum
 from fastapi import HTTPException
 
-from api.models import Campaign
+from api.models import Campaign, User
 from api.deps import db_dependency, user_dependency, admin_dependency
 from api.routers.jars import validate_jar_by_user, JarStatus, get_jar
 
@@ -28,6 +28,17 @@ def delete_jar(db: db_dependency, jar_id: int, admin: admin_dependency):
 def get_all_jars(db: db_dependency, admin: admin_dependency):
     return db.query(Campaign).all()
 
+@router.delete('/users/{user_id}')
+def delete_user(db: db_dependency, admin: admin_dependency, user_id: int):
+    user = get_user(db, admin, user_id)
+    if user:
+        db.delete(user)
+        db.commit()
+
+@router.get('/users/{user_id}')
+def get_user(db: db_dependency, admin: admin_dependency, user_id: int):
+    user = db.query(User).filter(User.id == user_id).first()
+    return user
 
 @router.post('/{jar_id}')
 def change_status(db: db_dependency, jar_id: int, status: JarStatus, user: user_dependency):
