@@ -42,5 +42,5 @@ next-env.d.ts
 
 #database
 *.db
-
+*.pyc
 __pycache__/
