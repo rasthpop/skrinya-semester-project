@@ -31,13 +31,8 @@ class Token(BaseModel):
     access_token: str
     token_type: str
 
-<<<<<<< HEAD
-def authenticate_user(username: str, password: str, db):
-    user = db.query(User).filter(User.username == username).first()
-=======
 def authenticate_user(login: str, password: str, db):
     user = db.query(User).filter(or_(User.username == login, User.email == login)).first()
->>>>>>> d5f183efbeba6fbb1d6ba731e9101a3bc32ae73b
     if not user:
         return False
     if not bcrypt_context.verify(password, user.hashed_password):

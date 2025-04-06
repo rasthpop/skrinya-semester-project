@@ -1,3 +1,5 @@
+'use client'
+
 import React, {useState} from "react";
 import ProfileCard from "@/components/profilecard";
 import MyJars from "@/components/profile_myjars";
