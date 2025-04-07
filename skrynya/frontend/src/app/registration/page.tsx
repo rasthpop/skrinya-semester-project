@@ -1,5 +1,8 @@
 'use client'
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import AuthContext from "@/app/AuthContext";
+import { Router, useRouter } from "next/router";
+import axios from "axios";
 
 interface FormData {
   username: string;
@@ -14,6 +17,14 @@ interface LogFormData {
 }
 
 export default function Registration() {
+  const authContext = useContext(AuthContext)
+
+  if (!authContext) {
+    throw new Error("AuthContext is not provided")
+  }
+
+  const { login } = authContext;
+
   const [regformData, setregFormData] = useState<FormData>({
     username: "",
     email: "",
@@ -28,33 +39,48 @@ export default function Registration() {
 
   const [isreg, setReg] = useState(false)
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
+  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const { name, value } = e.target
     if (isreg){
-      setregFormData((prev) => ({ ...prev, [name]: value }));
+      setregFormData((prev) => ({ ...prev, [name]: value }))
     }
     else {
-      setlogFormData((prev) => ({ ...prev, [name]: value }));
+      setlogFormData((prev) => ({ ...prev, [name]: value }))
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (isreg) {
       if (regformData.confirm == regformData.password){
-        console.log("Submitted Data:", regformData);
+        console.log("Submitted Data:", regformData)
+        try {
+          const response = await axios.post("http://localhost:8000/auth", regformData, {
+            headers: { "Content-Type": "application/json" },
+          });
+          
+        } catch (error: any) {
+          console.log("error", {error})
+        }
+        login(logformData["login"], logformData["password"])
+        console.log("Submitted Data:", logformData);
+        localStorage.setItem("user", regformData["username"])
       }
       else{
         console.log("Passwords do not match!")
       }
     }
     else{
-      console.log("Submitted Data:", logformData);
+      login(logformData["login"], logformData["password"])
+      localStorage.setItem("user", logformData["login"])
+      console.log(localStorage)
     }
+
+    console.log(localStorage.getItem("user"))
   };
 
   return (
-    <div className="flex items-center flex-col mt-30 w-[40%] shadow-lg p-8">
+    <div className="flex items-center justify-center flex-col mt-30 w-[40%] mx-20 shadow-lg p-8">
         <h2 className="text-xl font-semibold mb-4">Register</h2>
         <form onSubmit={handleSubmit} className="flex flex-col gap-8 w-[60%]">
           {isreg ?
@@ -115,4 +141,3 @@ export default function Registration() {
       </div>
   );
 };
-
