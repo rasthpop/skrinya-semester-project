@@ -23,6 +23,9 @@ ALGORITHM = os.getenv('AUTH_ALGORITHM')
 
 
 class UserCreatesRequest(BaseModel):
+    first_name: str
+    second_name: str
+    phone: str
     username: str
     password: str
     email: str
@@ -48,6 +51,9 @@ def create_access_token(username: str, user_id: int, expires_delta: timedelta):
 @router.post('/', status_code=status.HTTP_201_CREATED)
 async def create_user(db: db_dependency, create_user_request: UserCreatesRequest):
     create_user_model = User(
+        first_name=create_user_request.first_name,
+        second_name=create_user_request.second_name,
+        phone=create_user_request.phone,
         username=create_user_request.username,
         hashed_password=bcrypt_context.hash(create_user_request.password),
         email=create_user_request.email
