@@ -1,7 +1,7 @@
 'use client'
 import React, { useState, useContext } from "react";
 import AuthContext from "@/app/AuthContext";
-import { Router, useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import axios from "axios";
 
 interface FormData {
@@ -18,6 +18,8 @@ interface LogFormData {
 
 export default function Registration() {
   const authContext = useContext(AuthContext)
+
+  const router = useRouter()
 
   if (!authContext) {
     throw new Error("AuthContext is not provided")
@@ -74,6 +76,7 @@ export default function Registration() {
       login(logformData["login"], logformData["password"])
       localStorage.setItem("user", logformData["login"])
       console.log(localStorage)
+      router.push("/post")
     }
 
     console.log(localStorage.getItem("user"))

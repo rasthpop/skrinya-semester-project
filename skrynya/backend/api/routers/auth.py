@@ -23,9 +23,9 @@ ALGORITHM = os.getenv('AUTH_ALGORITHM')
 
 
 class UserCreatesRequest(BaseModel):
-    first_name: str
-    second_name: str
-    phone: str
+    # first_name: str
+    # second_name: str
+    # phone: str
     username: str
     password: str
     email: str

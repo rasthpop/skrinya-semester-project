@@ -7,9 +7,12 @@ import Sidebar from "@/components/sidebar";
 import Profile from "./profile/page";
 import Header from "@/components/header";
 import Registration from "./registration/page";
+import JarForm from "./post/page";
 
 import { useRouter } from "next/navigation";
 import { AuthProvider } from "./AuthContext";
+
+
 
 export default function Home() {
   const router = useRouter();
@@ -23,6 +26,6 @@ export default function Home() {
 
   
   return (
-   <HomePage/>
+    <JarForm/>
   );
 }
