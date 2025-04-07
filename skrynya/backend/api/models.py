@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, ForeignKey, Table, DateTime
+from sqlalchemy import Column, Integer, String, ForeignKey, Table, DateTime, Boolean
 from sqlalchemy.orm import relationship
 from .database import Base
 from datetime import datetime
@@ -18,6 +18,7 @@ class User(Base):
     # phone = Column(String, nullable=True)
     hashed_password = Column(String, nullable=False)
     created_at = Column(DateTime, default=datetime.utcnow)
+    is_admin = Column(Boolean, default=False)
     campaings = relationship("Campaign", back_populates="creator")
     donations = relationship("Donation", back_populates="user")
     transactions = relationship("Transaction", back_populates="user")
@@ -43,10 +44,9 @@ class Donation(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("users.id"))
-    campaign_id = Column(Integer, ForeignKey("campaigns.id"))
+    campaign_id = Column(Integer, nullable=False)
     amount = Column(Integer, nullable=False)
     date = Column(DateTime, default=datetime.utcnow)
-
     user = relationship("User", back_populates="donations")
     # campaign = relationship("Campaign", back_populates="donations")
 
@@ -55,8 +55,6 @@ class Transaction(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("users.id"))
-    type = Column(String, nullable=False)  # donation, refund
     amount = Column(Integer, nullable=False)
     date = Column(DateTime, default=datetime.utcnow)
-
     user = relationship("User", back_populates="transactions")
