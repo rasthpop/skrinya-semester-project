@@ -1,10 +1,13 @@
 "use client"
 
 import React, { useEffect } from "react";
+import HomePage from "./home/page";
+
 import Sidebar from "@/components/sidebar";
 import Profile from "./profile/page";
 import Header from "@/components/header";
 import Registration from "./registration/page";
+
 import { useRouter } from "next/navigation";
 import { AuthProvider } from "./AuthContext";
 
@@ -20,22 +23,6 @@ export default function Home() {
 
   
   return (
-    <div>
-        {isAuthenticated ?
-          <div>
-          <Sidebar />
-          <div>
-            <AuthProvider>
-            <Header />
-            </AuthProvider>
-            <Profile />
-          </div>
-        </div>
-        :
-        <AuthProvider>
-        <Registration/>
-        </AuthProvider>
-        }
-    </div>
+   <HomePage/>
   );
 }
