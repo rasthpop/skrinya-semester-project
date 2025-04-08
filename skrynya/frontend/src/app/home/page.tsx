@@ -5,21 +5,24 @@ import axios from "axios";
 import JarCard from "@/components/profile_jarcard"
 import { GetServerSideProps } from 'next';
 
-export default function HomePage() {  
-  const [jars, setJars] = useState([])
+interface Jar {
+  id: number;
+  title: string;
+  description: string;
+  goal_amount: number;
+  collected_amount: number;
+  status: string;
+}
 
-  // async function getJars() {
-  //   const res = await axios.get(`http://localhost:8000/jars/jars`)
-  //   const jar = await res.data
-  
-  //   return jar
-  // };
+export default function HomePage() {  
+  const [jars, setJars] = useState<Jar[]>([]);
 
   useEffect(() => {
     async function fetchJars() {
       try {
-        const res = await axios.get('http://127.0.0.1:8000/jars/jars')
+        const res = await axios.get('http://127.0.0.1:8000/jars/')
         setJars(res.data)
+        console.log(res.data)
       } catch (err) {
         console.error('Error fetching jars:', err)
       }
@@ -38,7 +41,7 @@ export default function HomePage() {
 
     <div className="mx-20 gap-8 grid grid-cols-3">
       {jars.map((value) => (
-        <JarCard key={value} name={value.title} />
+        <JarCard key={value.id} name={value.title} />
       ))}  
     </div>
 

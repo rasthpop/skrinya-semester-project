@@ -5,8 +5,11 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 
 interface FormData {
+  first_name: string;
+  second_name: string;
   username: string;
   email: string;
+  phone: string;
   password: string;
   confirm: string
 }
@@ -28,8 +31,11 @@ export default function Registration() {
   const { login } = authContext;
 
   const [regformData, setregFormData] = useState<FormData>({
+    first_name: "",
+    second_name: "",
     username: "",
     email: "",
+    phone: "",
     password: "",
     confirm: ""
   });
@@ -64,7 +70,7 @@ export default function Registration() {
         } catch (error: any) {
           console.log("error", {error})
         }
-        login(logformData["login"], logformData["password"])
+        // login(logformData["login"], logformData["password"])
         console.log("Submitted Data:", logformData);
         localStorage.setItem("user", regformData["username"])
       }
@@ -83,11 +89,32 @@ export default function Registration() {
   };
 
   return (
-    <div className="flex items-center justify-center flex-col mt-30 w-[40%] mx-20 shadow-lg p-8">
+    <div className="flex items-center justify-center flex-col mt-30 w-[60%] mx-20 shadow-lg p-8">
         <h2 className="text-xl font-semibold mb-4">Register</h2>
         <form onSubmit={handleSubmit} className="flex flex-col gap-8 w-[60%]">
           {isreg ?
           <div className="flex flex-col gap-8">
+            <div className="flex gap-2 w-full">
+              <input
+                className="border-b-1 border-gray-400"
+                type="text"
+                name="first_name"
+                placeholder="First Name"
+                value={regformData.first_name}
+                onChange={handleChange}
+                required
+                />
+              <input
+                className="border-b-1 border-gray-400"
+                type="text"
+                name="second_name"
+                placeholder="Second Nmae"
+                value={regformData.second_name}
+                onChange={handleChange}
+                required
+                />
+
+            </div>
             <input
               className="border-b-1 border-gray-400"
               type="text"
@@ -103,6 +130,15 @@ export default function Registration() {
               name="email"
               placeholder="Email"
               value={regformData.email}
+              onChange={handleChange}
+              required
+              /> 
+            <input
+              className="border-b-1 border-gray-400"
+              type="text"
+              name="phone"
+              placeholder="+ 380"
+              value={regformData.phone}
               onChange={handleChange}
               required
               /> 

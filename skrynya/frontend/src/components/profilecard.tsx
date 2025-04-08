@@ -1,4 +1,5 @@
-import React from "react";
+"use client"
+import React, { useEffect, useContext } from "react";
 
 export default function ProfileCard() {
 
