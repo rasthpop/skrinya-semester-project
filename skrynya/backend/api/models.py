@@ -23,7 +23,6 @@ class User(Base):
     is_admin = Column(Boolean, default=False)
     campaings = relationship("Campaign", back_populates="creator")
     donations = relationship("Donation", back_populates="user")
-    transactions = relationship("Transaction", back_populates="user")
 
 
 class Campaign(Base):
@@ -52,11 +51,3 @@ class Donation(Base):
     user = relationship("User", back_populates="donations")
     # campaign = relationship("Campaign", back_populates="donations")
 
-class Transaction(Base):
-    __tablename__ = "transactions"
-
-    id = Column(Integer, primary_key=True, index=True)
-    user_id = Column(Integer, ForeignKey("users.id"))
-    amount = Column(Integer, nullable=False)
-    date = Column(DateTime, default=datetime.utcnow)
-    user = relationship("User", back_populates="transactions")

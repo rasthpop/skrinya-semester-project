@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from .database import Base, engine
-from .routers import auth, jars, admin, donations
+from .routers import auth, jars, admin, donations, user
 app = FastAPI()
 
 
@@ -24,3 +24,4 @@ app.include_router(auth.router)
 app.include_router(jars.router)
 app.include_router(admin.router)
 app.include_router(donations.router)
+app.include_router(user.router)

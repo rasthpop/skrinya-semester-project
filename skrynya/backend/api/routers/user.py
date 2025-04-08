@@ -1,53 +1,112 @@
-from fastapi import APIRouter, Depends, HTTPException
-from sqlalchemy.orm import Session
-from dependencies import get_db, get_current_user
-from models import User, Campaign, Donation, Transaction
-from schemas import UserOut, UserUpdate, UserActivity
-from typing import List
+from fastapi import APIRouter, HTTPException
+from api.deps import user_dependency, db_dependency
+from api.models import User, Campaign, Donation
+from pydantic import BaseModel
+from datetime import datetime
+
+class DonationBase(BaseModel):
+    amount: int
+    date: datetime
+
+    class Config:
+        orm_mode = True
+        from_attributes = True
+
+
+class DonationResponse(DonationBase):
+    id: int
+    user_id: int
+    campaign_id: int
+
+
+class CampaignBase(BaseModel):
+    campaign_id: int
+    name: str 
+
+    class Config:
+        orm_mode = True
+        from_attributes = True
+
+class CampaignResponse(CampaignBase):
+    id: int
+    created_by: int 
+
+class UserDict(BaseModel):
+    first_name: str
+    second_name: str
+    phone: str
+    username: str
+    password: str
+    email: str
+
+class UserActivity(BaseModel):
+    username: str
+    total_campaigns: int
+    total_donated: int
+    donations: list
+    campaigns: list
+
+
 
 router = APIRouter(
     prefix="/users",
     tags=["Users"]
 )
 
-@router.get("/me", response_model=UserOut)
-def get_my_profile(current_user: User = Depends(get_current_user)):
+@router.get("/me")
+def get_my_profile(current_user: user_dependency):
     return current_user
 
-@router.put("/me", response_model=UserOut)
+@router.post("/me")
 def update_my_profile(
-    update_data: UserUpdate,
-    db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user)
+    update_data: UserDict,
+    db: db_dependency,
+    current_user: user_dependency
 ):
-    for key, value in update_data.dict(exclude_unset=True).items():
-        setattr(current_user, key, value)
+    for key, value in dict(update_data):
+        current_user.key = value
     db.commit()
     db.refresh(current_user)
     return current_user
 
-@router.get("/{username}", response_model=UserOut)
-def get_user_by_username(username: str, db: Session = Depends(get_db)):
+@router.get("/{username}")
+def get_user_by_username(username: str, db: db_dependency):
     user = db.query(User).filter(User.username == username).first()
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
     return user
 
-@router.get("/me/activity", response_model=UserActivity)
+@router.get("/me/activity")
 def get_user_activity(
-    current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    current_user: user_dependency,
+    db: db_dependency
 ):
-    campaigns = db.query(Campaign).filter(Campaign.creator_id == current_user.id).all()
+    campaigns = db.query(Campaign).filter(Campaign.created_by == current_user.id).all()
     donations = db.query(Donation).filter(Donation.user_id == current_user.id).all()
-    transactions = db.query(Transaction).filter(Transaction.user_id == current_user.id).all()
 
     total_donated = sum(d.amount for d in donations)
     return UserActivity(
         username=current_user.username,
         total_campaigns=len(campaigns),
         total_donated=total_donated,
-        total_transactions=len(transactions),
-        recent_donations=donations[:5],  # можна зробити сортування
-        recent_campaigns=campaigns[:5]
+        donations=[DonationResponse.from_orm(d) for d in donations],  # Use Pydantic model for donations
+        campaigns=[CampaignResponse.from_orm(c) for c in campaigns]  # Use Pydantic model for campaigns
+    )
+
+@router.get("/activity/{username}")
+def get_user_activity_by_username(
+    db: db_dependency,
+    username: str
+):
+    user = get_user_by_username(username, db)
+    campaigns = db.query(Campaign).filter(Campaign.created_by == user.id).all()
+    donations = db.query(Donation).filter(Donation.user_id == user.id).all()
+
+    total_donated = sum(d.amount for d in donations)
+    return UserActivity(
+        username=user.username,
+        total_campaigns=len(campaigns),
+        total_donated=total_donated,
+        donations=[DonationResponse.from_orm(d) for d in donations],  # Use Pydantic model for donations
+        campaigns=[CampaignResponse.from_orm(c) for c in campaigns]  # Use Pydantic model for campaigns
     )
