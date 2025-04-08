@@ -45,4 +45,7 @@ next-env.d.ts
 *.pyc
 __pycache__/
 \__pycache__
-venv/
+**/__pycache__/
+skrynya/backend/api/routers/__pycache__/
+.venv/
+skrynya/backend/api/routers/__pycache__/__init__.cpython-312.pyc
