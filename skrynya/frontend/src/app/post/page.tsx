@@ -18,26 +18,27 @@ export default function JarForm() {
     }
   )
   
-  function handleChange(e: React.FormEvent){
+  function handleChange(e: React.ChangeEvent<HTMLInputElement>){
     const { name, value } = e.target
     setJarData((prev) => ({ ...prev, [name]: value }))
   }
+
   
   async function handleCreate() {
+    const token = localStorage.getItem("token")
+  
+    if(!token) {
+      console.log("no jwt token!")
+      return
+    }
+    const payload = {
+      title: jardata.title,
+      description: jardata.description,
+      goal_amount: parseInt(jardata.goal), // assuming jardata.goal is a string
+      collected_amount: 0,
+      status: "active"
+    }
     try {
-      const token = localStorage.getItem("token");
-      if (!token) {
-        console.log(token)
-        router.push("/registration")
-        return;
-      }
-
-      const payload = {
-        ...jardata,
-        goal_amount: parseInt(jardata.goal),
-        collected_amount: parseInt(String(jardata.collected_amount) || "0")
-      };
-
       const res = await axios.post("http://127.0.0.1:8000/jars/", payload, {
         headers: {
           "Authorization": `Bearer ${token}`,
