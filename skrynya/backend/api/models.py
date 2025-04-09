@@ -36,6 +36,7 @@ class Campaign(Base):
     status = Column(String, default="Pending")
     created_by = Column(Integer, ForeignKey('users.id'))
     created_at = Column(DateTime, default=datetime.utcnow)
+    tags = Column(String, nullable=True)
 
     creator = relationship("User", back_populates="campaings")
 
