@@ -5,6 +5,8 @@ import axios from "axios";
 import JarCard from "@/components/profile_jarcard"
 import { GetServerSideProps } from 'next';
 import DonationCard from "@/components/jar_card";
+import Sidebar from "@/components/sidebar";
+import { useRouter } from "next/navigation";
 
 interface Jar {
   id: number;
@@ -34,26 +36,28 @@ export default function HomePage() {
 
 
   return(
-    <main>
+    <main className="flex">
+      <Sidebar/>
+      <div>
 
-    <div className="w-full h-[300px] my-10 bg-slate-500 ">
-      m
-    </div>
+      <div className="w-full h-[300px] my-10 bg-slate-500 ">
+        m
+      </div>
 
-    <div className="mx-20 gap-8 grid grid-cols-3">
-      {jars.map((value) => (
-        <JarCard key={value.id} name={value.title} />
-      ))}  
-    </div>
+      <div className="mx-20 gap-8 grid grid-cols-3">
+        {jars.map((value) => (
+          <JarCard key={value.id} name={value.title} />
+        ))}  
+      </div>
 
-    <DonationCard
-    title="Пожертвувати на благодійність"
-    tags={["допомога", "благодійність"]}
-    goal_amount={1000}
-    collected_amount={200}
-    status="active"
-    />
-
+      {/* <DonationCard
+      title="Пожертвувати на благодійність"
+      tags={["допомога", "благодійність"]}
+      goal_amount={1000}
+      collected_amount={200}
+      status="active"
+      /> */}
+      </div>
     </main>
   )
 }
