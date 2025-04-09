@@ -3,7 +3,7 @@ from typing import Optional
 from fastapi import APIRouter, status
 from enum import Enum
 from fastapi import HTTPException
-
+from typing import List
 from api.models import Campaign
 from api.deps import db_dependency, user_dependency
 
@@ -19,12 +19,31 @@ class JarStatus(str, Enum):
     active = 'active'
     closed = 'closed'
 
+class JarTags(str, Enum):
+    transport = 'Транспорт'
+    medicine = 'Медицина'
+    reabilitation = 'Реабілітація'
+    weapons = 'Зброя'
+    communication = 'Звʼязок'
+    drone = 'Дрон'
+    tactical = 'Тактичне спорядження'
+    clothing = 'Одяг'
+    logistics = 'Логістика'
+    humanitarian = 'Гуманітарка'
+    evacuation = 'Евакуація'
+    psychological = 'Психологічна підтримка'
+    training = 'Навчання'
+    electronics = 'Електроніка'
+    thermal = 'Тепловізори'
+    optics = 'Оптика'
+
 class JarBase(BaseModel):
     title: str
     description: str
     goal_amount: int
     collected_amount: Optional[int] = 0
     status: Optional[JarStatus] = JarStatus.not_reviewed
+    tags: Optional[List[JarTags]] = None
 
 
 
@@ -97,7 +116,8 @@ def create_jar(db: db_dependency, jar: JarCreate, user: user_dependency):
         goal_amount=jar.goal_amount,
         collected_amount=jar.collected_amount,
         status=jar.status,
-        created_by=user.username
+        created_by=user.username,
+        tags=','.join(jar.tags) if jar.tags else None,
     )
     db.add(new_jar)
     db.commit()
