@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react"
 import axios from "axios";
 import JarCard from "@/components/profile_jarcard"
 import { GetServerSideProps } from 'next';
+import DonationCard from "@/components/jar_card";
 
 interface Jar {
   id: number;
@@ -44,6 +45,14 @@ export default function HomePage() {
         <JarCard key={value.id} name={value.title} />
       ))}  
     </div>
+
+    <DonationCard
+    title="Пожертвувати на благодійність"
+    tags={["допомога", "благодійність"]}
+    goal_amount={1000}
+    collected_amount={200}
+    status="active"
+    />
 
     </main>
   )
