@@ -5,6 +5,7 @@ import ProfileCard from "@/components/profilecard";
 import MyJars from "@/components/profile_myjars";
 import Header from "@/components/header";
 import axios from "axios";
+import Sidebar from "@/components/sidebar";
 
 
 export default function Profile() {
@@ -56,20 +57,27 @@ export default function Profile() {
         if (user) setUserData(user)
         if (jars) setUserJars(jars)
       }
-      fetchData()
-
+      if (token) {
+        fetchData()
+        console.log(user_data || "no user data")
+      }
+      else {
+        console.log("No token found") 
+      }        
   
     }, [])
 
 
   return(
+    <main className="flex">
+      <Sidebar/>
     <div  className="font-lex ml-[260px] 2xl:ml-[290px] pt-8 px-8 flex flex-col gap-12">
-      <ProfileCard
+      {/* <ProfileCard
       first_name={user_data["first_name"]}
       last_name={user_data["second_name"]}
       email={user_data["email"]}
       phone={user_data["phone"]}
-      />
+      /> */}
       {/* <MyJars
 
       /> */}
@@ -77,6 +85,7 @@ export default function Profile() {
         
       </div>
     </div>
+    </main>
 
 
   )
