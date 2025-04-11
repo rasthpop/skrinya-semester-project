@@ -1,8 +1,11 @@
 from fastapi import APIRouter, HTTPException
+from fastapi.responses import Response
 from api.deps import user_dependency, db_dependency
 from api.models import User, Campaign, Donation
+from sqlalchemy.orm import joinedload
 from pydantic import BaseModel
 from datetime import datetime
+import base64
 
 class DonationBase(BaseModel):
     amount: int
@@ -63,11 +66,28 @@ def update_my_profile(
     db: db_dependency,
     current_user: user_dependency
 ):
-    for key, value in dict(update_data):
-        current_user.key = value
+    for key, value in update_data.dict().items():
+        setattr(current_user, key, value)
     db.commit()
     db.refresh(current_user)
     return current_user
+
+
+def add_streak(db: db_dependency, user: user_dependency):
+    user = db.query(User).filter(User.id == user.id).first()
+    if user:
+        user.current_streak += 1
+        db.commit()
+        db.refresh(user)
+    return user
+
+def null_streak(db: db_dependency, user: user_dependency):
+    user = db.query(User).filter(User.id == user.id).first()
+    if user:
+        user.current_streak = 1
+        db.commit()
+        db.refresh(user)
+    return user
 
 @router.get("/{username}")
 def get_user_by_username(username: str, db: db_dependency):
@@ -110,3 +130,20 @@ def get_user_activity_by_username(
         donations=[DonationResponse.from_orm(d) for d in donations],  # Use Pydantic model for donations
         campaigns=[CampaignResponse.from_orm(c) for c in campaigns]  # Use Pydantic model for campaigns
     )
+
+
+
+@router.get("/profile_picture/{username}")
+def get_pfp(username: str, db: db_dependency):
+    user = get_user_by_username(username, db)
+    # user = db.query(User).options(joinedload(User.profile_picture)).filter(User.username == username).first()
+    print(user.profile_picture)
+    return Response(
+        content=user.profile_picture
+        # media_type=user.profile_picture.content_type or "image/jpeg"
+    )
+
+
+# response = requests.get("http://localhost:8000/users/profile_picture/admin")
+# img = Image.open(BytesIO(response.content))
+# img.show()

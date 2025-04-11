@@ -45,3 +45,13 @@ body {
 .profilecard {
   color: aqua;
 }
+
+input {
+  background: var(--color-fallgray);
+  color: var(--foreground);
+  border-radius: 0.5rem;
+  padding: 0.4rem;
+  border-bottom: 2px solid var(--color-main);
+  font-family: var(--font-romono);
+  font-size: 0.8rem;
+}
