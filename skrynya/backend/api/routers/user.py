@@ -69,6 +69,23 @@ def update_my_profile(
     db.refresh(current_user)
     return current_user
 
+
+def add_streak(db: db_dependency, user: user_dependency):
+    user = db.query(User).filter(User.id == user.id).first()
+    if user:
+        user.current_streak += 1
+        db.commit()
+        db.refresh(user)
+    return user
+
+def null_streak(db: db_dependency, user: user_dependency):
+    user = db.query(User).filter(User.id == user.id).first()
+    if user:
+        user.current_streak = 1
+        db.commit()
+        db.refresh(user)
+    return user
+
 @router.get("/{username}")
 def get_user_by_username(username: str, db: db_dependency):
     user = db.query(User).filter(User.username == username).first()

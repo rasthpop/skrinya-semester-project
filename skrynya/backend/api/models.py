@@ -23,6 +23,7 @@ class User(Base):
     is_admin = Column(Boolean, default=False)
     campaings = relationship("Campaign", back_populates="creator")
     donations = relationship("Donation", back_populates="user")
+    current_streak = Column(Integer, default=0)
 
 
 class Campaign(Base):
