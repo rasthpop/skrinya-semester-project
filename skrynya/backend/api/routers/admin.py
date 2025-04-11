@@ -21,7 +21,6 @@ def delete_jar(db: db_dependency, jar_id: int, admin: admin_dependency):
     if db_workout:
         db.delete(db_workout)
         db.commit()
-    return db_workout
 
 
 @router.get('/jars/')

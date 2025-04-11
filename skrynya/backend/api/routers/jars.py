@@ -1,12 +1,13 @@
 from pydantic import BaseModel
 from typing import Optional
-from fastapi import APIRouter, status, File, UploadFile
+from fastapi import APIRouter, status, File, UploadFile, Form, Query
 from enum import Enum
 import uuid
 from fastapi import HTTPException
 from typing import List
 from api.models import Campaign
 from api.deps import db_dependency, user_dependency
+import base64
 
 
 router = APIRouter(
@@ -106,23 +107,50 @@ def get_my_jars(db: db_dependency, user: user_dependency):
 
 
 @router.post('/', status_code=status.HTTP_201_CREATED)
-def create_jar(db: db_dependency, jar: JarCreate, user: user_dependency):
+async def create_jar(db: db_dependency, user: user_dependency,
+               title: str = Form(...),
+               description: str = Form(...),
+                goal_amount: int = Form(...),
+                collected_amount: int = Form(...),
+                tags: str = Form(...),
+                photo: UploadFile = File(...),
+                ):
     """
     Create a new jar
     """
-
+    photo = await photo.read()
+    photo = base64.b64encode(photo).decode('utf-8')
     new_jar = Campaign(
-        title=jar.title,
-        description=jar.description,
-        goal_amount=jar.goal_amount,
-        collected_amount=jar.collected_amount,
-        status=jar.status,
+        title=title,
+        description=description,
+        goal_amount=goal_amount,
+        collected_amount=collected_amount,
+        status=JarStatus.not_reviewed,
         created_by=user.username,
-        tags=','.join(jar.tags) if jar.tags else None,
+        tags=tags,
+        picture=photo,
     )
     db.add(new_jar)
     db.commit()
     db.refresh(new_jar)
-    return new_jar
 
 
+# @router.post('/', status_code=status.HTTP_201_CREATED)
+# def create_jar(db: db_dependency, jar: JarCreate, user: user_dependency):
+#     """
+#     Create a new jar
+#     """
+
+#     new_jar = Campaign(
+#         title=jar.title,
+#         description=jar.description,
+#         goal_amount=jar.goal_amount,
+#         collected_amount=jar.collected_amount,
+#         status=jar.status,
+#         created_by=user.username,
+#         tags=','.join(jar.tags) if jar.tags else None,
+#     )
+#     db.add(new_jar)
+#     db.commit()
+#     db.refresh(new_jar)
+#     return new_jar

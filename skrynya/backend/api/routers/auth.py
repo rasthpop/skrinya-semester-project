@@ -9,6 +9,8 @@ import os
 from api.models import User, ProfilePicture
 from api.deps import db_dependency, bcrypt_context
 from sqlalchemy import or_
+import base64
+
 
 load_dotenv()
 
@@ -70,9 +72,8 @@ async def create_user(db: db_dependency,
                         profile_picture: UploadFile = File(...)
                         ):
 
-
     user_uploads_pfp = ProfilePicture(
-        image=profile_picture.file.read(),
+        image=base64.b64encode(profile_picture.file.read()).decode('utf-8'),  # Convert to base64 string
         filename=profile_picture.filename,
         content_type=profile_picture.content_type)
 

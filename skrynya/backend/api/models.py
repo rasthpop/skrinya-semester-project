@@ -24,7 +24,7 @@ class User(Base):
     donations = relationship("Donation", back_populates="user")
 
     # profile_picture = relationship("ProfilePicture", back_populates="user", uselist=False)
-    profile_picture = Column(LargeBinary, nullable=True)
+    profile_picture = Column(String, nullable=True)
 
 
 
@@ -33,7 +33,7 @@ class ProfilePicture(Base):
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey('users.id'))
 
-    image = Column(LargeBinary, nullable=False)
+    image = Column(String, nullable=False)
     filename = Column(String, nullable=False)
     content_type = Column(String, nullable=False)
 
@@ -55,7 +55,7 @@ class Campaign(Base):
     created_by = Column(Integer, ForeignKey('users.id'))
     created_at = Column(DateTime, default=datetime.utcnow)
     tags = Column(String, nullable=True)
-
+    picture = Column(String, nullable=True)
     creator = relationship("User", back_populates="campaings")
 
 
