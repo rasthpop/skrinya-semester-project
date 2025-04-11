@@ -1,7 +1,8 @@
 from pydantic import BaseModel
 from typing import Optional
-from fastapi import APIRouter, status
+from fastapi import APIRouter, status, File, UploadFile
 from enum import Enum
+import uuid
 from fastapi import HTTPException
 from typing import List
 from api.models import Campaign
