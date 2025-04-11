@@ -1,7 +1,7 @@
 "use client";
 
 import { FC, useState } from "react";
-import { Home, Settings, User, Menu, X } from "lucide-react";
+import { Home, User, Menu, X, Plus } from "lucide-react";
 import Link from "next/link";
 
 interface NavItem {
@@ -13,7 +13,7 @@ interface NavItem {
 const navItems: NavItem[] = [
   { label: "Головна Сторінка", href: "/home", icon: <Home size={20} /> },
   { label: "Мій Профіль", href: "/profile", icon: <User size={20} /> },
-  { label: "Settings", href: "/settings", icon: <Settings size={20} /> },
+  { label: "Опублікувати Збір", href: "/post", icon: <Plus size={20} /> },
 ];
 
 const Sidebar: FC = () => {
@@ -34,7 +34,7 @@ const Sidebar: FC = () => {
             Skrynya
         </h1>
         <button
-            className="absolute top-4 right-4 text-zinc-600 dark:text-zinc-300"
+            className="absolute top-4 right-4 text-zinc-600 dark:text-zinc-300 cursor-pointer"
             onClick={() => setIsOpen((prev) => !prev)}
         >
             {isOpen ? <X size={20} /> : <Menu size={20} />}

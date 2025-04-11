@@ -62,16 +62,16 @@ def create_access_token(username: str, user_id: int, expires_delta: timedelta):
 
 
 @router.post('/', status_code=status.HTTP_201_CREATED)
-async def create_user(db: db_dependency, 
+async def create_user(db: db_dependency,
                       first_name: str = Form(...),
                       second_name: str = Form(...),
                         phone: str = Form(...),
                         username: str = Form(...),
                         password: str = Form(...),
                         email: str = Form(...),
-                        profile_picture: UploadFile = File(...)
+                        profile_picture: UploadFile = File(None)
                         ):
-
+    
     user_uploads_pfp = ProfilePicture(
         image=base64.b64encode(profile_picture.file.read()).decode('utf-8'),  # Convert to base64 string
         filename=profile_picture.filename,
