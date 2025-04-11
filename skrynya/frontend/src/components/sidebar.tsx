@@ -1,12 +1,67 @@
-import React from "react";
+"use client";
 
-export default function Sidebar() {
-    return(
-        <div className="pt-6 pl-8 gap-3.5 flex flex-col w-[200px] 2xl:w-[290px] fixed bg-main text-white h-full text-xl 2xl:text-2xl">
-            <div>test</div>
-            <div>test</div>
-            <div>test</div>
-            <div>test</div>
-        </div>
-    )
+import { FC, useState } from "react";
+import { Home, Settings, User, Menu, X } from "lucide-react";
+import Link from "next/link";
+
+interface NavItem {
+  label: string;
+  href: string;
+  icon: JSX.Element;
 }
+
+const navItems: NavItem[] = [
+  { label: "Головна Сторінка", href: "/home", icon: <Home size={20} /> },
+  { label: "Мій Профіль", href: "/profile", icon: <User size={20} /> },
+  { label: "Settings", href: "/settings", icon: <Settings size={20} /> },
+];
+
+const Sidebar: FC = () => {
+  const [isOpen, setIsOpen] = useState(true);
+
+  return (
+    <aside
+      className={`h-screen bg-main z-[99999]border-r border-zinc-200 dark:border-zinc-800 transition-all duration-300 ease-in-out ${
+        isOpen ? "w-64" : "w-12"
+      }`}
+    >
+        <div className="relative p-4">
+        <h1
+            className={`text-xl font-bold text-zinc-800 dark:text-white transition-opacity ${
+            !isOpen ? "opacity-0 pointer-events-none" : ""
+            }`}
+        >
+            Skrynya
+        </h1>
+        <button
+            className="absolute top-4 right-4 text-zinc-600 dark:text-zinc-300"
+            onClick={() => setIsOpen((prev) => !prev)}
+        >
+            {isOpen ? <X size={20} /> : <Menu size={20} />}
+        </button>
+        </div>
+
+
+      <nav className="flex flex-col gap-2 px-4 mt-4">
+        {navItems.map((item) => (
+          <Link
+            key={item.href}
+            href={item.href}
+            className={`flex items-center gap-3 text-sm px-3 py-2 rounded-lg text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors`}
+          >
+            {item.icon}
+            <span
+              className={`transition-opacity ${
+                !isOpen ? "opacity-0 pointer-events-none" : ""
+              }`}
+            >
+              {item.label}
+            </span>
+          </Link>
+        ))}
+      </nav>
+    </aside>
+  );
+};
+
+export default Sidebar;
