@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, ForeignKey, Table, DateTime, Boolean
+from sqlalchemy import Column, Integer, String, ForeignKey, Table, DateTime, Boolean, LargeBinary
 from sqlalchemy.orm import relationship
 from .database import Base
 from datetime import datetime
@@ -11,7 +11,6 @@ from datetime import datetime
 
 class User(Base):
     __tablename__ = 'users'
-
     id = Column(Integer, primary_key=True, index=True)
     first_name = Column(String, nullable=False)
     second_name = Column(String, nullable=False)
@@ -24,6 +23,25 @@ class User(Base):
     campaings = relationship("Campaign", back_populates="creator")
     donations = relationship("Donation", back_populates="user")
     current_streak = Column(Integer, default=0)
+
+    # profile_picture = relationship("ProfilePicture", back_populates="user", uselist=False)
+    profile_picture = Column(String, nullable=True)
+
+
+
+class ProfilePicture(Base):
+    __tablename__ = 'profile_pictures'
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey('users.id'))
+
+    image = Column(String, nullable=False)
+    filename = Column(String, nullable=False)
+    content_type = Column(String, nullable=False)
+
+
+    # user = relationship("User", back_populates="profile_picture")
+
+
 
 
 class Campaign(Base):
@@ -38,7 +56,7 @@ class Campaign(Base):
     created_by = Column(Integer, ForeignKey('users.id'))
     created_at = Column(DateTime, default=datetime.utcnow)
     tags = Column(String, nullable=True)
-
+    picture = Column(String, nullable=True)
     creator = relationship("User", back_populates="campaings")
 
 
