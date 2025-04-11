@@ -17,9 +17,12 @@ const gatherings = [
   }
 ];
 
-export default function GatherDetails() {
+export default function jar_details() {
   const { id } = useParams();
-  const gathering = gatherings.find(g => g.id === parseInt(id));
+  const numericId = parseInt(id ?? "");
+  if (isNaN(numericId)) return <p>Invalid gathering ID</p>;
+
+  const gathering = gatherings.find(g => g.id === numericId);
 
   if (!gathering) return <p>Gathering not found</p>;
 

@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import GatherList from "./GatherList";
-import GatherDetails from "./GatherDetails";
+import GatherList from "./jar_list";
+import GatherDetails from "./jar_details";
 
 function App() {
   return (
