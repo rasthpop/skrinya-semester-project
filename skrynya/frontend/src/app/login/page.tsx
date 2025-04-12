@@ -96,6 +96,7 @@ export default function Registration() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-zinc-100 to-zinc-300 px-4">
+      <a href="/home" className="absolute left-0 top-0 w-full bg-main h-14 text-2xl font-bold text-white flex items-center justify-center">Skrynya</a>
       <div className="w-full max-w-xl bg-white rounded-2xl shadow-lg p-6 space-y-6">
         <h2 className="text-2xl font-bold text-center text-gray-800">
           {isreg ? "Створити акаунт" : "Вхід"}

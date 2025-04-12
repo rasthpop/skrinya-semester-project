@@ -1,10 +1,7 @@
-"use client"
+"use client";
 
-import Image from "next/image";
-import { FC } from "react";
+import { FC, useState } from "react";
 import { Bookmark } from "lucide-react";
-import { useState } from "react";
-// import { Button } from "@/components/ui/button";
 
 interface DonationCardProps {
   title: string;
@@ -14,20 +11,36 @@ interface DonationCardProps {
   tags: string[];
 }
 
-export default function DonationCard({ title, imageUrl, raised, goal, tags }: DonationCardProps){
-    const [active, setActive] = useState(false);
+export default function DonationCard({
+  title,
+  imageUrl,
+  raised,
+  goal,
+  tags,
+}: DonationCardProps) {
+  const [active, setActive] = useState(false);
   const percentage = Math.min((raised / goal) * 100, 100);
 
   return (
-    <div className="bg-white rounded-2xl shadow-md overflow-hidden max-w-sm">
-      <div className="relative w-full h-48">
+    <div className="bg-white rounded-xl shadow-md overflow-hidden max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl font-romono mb-10">
+      <div className="relative w-full h-46 bg-red-900">
+        <Bookmark
+          onClick={() => setActive(!active)}
+          className="absolute hover:bg-white transition rounded-full p-2 w-10 h-10 cursor-pointer right-2 top-2"
+        />
         {/* <Image src={imageUrl} alt={title} layout="fill" objectFit="cover" /> */}
       </div>
 
-      <div className="p-4 space-y-3">
-        <h2 className="text-lg font-semibold">{title}</h2>
+      <div className="space-y-3 px-4 pt-4">
+        <h2 className="tracking-tight text-xl sm:text-2xl">{title}</h2>
 
-        <div className="flex flex-wrap gap-2">
+        <div className="flex justify-between items-center">
+          <button className="text-sm sm:text-base text-white bg-main p-2 rounded-lg">
+            Детальніше
+          </button>
+        </div>
+
+        {/* <div className="flex flex-wrap gap-2">
           {tags.map((tag) => (
             <span
               key={tag}
@@ -42,29 +55,21 @@ export default function DonationCard({ title, imageUrl, raised, goal, tags }: Do
               {tag}
             </span>
           ))}
-        </div>
+        </div> */}
 
-        <div className="flex justify-between items-center">
-          <button  className="text-sm">
-            Детальніше
-          </button>
-          <Bookmark onClick={() => (setActive(!active))} className="w-5 h-5 cursor-pointer" />
-        </div>
-
-        <div className="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
-          <div>
-            <div className="w-16 h-4 bg-gray-300 rounded-full dark:bg-gray-700"></div>
-            <div>Status</div>
-          </div>
+        <div className="flex items-center justify-end text-sm text-mai">
           <div>
             {raised}/{goal}
           </div>
         </div>
+      </div>
 
-        <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
-          <div className="h-full bg-blue-600" style={{ width:` ${percentage}%` }} />
-        </div>
+      <div className="w-full h-3 bg-gray-200 overflow-hidden">
+        <div
+          className="h-full bg-main"
+          style={{ width: `${percentage}%` }}
+        />
       </div>
     </div>
   );
-};
+}

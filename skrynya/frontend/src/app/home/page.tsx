@@ -19,7 +19,54 @@ interface Jar {
   status: string;
 }
 
+
+
 export default function HomePage() {  
+  const donationCards = [
+    {
+      id: 1,
+      title: "123m1ndsdjk",
+      tags: ["Транспорт", "Бронетехніка"],
+      goal: 100000,
+      raised: 1000000000,
+    },
+    {
+      id: 2,
+      title: "Допомога Тваринам",
+      tags: ["Тварини", "Продукти"],
+      goal: 50000,
+      raised: 20000,
+    },
+    {
+      id: 3,
+      title: "Допомога Дітям",
+      tags: ["Діти", "Іграшки"],
+      goal: 30000,
+      raised: 15000,
+    },
+    {
+      id: 4,
+      title: "Допомога Лікарням",
+      tags: ["Медицина", "Ліки"],
+      goal: 200000,
+      raised: 100000,
+    },
+    {
+      id: 5,
+      title: "Допомога Біженцям",
+      tags: ["Біженці", "Продукти"],
+      goal: 70000,
+      raised: 30000,
+    },
+    {
+      id: 6,
+      title: "Допомога Військовим",
+      tags: ["Військові", "Екіпірування"],
+      goal: 150000,
+      raised: 80000,
+    },
+  
+  ]
   const [jars, setJars] = useState<Jar[]>([]);
 
   useEffect(() => {
@@ -35,6 +82,26 @@ export default function HomePage() {
 
     fetchJars()
   }, [])
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const cardsPerPage = 3; // Show 3 cards per page
+
+  // Calculate the indexes for current page
+  const indexOfLastCard = currentPage * cardsPerPage;
+  const indexOfFirstCard = indexOfLastCard - cardsPerPage;
+  const currentCards = donationCards.slice(indexOfFirstCard, indexOfLastCard);
+
+  const totalPages = Math.ceil(donationCards.length / cardsPerPage);
+
+  // Functions to change page
+  const goToNextPage = () => {
+    if (currentPage < totalPages) setCurrentPage((prev) => prev + 1);
+  };
+
+  const goToPrevPage = () => {
+    if (currentPage > 1) setCurrentPage((prev) => prev - 1);
+  };
+
 
   const m =  [
     {
@@ -57,11 +124,11 @@ export default function HomePage() {
       author: "Author 2",
       image: "dummy.jpg",
       description: "Description for Jar 1",
-    },
+    }]
   
-  ]
+
   return(
-    <main className="flex">
+    <main className="flex mb-6">
         <Sidebar />
       <div className="flex flex-col items-center w-full ml-[250px] overflow-x-hidden">
         <Header />
@@ -70,19 +137,57 @@ export default function HomePage() {
         <Carousel jars={m} />
         </div>
 
-        <div className="mx-4 my-8 gap-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="my-8 gap-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
         {jars.map((value) => (
           <JarCard key={value.id} name={value.title} />
         ))}
         </div>
 
-        <div className="w-full max-w-4xl px-4">
-        {/* <DonationCard
-          title="Пожертвувати на благодійність"
-          tags={["допомога", "благодійність"]}
-          goal={1000}
-          raised={200}
-        /> */}
+        <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 px-4 gap-4">
+          {currentCards.map((card) => (
+            <DonationCard
+              key={card.id}
+              title={card.title}
+              tags={card.tags}
+              goal={card.goal}
+              raised={card.raised}
+            />
+          ))}
+        </div>
+
+        <div className="flex justify-center items-center gap-2 mt-6 space-x-2">
+          <button
+            onClick={goToPrevPage}
+            disabled={currentPage === 1}
+            className="px-3 py-1 rounded bg-main text-white disabled:opacity-50 cursor-pointer"
+          >
+            {`<`}
+          </button>
+
+          {[...Array(totalPages)].map((_, index) => {
+            const pageNum = index + 1;
+            return (
+              <button
+                key={pageNum}
+                onClick={() => setCurrentPage(pageNum)}
+                className={`px-3 py-1 rounded cursor-pointer ${
+                  currentPage === pageNum
+                    ? "bg-main text-white"
+                    : "bg-gray-100 text-gray-700"
+                }`}
+              >
+                {pageNum}
+              </button>
+            );
+          })}
+
+          <button
+            onClick={goToNextPage}
+            disabled={currentPage === totalPages}
+            className="px-3 py-1 rounded bg-main text-white disabled:opacity-50 cursor-pointer"
+          >
+            {`>`}
+          </button>
         </div>
       </div>
     </main>
