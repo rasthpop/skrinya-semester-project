@@ -21,8 +21,8 @@ const Sidebar: FC = () => {
 
   return (
     <aside
-      className={`h-screen bg-main z-[99999]border-r border-zinc-200 dark:border-zinc-800 transition-all duration-300 ease-in-out ${
-        isOpen ? "w-64" : "w-12"
+      className={`fixed h-screen bg-main z-[99999]border-r border-zinc-200 dark:border-zinc-800 transition-all duration-300 ease-in-out ${
+        isOpen ? "w-54" : "w-12"
       }`}
     >
         <div className="relative p-4">
@@ -33,12 +33,12 @@ const Sidebar: FC = () => {
         >
             Skrynya
         </h1>
-        <button
+        {/* <button
             className="absolute top-4 right-4 text-zinc-600 dark:text-zinc-300 cursor-pointer"
             onClick={() => setIsOpen((prev) => !prev)}
         >
             {isOpen ? <X size={20} /> : <Menu size={20} />}
-        </button>
+        </button> */}
         </div>
 
 
