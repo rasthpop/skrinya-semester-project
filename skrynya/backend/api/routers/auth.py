@@ -71,12 +71,17 @@ async def create_user(db: db_dependency,
                         email: str = Form(...),
                         profile_picture: UploadFile = File(None)
                         ):
+    try:
+        user_uploads_pfp = ProfilePicture(
+            image=base64.b64encode(profile_picture.file.read()).decode('utf-8'),  # Convert to base64 string
+            filename=profile_picture.filename,
+            content_type=profile_picture.content_type)
+    except AttributeError:
+        user_uploads_pfp = ProfilePicture(
+            image=None,
+            filename=None,
+            content_type=None)
     
-    user_uploads_pfp = ProfilePicture(
-        image=base64.b64encode(profile_picture.file.read()).decode('utf-8'),  # Convert to base64 string
-        filename=profile_picture.filename,
-        content_type=profile_picture.content_type)
-
     create_user_model = User(
         first_name=first_name,
         second_name=second_name,
@@ -88,7 +93,8 @@ async def create_user(db: db_dependency,
     )
 
     db.add(create_user_model)
-    db.add(user_uploads_pfp)
+    if user_uploads_pfp.image:
+        db.add(user_uploads_pfp)
 
     db.commit()
     return {'message': 'User created successfully', 'user_id': create_user_model.id}	
