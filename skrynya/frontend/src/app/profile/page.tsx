@@ -72,12 +72,12 @@ export default function Profile() {
     <main className="flex">
       <Sidebar/>
     <div  className="font-lex ml-[260px] 2xl:ml-[290px] pt-8 px-8 flex flex-col gap-12">
-      {/* <ProfileCard
+      <ProfileCard
       first_name={user_data["first_name"]}
       last_name={user_data["second_name"]}
       email={user_data["email"]}
       phone={user_data["phone"]}
-      /> */}
+      />
       {/* <MyJars
 
       /> */}

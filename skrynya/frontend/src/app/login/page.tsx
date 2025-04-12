@@ -42,10 +42,13 @@ export default function Registration() {
     password: ""
   });
 
+  const [formErrors, setFormErrors] = useState<{ [key: string]: string }>({});
   const [isreg, setReg] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
+    setFormErrors((prev) => ({ ...prev, [name]: "" }));
+
     if (isreg) {
       setregFormData(prev => ({ ...prev, [name]: value }));
     } else {
@@ -53,30 +56,39 @@ export default function Registration() {
     }
   };
 
+  const validateReg = () => {
+    const errors: { [key: string]: string } = {};
+
+    if (!regformData.first_name.trim()) errors.first_name = "Ім’я обов’язкове";
+    if (!regformData.second_name.trim()) errors.second_name = "Прізвище обов’язкове";
+    if (!regformData.username.trim()) errors.username = "Ім'я користувача обов’язкове";
+    if (!/\S+@\S+\.\S+/.test(regformData.email)) errors.email = "Некоректна електронна пошта";
+    if (!/^\+?\d{10,15}$/.test(regformData.phone)) errors.phone = "Некоректний номер телефону";
+    if (regformData.password.length < 6) errors.password = "Пароль має містити щонайменше 6 символів";
+    if (regformData.password !== regformData.confirm) errors.confirm = "Паролі не співпадають";
+
+    setFormErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (isreg) {
-      if (regformData.confirm !== regformData.password) {
-        console.log("Passwords do not match!");
-        return;
-      }
+      if (!validateReg()) return;
 
       const formData = new FormData();
-      formData.append("first_name", regformData.first_name);
-      formData.append("second_name", regformData.second_name);
-      formData.append("username", regformData.username);
-      formData.append("email", regformData.email);
-      formData.append("phone", regformData.phone);
-      formData.append("password", regformData.password);
+      Object.entries(regformData).forEach(([key, value]) => {
+        if (key !== "confirm") formData.append(key, value);
+      });
 
       try {
         const res = await axios.post("http://localhost:8000/auth", formData);
         localStorage.setItem("user", regformData.username);
-        console.log("Registration success:", res.data);
-        setReg(false); // Optionally switch to login view
+        await login(regformData.username, regformData.password);
+        router.push("/post");
       } catch (error: any) {
-        console.log("Registration error:", error.response?.data || error.message);
+        setFormErrors({ username: error.response?.data || "Помилка реєстрації" });
       }
 
     } else {
@@ -89,7 +101,7 @@ export default function Registration() {
         localStorage.setItem("user", logformData.login);
         router.push("/post");
       } catch (error: any) {
-        console.log("Login error:", error.response?.data || error.message);
+        setFormErrors({ login: "Невірний логін або пароль" });
       }
     }
   };
@@ -106,28 +118,35 @@ export default function Registration() {
           {isreg && (
             <>
               <div className="flex gap-2 flex-wrap">
-                <input
-                  className="flex-1 input-style"
-                  type="text"
-                  name="first_name"
-                  placeholder="Ім’я"
-                  value={regformData.first_name}
-                  onChange={handleChange}
-                  required
-                />
-                <input
-                  className="flex-1 input-style"
-                  type="text"
-                  name="second_name"
-                  placeholder="Прізвище"
-                  value={regformData.second_name}
-                  onChange={handleChange}
-                  required
-                />
+                <div className="w-full md:w-1/2">
+                  {formErrors.first_name && <p className="text-red-500 text-sm mb-1">{formErrors.first_name}</p>}
+                  <input
+                    className={`input-style ${formErrors.first_name ? "border-red-500" : ""}`}
+                    type="text"
+                    name="first_name"
+                    placeholder="Ім’я"
+                    value={regformData.first_name}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
+                <div className="w-full md:w-1/2">
+                  {formErrors.second_name && <p className="text-red-500 text-sm mb-1">{formErrors.second_name}</p>}
+                  <input
+                    className={`input-style ${formErrors.second_name ? "border-red-500" : ""}`}
+                    type="text"
+                    name="second_name"
+                    placeholder="Прізвище"
+                    value={regformData.second_name}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
               </div>
               <div className="flex flex-col gap-2">
+                {formErrors.username && <p className="text-red-500 text-sm mb-1">{formErrors.username}</p>}
                 <input
-                  className="input-style"
+                  className={`input-style ${formErrors.username ? "border-red-500" : ""}`}
                   type="text"
                   name="username"
                   placeholder="Ім'я користувача"
@@ -135,8 +154,9 @@ export default function Registration() {
                   onChange={handleChange}
                   required
                 />
+                {formErrors.email && <p className="text-red-500 text-sm mb-1">{formErrors.email}</p>}
                 <input
-                  className="input-style"
+                  className={`input-style ${formErrors.email ? "border-red-500" : ""}`}
                   type="email"
                   name="email"
                   placeholder="Електронна пошта"
@@ -144,8 +164,9 @@ export default function Registration() {
                   onChange={handleChange}
                   required
                 />
+                {formErrors.phone && <p className="text-red-500 text-sm mb-1">{formErrors.phone}</p>}
                 <input
-                  className="input-style"
+                  className={`input-style ${formErrors.phone ? "border-red-500" : ""}`}
                   type="text"
                   name="phone"
                   placeholder="Номер телефону"
@@ -158,19 +179,23 @@ export default function Registration() {
           )}
 
           {!isreg && (
-            <input
-              className="input-style"
-              type="text"
-              name="login"
-              placeholder="Логін"
-              value={logformData.login}
-              onChange={handleChange}
-              required
-            />
+            <>
+              {formErrors.login && <p className="text-red-500 text-sm mb-1">{formErrors.login}</p>}
+              <input
+                className={`input-style ${formErrors.login ? "border-red-500" : ""}`}
+                type="text"
+                name="login"
+                placeholder="Логін"
+                value={logformData.login}
+                onChange={handleChange}
+                required
+              />
+            </>
           )}
 
+          {formErrors.password && <p className="text-red-500 text-sm mb-1">{formErrors.password}</p>}
           <input
-            className="input-style"
+            className={`input-style ${formErrors.password ? "border-red-500" : ""}`}
             type="password"
             name="password"
             placeholder="Пароль"
@@ -180,15 +205,18 @@ export default function Registration() {
           />
 
           {isreg && (
-            <input
-              className="input-style"
-              type="password"
-              name="confirm"
-              placeholder="Підтвердіть пароль"
-              value={regformData.confirm}
-              onChange={handleChange}
-              required
-            />
+            <>
+              {formErrors.confirm && <p className="text-red-500 text-sm mb-1">{formErrors.confirm}</p>}
+              <input
+                className={`input-style ${formErrors.confirm ? "border-red-500" : ""}`}
+                type="password"
+                name="confirm"
+                placeholder="Підтвердіть пароль"
+                value={regformData.confirm}
+                onChange={handleChange}
+                required
+              />
+            </>
           )}
 
           <button
@@ -200,7 +228,10 @@ export default function Registration() {
 
           <div className="flex justify-center gap-4">
             <span
-              onClick={() => setReg(!isreg)}
+              onClick={() => {
+                setReg(!isreg);
+                setFormErrors({});
+              }}
               className="text-sm text-hiblue hover:underline cursor-pointer"
             >
               {isreg ? "У мене вже є акаунт" : "Зареєструватися"}
