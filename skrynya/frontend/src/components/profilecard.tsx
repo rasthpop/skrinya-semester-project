@@ -177,6 +177,7 @@ export default function ProfileCard() {
               {errors.phone && (
                 <span className="text-red-500 text-sm">{errors.phone}</span>
               )}
+
             </div>
           ) : (
             <span>{formData.phone}</span>
