@@ -162,6 +162,7 @@ export default function ProfileCard() {
           ) : (
             <span>{formData.email}</span>
           )}
+
         </div>
         <div className="text-textgray">
           Номер Телефону:{" "}
@@ -177,6 +178,7 @@ export default function ProfileCard() {
               {errors.phone && (
                 <span className="text-red-500 text-sm">{errors.phone}</span>
               )}
+
             </div>
           ) : (
             <span>{formData.phone}</span>
