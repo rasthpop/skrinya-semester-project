@@ -130,7 +130,7 @@ export default function HomePage() {
   return(
     <main className="flex mb-6">
         <Sidebar />
-      <div className="flex flex-col items-center w-full ml-[250px] overflow-x-hidden">
+      <div className="flex flex-col items-center justify-center w-full ml-54 overflow-x-hidden">
         <Header />
         <h1 className="text-4xl font-bold my-6 text-center">Головна</h1>
         <div className="w-full max-w-6xl">

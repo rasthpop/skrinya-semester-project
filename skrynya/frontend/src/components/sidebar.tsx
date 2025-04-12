@@ -22,7 +22,7 @@ const Sidebar: FC = () => {
   return (
     <aside
       className={`fixed h-screen bg-main z-[99999]border-r border-zinc-200 dark:border-zinc-800 transition-all duration-300 ease-in-out ${
-        isOpen ? "w-64" : "w-12"
+        isOpen ? "w-54" : "w-12"
       }`}
     >
         <div className="relative p-4">
