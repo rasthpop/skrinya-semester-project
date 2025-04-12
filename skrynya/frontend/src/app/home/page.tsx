@@ -19,7 +19,7 @@ interface Jar {
   status: string;
   tags: string;
   created_by: string;
-  created_at: string;
+    picture: string;
 }
 
 
@@ -186,7 +186,7 @@ export default function HomePage() {
               goal={card.goal_amount}
               raised={card.collected_amount}
               author={card.created_by}
-              created_at={card.created_at}
+                imageUrl={card.picture} // Assuming image is a base64 string or URL
             />
           ))}
         </div>

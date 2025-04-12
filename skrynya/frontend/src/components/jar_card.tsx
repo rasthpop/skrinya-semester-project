@@ -34,13 +34,8 @@ export default function DonationCard({
           className="absolute hover:bg-white transition rounded-full p-2 w-10 h-10 cursor-pointer right-0.5 top-0.5"
         />
         {/* <Image src={imageUrl} alt={title} layout="fill" objectFit="cover" /> */}
-      <img
-          src={`data:image/jpeg;base64,${imageUrl}`}
-          alt={title}
-          className="w-full h-full object-cover"
-          />
-       </div>
-
+        <img src={`data:image/png;base64,${imageUrl}`} alt="Image" />
+        </div>
       <div className="px-4 pt-4 space-y-3">
         <h2 className="tracking-tight text-xl">{title}</h2>
 
