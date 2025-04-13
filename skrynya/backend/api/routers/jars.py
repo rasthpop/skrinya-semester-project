@@ -8,7 +8,7 @@ from typing import List
 from api.models import Campaign
 from api.deps import db_dependency, user_dependency
 import base64
-
+from fastapi import Depends
 
 router = APIRouter(
     prefix='/jars',
@@ -134,6 +134,16 @@ async def create_jar(db: db_dependency, user: user_dependency,
     db.commit()
     db.refresh(new_jar)
 
+@router.get('/search/')
+def search_jars(q: str = Query(..., min_length=1), db: db_dependency = Depends()):
+    """
+    Search jars by title (case-insensitive, only active)
+    """
+    jars = db.query(Campaign).filter(
+        Campaign.title.ilike(f"%{q}%"),
+        Campaign.status == 'active'
+    ).all()
+    return jars
 
 # @router.post('/', status_code=status.HTTP_201_CREATED)
 # def create_jar(db: db_dependency, jar: JarCreate, user: user_dependency):
