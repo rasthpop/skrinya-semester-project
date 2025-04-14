@@ -14,6 +14,25 @@ export default function JarForm() {
     status: "",
   });
 
+  const [formErrors, setFormErrors] = useState<{ [key: string]: string }>({});
+
+  const validateJar = () => {
+    const errors: { [key: string]: string } = {};
+  
+    if (!jardata.title.trim()) errors.title = "Назва збору обов’язкова";
+    if (!jardata.description.trim()) errors.description = "Опис обов’язковий";
+    if (!jardata.goal.trim()) {
+      errors.goal = "Мета обов’язкова";
+    } else if (!/^\d+$/.test(jardata.goal)) {
+      errors.goal = "Мета має містити лише числа";
+    } else if (parseInt(jardata.goal) <= 0) {
+      errors.goal = "Мета має бути більшою за 0";
+    }
+
+    setFormErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     const { name, value } = e.target;
     setJarData((prev) => ({ ...prev, [name]: value }));
@@ -27,21 +46,22 @@ export default function JarForm() {
       return;
     }
 
+    if (!validateJar()) return;
     const payload = {
       title: jardata.title,
       description: jardata.description,
       goal_amount: parseInt(jardata.goal),
       collected_amount: 0,
       status: "active",
-    };
+    }
 
     try {
-      const res = await axios.post("http://127.0.0.1:8000/jars/", payload, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      });
+        const res = await axios.post("http://127.0.0.1:8000/jars/", payload, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
 
       console.log("Jar created successfully:", res.data);
       router.push("/post");
@@ -52,12 +72,8 @@ export default function JarForm() {
 
   return (
     <div className="min-h-screen bg-gradient-to-tr from-zinc-100 to-zinc-300 flex items-center justify-center px-4">
-      <a
-        href="/home"
-        className="absolute top-6 left-6 text-hiblue text-sm hover:underline"
-      >
-        На головну
-      </a>
+      <a href="/home" className="absolute left-0 top-0 w-full bg-main h-14 text-2xl font-bold text-white flex items-center justify-center">Skrynya</a>
+
 
       <div className="w-full max-w-xl bg-white shadow-xl rounded-2xl p-10 space-y-8 transition-all">
         <h2 className="text-3xl font-bold text-center text-gray-800">
@@ -70,22 +86,25 @@ export default function JarForm() {
             type="text"
             name="title"
             placeholder="Назва збору"
-            className="input-style"
+            className="border-b-1 h-8 text-lg border-gray-400"
           />
-          <input
-            onChange={handleChange}
-            type="text"
+          <textarea
+            onChange={(e) =>
+              setJarData((prev) => ({ ...prev, description: e.target.value }))
+            }
             name="description"
             placeholder="Опис"
-            className="input-style"
+            className="input-style h-40 border-gray-400"
           />
           <input
             onChange={handleChange}
             type="text"
             name="goal"
             placeholder="Мета (сума)"
-            className="input-style"
+            className="border-b-1 h-8 text-lg border-gray-400"
           />
+
+          {formErrors.title && <p className="text-red-500 text-sm">{formErrors.title}</p>}
 
           <button
             onClick={handleCreate}
