@@ -123,5 +123,5 @@ export default function JarForm() {
         }
       `}</style>
     </div>
-  );тр
+  );
 }
