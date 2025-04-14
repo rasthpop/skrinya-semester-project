@@ -1,9 +1,14 @@
 import React from "react";
-import JarCard from "./profile_jarcard";
+import DonationCard from "./profile_jarcard";
 
 
 
-export default function MyJars(jars: any[]) {
+
+type MyJarsProps = {
+    jars: any[]
+  }
+
+export default function MyJars({jars}: MyJarsProps) {
     return (
         <div>
             <div className="flex justify-between">
@@ -11,8 +16,16 @@ export default function MyJars(jars: any[]) {
             <span className="text-xl text-hiblue cursor-pointer">See All</span>
             </div>
             <div className="bg-fallgray py-8 p-4 grid grid-cols-3 gap-y-6 gap-x-6 justify-items-center rounded-[4px]">
-                {jars.slice(0, 3).map((jar) => (
-                    <JarCard name={jar}/>
+                {jars.map((jar) => (
+                    <DonationCard key={jar.id}
+                    id = {jar.id}
+                    title={jar.title}
+                    tags={jar.tags}
+                    goal={jar.goal}
+                    raised={jar.raised}
+                    author={jar.created_by}
+                    status_={jar.status}
+                    imageUrl={jar.picture}/>
                 ))}
             </div>
         </div>
