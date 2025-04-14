@@ -3,6 +3,7 @@
 import { FC, useState } from "react";
 import { Bookmark } from "lucide-react";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 
 interface DonationCardProps {
   id: number;               // 👈 Додано
@@ -15,7 +16,7 @@ interface DonationCardProps {
 }
 
 export default function DonationCard({ 
-    id,             // 👈 Додано
+    id,            
     title,
     tags,
     goal,
@@ -27,11 +28,13 @@ export default function DonationCard({
     const percentage = Math.min((raised / goal) * 100, 100);
     const tagList = tags.split(",").map((tag) => tag.trim());
     const key = localStorage.getItem("key");
-    
+    const router = useRouter()
+
     const handleToggleSave = async () => {
         const token = localStorage.getItem("token");
         if (!token) {
           console.error("No token found");
+          router.push("/login")
           return;
         }
       
@@ -68,40 +71,44 @@ export default function DonationCard({
       <div className="relative w-full h-46 bg-red-900">
       <Bookmark
   onClick={handleToggleSave}
-  className={`absolute transition rounded-full p-2 w-10 h-10 cursor-pointer right-0.5 top-0.5
-    ${active ? "text-black" : "text-gray-400 hover:text-black"}`
-  }
-/>
-        <img src={`data:image/png;base64,${imageUrl}`} alt="Image" />
+  className={`absolute rounded-full bg-white  p-2 w-10 h-10 cursor-pointer right-1 top-1
+
+        `}
+      fill={active ? '#171717' : 'none'}
+      />
+        <img src={`data:image/png;base64,${imageUrl}`} className="h-46 object-cover w-full" alt="Image" />
       </div>
       <div className="px-4 pt-4 space-y-3">
-        <h2 className="tracking-tight text-xl">{title}</h2>
+        <div className="flex justify-between">
+          <h2 className="tracking-tight text-xl">{title}</h2>
 
-        <p className="text-sm text-gray-600">Автор: {author}</p>
+          <button className="cursor-pointer text-sm text-white bg-main p-2 rounded-lg">
+            Детальніше
+          </button>
+
+        </div>
 
         <div className="flex flex-wrap gap-2">
           {tagList.map((tag) => (
             <span
-              key={tag}
-              className="text-xs px-2 py-1 rounded-full font-medium bg-gray-100 text-gray-800"
+            key={tag}
+            className="text-xs px-2 py-1 rounded-full font-medium bg-gray-100 text-gray-800"
             >
               {tag}
             </span>
           ))}
         </div>
 
-        <div className="flex justify-between items-center">
-          <button className="text-sm text-white bg-main p-2 rounded-lg">
-            Детальніше
-          </button>
+        <p className="text-sm text-gray-600">Автор: {author}</p>
+        <div className="flex justify-end items-end">
           <div className="text-sm text-main">
             {raised}/{goal}
           </div>
         </div>
 
-        <div className="w-full h-3 bg-gray-200 overflow-hidden rounded">
-          <div className="h-full bg-main" style={{ width: `${percentage}%` }} />
-        </div>
+      </div>
+      <div className="mt-1 w-full h-3 bg-gray-200 overflow-hidden rounded">
+        <div className="h-full bg-main" style={{ width: `${percentage}%` }} />
       </div>
     </div>
   );

@@ -41,7 +41,7 @@ export default function Carousel({ jars }: CarouselProps) {
   }
 
   return (
-    <div className="relative w-[90%] mx-auto overflow-hidden rounded-lg shadow-lg">
+    <div className="relative w-full mx-auto overflow-hidden rounded-lg shadow-lg">
       <div
         className="flex transition-transform duration-700 ease-in-out"
         style={{ transform: `translateX(-${currentIndex * 100}%)` }}
@@ -52,7 +52,7 @@ export default function Carousel({ jars }: CarouselProps) {
               <span className="text-white/80 text-sm">{jar.created_by} збирає на</span>
               <h2 className="text-3xl md:text-4xl text-white font-bold">{jar.title}</h2>
             </div>
-        <img src={`data:image/png;base64,${jar.picture}`} alt="Image" className='w-full h-64 object-cover'/>
+        <img src={`data:image/png;base64,${jar.picture}`} alt="Image" className='w-full h-72 object-cover'/>
           </div>
         ))}
       </div>
