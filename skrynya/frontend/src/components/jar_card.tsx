@@ -76,7 +76,7 @@ export default function DonationCard({
         `}
       fill={active ? '#171717' : 'none'}
       />
-        <img src={`data:image/png;base64,${imageUrl}`} className="h-46 object-cover w-full" alt="Image" />
+        <img src={`data:image/png;base64,${imageUrl}`} className="h-46 object-cover w-80" alt="Image" />
       </div>
       <div className="px-4 pt-4 space-y-3">
         <div className="flex justify-between">
