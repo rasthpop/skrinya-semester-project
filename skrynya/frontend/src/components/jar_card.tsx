@@ -1,6 +1,6 @@
 "use client";
 
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { Bookmark } from "lucide-react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
@@ -64,7 +64,36 @@ export default function DonationCard({
           console.error("Full error:", err);
         }
       };
-      
+
+    useEffect(() => {
+      const isSaved = async () => {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          console.error("No token found");
+          return;
+        }
+
+        try {
+          const res = await axios.get(`http://127.0.0.1:8000/users/jars/saved`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          const savedJars = res.data || [];
+          const isAlreadySaved = savedJars.some((jar: any) => jar.id === id);
+          setActive(isAlreadySaved);
+        } catch (err: any) {
+          console.error("Failed to fetch saved jars:");
+          console.error("Status:", err.response?.status);
+          console.error("Data:", err.response?.data);
+          console.error("Full error:", err);
+        }
+      }
+      isSaved()
+      console.log(active)
+    }, [])
+
+  
 
   return (
     <div className="bg-white rounded-xl shadow-md overflow-hidden max-w-sm font-romono mb-10">
