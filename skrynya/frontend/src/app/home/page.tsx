@@ -137,12 +137,6 @@ export default function HomePage() {
         <Carousel jars={m} />
         </div>
 
-        <div className="my-8 gap-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-        {jars.map((value) => (
-          <JarCard key={value.id} name={value.title} />
-        ))}
-        </div>
-
         <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 px-4 gap-4">
           {currentCards.map((card) => (
             <DonationCard
