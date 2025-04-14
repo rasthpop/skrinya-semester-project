@@ -67,50 +67,91 @@ export default function JarForm() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-tr from-zinc-100 to-zinc-300 flex items-center justify-center px-4">
-      <a href="/home" className="absolute left-0 top-0 w-full bg-main h-14 text-2xl font-bold text-white flex items-center justify-center">Skrynya</a>
+    <div className="min-h-screen bg-gradient-to-tr from-zinc-100 to-zinc-300 flex items-center justify-center px-4 relative">
+      <a
+        href="/home"
+        className="absolute left-0 top-0 w-full bg-main h-14 text-2xl font-bold text-white flex items-center justify-center"
+      >
+        Skrynya
+      </a>
 
-      <div className="w-full max-w-xl bg-white shadow-xl rounded-2xl p-10 space-y-8 transition-all">
+      <div className="w-full max-w-xl bg-white shadow-xl rounded-2xl p-10 space-y-8">
         <h2 className="text-3xl font-bold text-center text-gray-800">
           Відкрити Банку
         </h2>
 
-        <div className="flex flex-col space-y-4">
-          <input
-            onChange={handleChange}
-            type="text"
-            name="title"
-            placeholder="Назва збору"
-            className="border-b-1 h-8 text-lg border-gray-400"
-          />
-          <textarea
-            onChange={(e) => setJarData((prev) => ({ ...prev, description: e.target.value }))}
-            name="description"
-            placeholder="Опис"
-            className="input-style h-40 border-gray-400"
-          />
-          <input
-            onChange={handleChange}
-            type="text"
-            name="goal"
-            placeholder="Мета (сума)"
-            className="border-b-1 h-8 text-lg border-gray-400"
-          />
+        <div className="flex flex-col space-y-5">
+          {/* Title Field */}
+          <div>
+            <input
+              onChange={handleChange}
+              type="text"
+              name="title"
+              placeholder="Назва збору"
+              className="input-style"
+            />
+            {formErrors.title && (
+              <p className="text-red-500 text-sm mt-1">{formErrors.title}</p>
+            )}
+          </div>
 
-          <input
-            type="file"
-            accept="image/png"
-            onChange={(e) => setPhoto(e.target.files?.[0] || null)}
-          />
+          {/* Description Field */}
+          <div>
+            <textarea
+              onChange={(e) =>
+                setJarData((prev) => ({ ...prev, description: e.target.value }))
+              }
+              name="description"
+              placeholder="Опис"
+              className="input-style h-40 resize-none"
+            />
+            {formErrors.description && (
+              <p className="text-red-500 text-sm mt-1">{formErrors.description}</p>
+            )}
+          </div>
 
-          {formErrors.title && <p className="text-red-500 text-sm">{formErrors.title}</p>}
-          {formErrors.goal && <p className="text-red-500 text-sm">{formErrors.goal}</p>}
-          {formErrors.description && <p className="text-red-500 text-sm">{formErrors.description}</p>}
-          {formErrors.photo && <p className="text-red-500 text-sm">{formErrors.photo}</p>}
+          {/* Goal Field */}
+          <div>
+            <input
+              onChange={handleChange}
+              type="text"
+              name="goal"
+              placeholder="Мета (сума)"
+              className="input-style"
+            />
+            {formErrors.goal && (
+              <p className="text-red-500 text-sm mt-1">{formErrors.goal}</p>
+            )}
+          </div>
 
+          {/* File Upload */}
+          <div>
+            <label className="block">
+              <span className="text-gray-700 mb-2 block">Завантажити фото:</span>
+              <div className="flex items-center gap-4">
+                <label className="bg-main text-white px-4 py-2 rounded-xl cursor-pointer hover:brightness-110 transition duration-300">
+                  Вибрати файл
+                  <input
+                    type="file"
+                    accept="image/png"
+                    className="hidden"
+                    onChange={(e) => setPhoto(e.target.files?.[0] || null)}
+                  />
+                </label>
+                <span className="text-sm text-gray-600">
+                  {photo ? photo.name : "Файл не вибрано"}
+                </span>
+              </div>
+              {formErrors.photo && (
+                <p className="text-red-500 text-sm mt-1">{formErrors.photo}</p>
+              )}
+            </label>
+          </div>
+
+          {/* Submit Button */}
           <button
             onClick={handleCreate}
-            className="bg-main text-white py-3 rounded-xl text-center font-semibold hover:brightness-110 transition duration-300"
+            className="bg-main text-white py-3 rounded-xl font-semibold hover:brightness-110 transition duration-300"
           >
             Створити
           </button>
@@ -119,7 +160,7 @@ export default function JarForm() {
 
       <style jsx>{`
         .input-style {
-          @apply px-4 py-3 border border-gray-300 rounded-xl bg-white text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-main focus:border-transparent transition;
+          @apply w-full px-4 py-3 border border-gray-300 rounded-xl bg-white text-base text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-main focus:border-transparent transition;
         }
       `}</style>
     </div>

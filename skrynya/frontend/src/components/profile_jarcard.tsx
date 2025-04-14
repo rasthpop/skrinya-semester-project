@@ -1,6 +1,6 @@
 "use client";
 
-import { FC, useState } from "react";
+import { FC, useState, useEffect } from "react";
 import { Bookmark } from "lucide-react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
@@ -67,6 +67,35 @@ export default function DonationCard({
           console.error("Full error:", err);
         }
     };
+
+    useEffect(() => {
+      const isSaved = async () => {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          console.error("No token found");
+          return;
+        }
+
+        try {
+          const res = await axios.get(`http://127.0.0.1:8000/users/jars/saved`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          const savedJars = res.data || [];
+          const isAlreadySaved = savedJars.some((jar: any) => jar.id === id);
+          setActive(isAlreadySaved);
+        } catch (err: any) {
+          console.error("Failed to fetch saved jars:");
+          console.error("Status:", err.response?.status);
+          console.error("Data:", err.response?.data);
+          console.error("Full error:", err);
+        }
+      }
+      isSaved()
+      console.log(active)
+    }, [])
+
     
     let color: string
     let status: string
@@ -87,25 +116,27 @@ export default function DonationCard({
 
   return (
     <div className="bg-white rounded-xl shadow-md overflow-hidden max-w-sm font-romono mb-10">
-      <div className="relative w-full h-46 bg-red-900">
-      <Bookmark
-  onClick={handleToggleSave}
-  className={`absolute rounded-full bg-white  p-2 w-10 h-10 cursor-pointer right-1 top-1
+    <div className="relative w-full h-46 bg-red-900">
+    <Bookmark
+onClick={handleToggleSave}
+className={`absolute rounded-full bg-white  p-2 w-10 h-10 cursor-pointer right-1 top-1
 
-        `}
-      fill={active ? '#171717' : 'none'}
-      />
-        <img src={`data:image/png;base64,${imageUrl}`} className="h-46 object-cover w-80" alt="Image" />
+      `}
+    fill={active ? '#171717' : 'none'}
+    />
+
+    <p className="absolute bg-white px-2 py-1 flex items-center rounded-full h-10 top-1 left-1 text-lg text-sm text-gray-600" style={{color: color}}>{status}</p>
+      <img src={`data:image/png;base64,${imageUrl}`} className="h-46 w-80 object-cover" alt="Image" />
+    </div>
+    <div className="px-4 pt-4 space-y-3">
+      <div className="flex justify-between">
+        <h2 className="tracking-tight text-xl">{title}</h2>
+
+        <button className="cursor-pointer text-sm text-white bg-main p-2 rounded-lg">
+          Детальніше
+        </button>
+
       </div>
-      <div className="px-4 pt-4 space-y-3">
-        <div className="flex justify-between">
-          <h2 className="tracking-tight text-xl">{title}</h2>
-
-          <button className="cursor-pointer text-sm text-white bg-main p-2 rounded-lg">
-            Детальніше
-          </button>
-
-        </div>
 
         <div className="flex flex-wrap gap-2">
           {tagList.map((tag) => (
@@ -117,9 +148,6 @@ export default function DonationCard({
             </span>
           ))}
         </div>
-
-        <p className="text-sm text-gray-600" style={{color: color}}>{status}</p>
-
         <p className="text-sm text-gray-600">Автор: {author}</p>
         <div className="flex justify-end items-end">
           <div className="text-sm text-main">

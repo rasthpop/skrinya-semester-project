@@ -47,7 +47,7 @@ export default function Profile() {
   return (
     <main className="flex">
       <Sidebar />
-      <div className="font-lex ml-[260px] 2xl:ml-[290px] pt-8 px-8 flex flex-col gap-12">
+      <div className="font-lex ml-54 pt-8 px-8 flex flex-col gap-12">
         {user_data && (
           <ProfileCard
             first_name={user_data["first_name"]}
