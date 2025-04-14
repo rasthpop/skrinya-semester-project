@@ -17,6 +17,9 @@ interface Jar {
   goal_amount: number;
   collected_amount: number;
   status: string;
+  tags: string;
+  created_by: string;
+    picture: string;
 }
 
 
@@ -67,31 +70,62 @@ export default function HomePage() {
     },
   
   ]
+
+
   const [jars, setJars] = useState<Jar[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const cardsPerPage = 3;
 
   useEffect(() => {
     async function fetchJars() {
       try {
-        const res = await axios.get('http://127.0.0.1:8000/jars/')
-        setJars(res.data)
-        console.log(res.data)
+        const res = await axios.get('http://127.0.0.1:8000/jars/');
+        setJars(res.data);
+        console.log(res.data);
       } catch (err) {
-        console.error('Error fetching jars:', err)
+        console.error('Error fetching jars:', err);
       }
-    };
+    }
+    fetchJars();
+  }, []);
 
-    fetchJars()
-  }, [])
-
-  const [currentPage, setCurrentPage] = useState(1);
-  const cardsPerPage = 3; // Show 3 cards per page
-
-  // Calculate the indexes for current page
   const indexOfLastCard = currentPage * cardsPerPage;
   const indexOfFirstCard = indexOfLastCard - cardsPerPage;
-  const currentCards = donationCards.slice(indexOfFirstCard, indexOfLastCard);
+  const currentCards = jars.slice(indexOfFirstCard, indexOfLastCard);
+  const totalPages = Math.ceil(jars.length / cardsPerPage);
 
-  const totalPages = Math.ceil(donationCards.length / cardsPerPage);
+//   const goToNextPage = () => {
+//     if (currentPage < totalPages) setCurrentPage((prev) => prev + 1);
+//   };
+
+//   const goToPrevPage = () => {
+//     if (currentPage > 1) setCurrentPage((prev) => prev - 1);
+//   };
+// //   const [jars, setJars] = useState<Jar[]>([]);
+
+//   useEffect(() => {
+//     async function fetchJars() {
+//       try {
+//         const res = await axios.get('http://127.0.0.1:8000/jars/')
+//         setJars(res.data)
+//         console.log(res.data)
+//       } catch (err) {
+//         console.error('Error fetching jars:', err)
+//       }
+//     };
+
+//     fetchJars()
+//   }, [])
+
+//   const [currentPage, setCurrentPage] = useState(1);
+//   const cardsPerPage = 3; // Show 3 cards per page
+
+//   // Calculate the indexes for current page
+//   const indexOfLastCard = currentPage * cardsPerPage;
+//   const indexOfFirstCard = indexOfLastCard - cardsPerPage;
+//   const currentCards = donationCards.slice(indexOfFirstCard, indexOfLastCard);
+
+//   const totalPages = Math.ceil(donationCards.length / cardsPerPage);
 
   // Functions to change page
   const goToNextPage = () => {
@@ -143,8 +177,10 @@ export default function HomePage() {
               key={card.id}
               title={card.title}
               tags={card.tags}
-              goal={card.goal}
-              raised={card.raised}
+              goal={card.goal_amount}
+              raised={card.collected_amount}
+              author={card.created_by}
+                imageUrl={card.picture} // Assuming image is a base64 string or URL
             />
           ))}
         </div>
