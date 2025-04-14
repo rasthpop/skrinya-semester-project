@@ -4,7 +4,12 @@ from .database import Base
 from datetime import datetime
 
 
-
+saved_jars_table = Table(
+    "saved_jars",
+    Base.metadata,
+    Column("user_id", Integer, ForeignKey("users.id"), primary_key=True),
+    Column("campaign_id", Integer, ForeignKey("campaigns.id"), primary_key=True),
+)
 
 
 
@@ -23,9 +28,13 @@ class User(Base):
     campaings = relationship("Campaign", back_populates="creator")
     donations = relationship("Donation", back_populates="user")
     current_streak = Column(Integer, default=0)
-
     # profile_picture = relationship("ProfilePicture", back_populates="user", uselist=False)
     profile_picture = Column(String, nullable=True)
+    saved_jars = relationship(
+    "Campaign",
+    secondary=saved_jars_table,
+    back_populates="saved_by_users"
+    )
 
 
 
@@ -58,6 +67,11 @@ class Campaign(Base):
     tags = Column(String, nullable=True)
     picture = Column(String, nullable=True)
     creator = relationship("User", back_populates="campaings")
+    saved_by_users = relationship(
+    "User",
+    secondary=saved_jars_table,
+    back_populates="saved_jars"
+    )
 
 
 class Donation(Base):

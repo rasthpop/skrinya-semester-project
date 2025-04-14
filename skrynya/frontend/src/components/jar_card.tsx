@@ -2,8 +2,10 @@
 
 import { FC, useState } from "react";
 import { Bookmark } from "lucide-react";
+import axios from "axios";
 
 interface DonationCardProps {
+  id: number;               // 👈 Додано
   title: string;
   imageUrl: string;
   raised: number;
@@ -12,30 +14,66 @@ interface DonationCardProps {
   author: string;
 }
 
-export default function DonationCard({
-  title,
-  imageUrl,
-  raised,
-  goal,
-  tags,
-  author,
+export default function DonationCard({ 
+    id,             // 👈 Додано
+    title,
+    tags,
+    goal,
+    raised,
+    author,
+    imageUrl,
 }: DonationCardProps) {
-  const [active, setActive] = useState(false);
-  const percentage = Math.min((raised / goal) * 100, 100);
-
-  // Теги парсимо, якщо вони приходять як строка через кому
-  const tagList = tags.split(",").map((tag) => tag.trim());
+    const [active, setActive] = useState(false);
+    const percentage = Math.min((raised / goal) * 100, 100);
+    const tagList = tags.split(",").map((tag) => tag.trim());
+    const key = localStorage.getItem("key");
+    
+    const handleToggleSave = async () => {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          console.error("No token found");
+          return;
+        }
+      
+        try {
+          if (!active) {
+            // Save jar
+            await axios.post(`http://127.0.0.1:8000/users/jars/${id}/save`, null, {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            });
+            console.log("Jar saved!");
+          } else {
+            // Unsave jar
+            await axios.post(`http://127.0.0.1:8000/users/jars/${id}/unsave`, null, {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            });
+            console.log("Jar unsaved!");
+          }
+          setActive(!active);
+        } catch (err: any) {
+          console.error("Failed to toggle jar save:");
+          console.error("Status:", err.response?.status);
+          console.error("Data:", err.response?.data);
+          console.error("Full error:", err);
+        }
+      };
+      
 
   return (
     <div className="bg-white rounded-xl shadow-md overflow-hidden max-w-sm font-romono mb-10">
       <div className="relative w-full h-46 bg-red-900">
-        <Bookmark
-          onClick={() => setActive(!active)}
-          className="absolute hover:bg-white transition rounded-full p-2 w-10 h-10 cursor-pointer right-0.5 top-0.5"
-        />
-        {/* <Image src={imageUrl} alt={title} layout="fill" objectFit="cover" /> */}
+      <Bookmark
+  onClick={handleToggleSave}
+  className={`absolute transition rounded-full p-2 w-10 h-10 cursor-pointer right-0.5 top-0.5
+    ${active ? "text-black" : "text-gray-400 hover:text-black"}`
+  }
+/>
         <img src={`data:image/png;base64,${imageUrl}`} alt="Image" />
-        </div>
+      </div>
       <div className="px-4 pt-4 space-y-3">
         <h2 className="tracking-tight text-xl">{title}</h2>
 
@@ -56,7 +94,7 @@ export default function DonationCard({
           <button className="text-sm text-white bg-main p-2 rounded-lg">
             Детальніше
           </button>
-          <div className="text-sm text-mai">
+          <div className="text-sm text-main">
             {raised}/{goal}
           </div>
         </div>
