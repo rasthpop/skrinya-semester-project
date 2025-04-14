@@ -2,7 +2,6 @@
 
 import React, { useState } from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
-import { Jar } from '@home/page.tsx'
 // interface Jar {
 //   id: number
 //   title: string
