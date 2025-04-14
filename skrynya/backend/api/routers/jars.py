@@ -118,6 +118,8 @@ async def create_jar(db: db_dependency, user: user_dependency,
     """
     Create a new jar
     """
+    if photo.content_type != 'image/png':
+        return {'error': 'File is not png'}
     photo = await photo.read()
     photo = base64.b64encode(photo).decode('utf-8')
     new_jar = Campaign(

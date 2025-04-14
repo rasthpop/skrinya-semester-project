@@ -144,6 +144,34 @@ def get_pfp(username: str, db: db_dependency):
     )
 
 
+@router.post("/jars/{jar_id}/save")
+def save_jar(jar_id: int, db: db_dependency, user: user_dependency):
+    jar = db.query(Campaign).filter(Campaign.id == jar_id).first()
+    if not jar:
+        raise HTTPException(status_code=404, detail="Jar not found")
+
+    if jar in user.saved_jars:
+        return {"message": "Jar already saved"}
+
+    user.saved_jars.append(jar)
+    db.commit()
+    return {"message": "Jar saved"}
+
+@router.post("/jars/{jar_id}/unsave")
+def unsave_jar(jar_id: int, db: db_dependency, user: user_dependency):
+    jar = db.query(Campaign).filter(Campaign.id == jar_id).first()
+    if not jar:
+        raise HTTPException(status_code=404, detail="Jar not found")
+    if jar not in user.saved_jars:
+        return {"message": "Jar unsaved"}
+    user.saved_jars.remove(jar)
+    db.commit()
+    return {"message": "Jar unsaved"}
+
+@router.get("/jars/saved")
+def get_saved_jars(user : user_dependency, db: db_dependency):
+    return db.query(Campaign).filter(Campaign.saved_by_users.any(id=user.id)).all()
+
 # response = requests.get("http://localhost:8000/users/profile_picture/admin")
 # img = Image.open(BytesIO(response.content))
 # img.show()

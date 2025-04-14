@@ -45,7 +45,7 @@ body {
 .profilecard {
   color: aqua;
 }
-
+/* 
 input {
   background: var(--color-fallgray);
   color: var(--foreground);
@@ -54,4 +54,13 @@ input {
   border-bottom: 2px solid var(--color-main);
   font-family: var(--font-romono);
   font-size: 0.8rem;
+} */
+
+.input-style {
+  border-bottom: 1;
+  border-color: #171717;
+}
+
+textarea {
+  resize: none;
 }
