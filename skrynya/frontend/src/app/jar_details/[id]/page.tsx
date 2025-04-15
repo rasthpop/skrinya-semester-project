@@ -68,7 +68,7 @@ export default async function JarDetailsPage({ params }: { params: { id: string 
         <div className="h-full bg-main" style={{ width: `${percentage}%` }} />
       </div>
 
-      <div className="text-2xl w-[65%] font-romono text-main flex justify-between">
+      <div className="text-m w-[65%] font-romono text-main flex justify-between">
         <span>Зібрано:</span> <span>{jar.collected_amount} / {jar.goal_amount}</span>
       </div>
       
