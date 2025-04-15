@@ -14,7 +14,7 @@ export default function Activity({ activity }: ActivityProps) {
                 <div className="flex flex-col gap-1 space-y">
                     <h2 className="text-m mb-2">Current streak: {activity.current_streak}</h2>
                     <h2 className="text-m">Max streak: {activity.max_streak}</h2>
-                    <h2 className="text-m">Total Campaigns: {activity.campaigns.length}</h2>
+                    {/* <h2 className="text-m">Total Campaigns: {activity.campaigns.length()}</h2> */}
                 </div>
             </div>
         </div>
