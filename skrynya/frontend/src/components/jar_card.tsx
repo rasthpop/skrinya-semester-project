@@ -127,7 +127,8 @@ export default function DonationCard({
         <div className="flex justify-between">
           <h2 className="tracking-tight text-xl">{title}</h2>
 
-          <button className="cursor-pointer text-sm text-white bg-main p-2 rounded-lg">
+          <button onClick={() => router.push(`/jars_details/${id}`)} 
+          className="cursor-pointer text-sm text-white bg-main p-2 rounded-lg">
             Детальніше
           </button>
 
