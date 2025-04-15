@@ -12,11 +12,12 @@ type MyJarsProps = {
     const [isall, setAll] = useState(false)
     return (
         <div>
-            <div className="flex justify-between">
-            <h2 className="text-2xl">My Jars</h2>
-            <span onClick={() => (setAll(!isall))} className="text-xl text-hiblue cursor-pointer">{!isall ? "See All" : "Show less"}</span>
+            <div className="flex justify-between w-full">
+            <h2 className="text-2xl">Мої Збори</h2>
+            <span onClick={() => (setAll(!isall))} className="text-lg text-hiblue cursor-pointer">{!isall ? "Показати більше" : "Сховати"}</span>
             </div>
-            <div className="bg-fallgray py-8 p-4 grid grid-cols-3 gap-y-6 gap-x-6 justify-items-center rounded-[4px]">
+            <div className={`bg-fallgray py-8 p-4 grid grid-cols-3 gap-6 justify-items-center rounded-[4px] ${isall ? "overflow-y-auto max-h-[500px]" : "overflow-hidden"}`}>
+
                 {!isall ? jars.slice(0,3).map((jar) => (
                     <DonationCard key={jar.id}
                     id = {jar.id}
