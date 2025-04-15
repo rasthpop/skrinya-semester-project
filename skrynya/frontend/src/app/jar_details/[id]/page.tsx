@@ -2,6 +2,7 @@
 import SupportButton from "@/components/support_button";
 import Sidebar from "@/components/sidebar";
 import axios from "axios";
+import Header from "@/components/header";
 // import JarBase from "../../../../../backend/api/routers/jars";
 
 // export interface Jar {
@@ -51,12 +52,27 @@ export default async function JarDetailsPage({ params }: { params: { id: string 
   const tagList = jar.tags.split(",").map((tag) => tag.trim());
   console.log('user', user)
   return (
-    <main><Sidebar />
-    <div className="p-10 max-w-3xl mx-auto space-y-6">
-      <h1 className="text-3xl font-bold">{jar.title}</h1>
-      <img src={`data:image/png;base64,${jar.picture}`} alt={jar.title} className="w-full h-64 object-cover rounded-lg" />
+    <main className="">
+    <Sidebar />
+      <Header/>
+    <div className="p-10 flex flex-col justify-center  ml-54 space-y-6 font-romono">
+      <div className="w-full flex justify-center">
+        <img src={`data:image/png;base64,${jar.picture}`} alt={jar.title} className="w-[70%] h-64 object-cover rounded-lg" />
+      </div>
+    <div className="space-y-6 w-full flex">
+      <div className="w-[80%]">
+
+      <h1 className="text-3xl font-romono mb-4">{jar.title}</h1>
+
+      <div className="w-[65%] h-5  rounded-full border-2 border-main overflow-hidden">
+        <div className="h-full bg-main" style={{ width: `${percentage}%` }} />
+      </div>
+
+      <div className="text-2xl w-[65%] font-romono text-main flex justify-between">
+        <span>Зібрано:</span> <span>{jar.collected_amount} / {jar.goal_amount}</span>
+      </div>
       
-      <p className="text-gray-700">{jar.description}</p>
+      <p className="text-gray-700 font-romono text-lg w-[60%] mb-10 mt-6">{jar.description}</p>
 
 
       <div className="text-sm text-gray-500">
@@ -72,27 +88,26 @@ export default async function JarDetailsPage({ params }: { params: { id: string 
     minute: "2-digit",
   })}
 </p>    
+  </div>
 
-      <div className="text-sm text-gray-500">
-        Зібрано: {jar.collected_amount} / {jar.goal_amount}
-      </div>
+      <div className="flex flex-col flex-wrap gap-2">
+        <h3 className="text-xl">Теги:</h3>
+        <div>
 
-      <div className="w-full h-3 bg-gray-200 rounded overflow-hidden">
-        <div className="h-full bg-main" style={{ width: `${percentage}%` }} />
-      </div>
-
-      <div className="flex flex-wrap gap-2">
         {tagList?.map(tag => (
           <span
-            key={tag}
-            className="px-3 py-1 bg-main text-white rounded-full text-sm"
+          key={tag}
+          className="px-3 py-1 bg-main text-white rounded-full text-sm"
           >
             {tag}
           </span>
         ))}
+        </div>
       </div>
-
-      <SupportButton jar_id={jar.id}/>
+  </div>
+      <div className="w-[60%]">
+        <SupportButton jar_id={jar.id}/>
+      </div>
     </div>
     </main>
   );
