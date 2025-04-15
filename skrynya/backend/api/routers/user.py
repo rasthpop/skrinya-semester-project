@@ -23,8 +23,8 @@ class DonationResponse(DonationBase):
 
 
 class CampaignBase(BaseModel):
-    campaign_id: int
-    name: str 
+    id: int
+    title: str 
 
     class Config:
         orm_mode = True
@@ -32,7 +32,10 @@ class CampaignBase(BaseModel):
 
 class CampaignResponse(CampaignBase):
     id: int
-    created_by: int 
+    created_by: str
+    class Config:
+        orm_mode = True
+        from_attributes = True
 
 class UserDict(BaseModel):
     first_name: str
@@ -48,6 +51,8 @@ class UserActivity(BaseModel):
     total_donated: int
     donations: list
     campaigns: list
+    current_streak: int
+    max_streak: int | None
 
 
 
@@ -101,16 +106,20 @@ def get_user_activity(
     current_user: user_dependency,
     db: db_dependency
 ):
-    campaigns = db.query(Campaign).filter(Campaign.created_by == current_user.id).all()
+    campaigns = db.query(Campaign).filter(Campaign.created_by == current_user.username).all()
     donations = db.query(Donation).filter(Donation.user_id == current_user.id).all()
 
     total_donated = sum(d.amount for d in donations)
+    streak = current_user.current_streak
+    max_streak = current_user.max_streak
     return UserActivity(
         username=current_user.username,
         total_campaigns=len(campaigns),
         total_donated=total_donated,
         donations=[DonationResponse.from_orm(d) for d in donations],  # Use Pydantic model for donations
-        campaigns=[CampaignResponse.from_orm(c) for c in campaigns]  # Use Pydantic model for campaigns
+        campaigns=[CampaignResponse.from_orm(c) for c in campaigns],  # Use Pydantic model for campaigns
+        current_streak=streak,
+        max_streak=max_streak
     )
 
 @router.get("/activity/{username}")
@@ -119,7 +128,7 @@ def get_user_activity_by_username(
     username: str
 ):
     user = get_user_by_username(username, db)
-    campaigns = db.query(Campaign).filter(Campaign.created_by == user.id).all()
+    campaigns = db.query(Campaign).filter(Campaign.created_by == user.username).all()
     donations = db.query(Donation).filter(Donation.user_id == user.id).all()
 
     total_donated = sum(d.amount for d in donations)

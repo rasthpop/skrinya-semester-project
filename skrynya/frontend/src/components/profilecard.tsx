@@ -20,7 +20,6 @@ export default function ProfileCard(props: ProfileCardProps) {
         <div className="flex items-center"><span className="text-3xl">{props.first_name} {props.last_name}</span> <div className=" ml-2 w-[26px] h-[26px] rounded-[7px] bg-fallgray mt-2"></div></div>
         <div className="text-xl">Status</div>
       </div>
-      
       <div className="w-[2px] h-[161px] bg-[#D9D9D9]"></div>
       <div className="flex flex-col">
         <span className="text-textgray">Електронна Пошта: <span>{props.email}</span></span>

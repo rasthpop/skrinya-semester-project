@@ -6,11 +6,13 @@ import MyJars from "@/components/profile_myjars";
 import Header from "@/components/header";
 import axios from "axios";
 import Sidebar from "@/components/sidebar";
+import Activity from "@/components/activity";
 
 export default function Profile() {
   const [user_data, setUserData] = useState<any>(null);
   const [user_jars, setUserJars] = useState<any>([]);
   const [token, setToken] = useState<string | null>(null);
+  const [activity, setActivity] = useState<any>([]);
 
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
@@ -36,6 +38,13 @@ export default function Profile() {
           },
         });
         setUserJars(jars.data);
+
+        const activity = await axios.get("http://127.0.0.1:8000/users/me/activity", {
+          headers: {
+            Authorization: `Bearer ${storedToken}`,
+          },
+        });
+        setActivity(activity.data);
       } catch (err: any) {
         console.error("Error fetching data:", err.response?.data || err.message);
       }
@@ -61,6 +70,7 @@ export default function Profile() {
         <div>
           <MyJars jars={user_jars} />
         </div>
+        <div><Activity activity={activity}/></div>
       </div>
     </main>
   );

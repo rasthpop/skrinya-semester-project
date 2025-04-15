@@ -25,9 +25,10 @@ class User(Base):
     hashed_password = Column(String, nullable=False)
     created_at = Column(DateTime, default=datetime.utcnow)
     is_admin = Column(Boolean, default=False)
-    campaings = relationship("Campaign", back_populates="creator")
+    # campaings = relationship("Campaign", back_populates="creator")
     donations = relationship("Donation", back_populates="user")
     current_streak = Column(Integer, default=0)
+    max_streak = Column(Integer, default=0)
     # profile_picture = relationship("ProfilePicture", back_populates="user", uselist=False)
     profile_picture = Column(String, nullable=True)
     saved_jars = relationship(
@@ -62,11 +63,11 @@ class Campaign(Base):
     goal_amount = Column(Integer, nullable=False)
     collected_amount = Column(Integer, default=0)
     status = Column(String, default="Pending")
-    created_by = Column(Integer, ForeignKey('users.id'))
+    created_by = Column(String, nullable=False)
     created_at = Column(DateTime, default=datetime.utcnow)
     tags = Column(String, nullable=True)
     picture = Column(String, nullable=True)
-    creator = relationship("User", back_populates="campaings")
+    # creator = relationship("User", back_populates="campaings")
     saved_by_users = relationship(
     "User",
     secondary=saved_jars_table,

@@ -32,6 +32,7 @@ def donate_to_jar(db: db_dependency, jar_id: int, amount: int, user: user_depend
         user.current_streak = 1
     elif 1 <= delta.days <= 2:
         user.current_streak += 1
+    user.max_streak = max(user.max_streak, user.current_streak)
     db.add(donation)
     jar.collected_amount += amount
 
