@@ -25,6 +25,8 @@ export default function DonationCard({
     imageUrl,
 }: DonationCardProps) {
     const [active, setActive] = useState(false);
+    const [second_name, setSecondName] = useState("");
+    const [first_name, setFirstName] = useState("");
     const percentage = Math.min((raised / goal) * 100, 100);
     const tagList = tags.split(",").map((tag) => tag.trim());
     const key = localStorage.getItem("key");
@@ -88,6 +90,20 @@ export default function DonationCard({
           console.error("Data:", err.response?.data);
           console.error("Full error:", err);
         }
+        try {
+          const user_info = await axios.get(`http://127.0.0.1:8000/users/${author}`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          setFirstName(user_info.data["first_name"]);
+          setSecondName(user_info.data["second_name"]);
+        } catch (err: any) {
+          console.error("Failed to fetch user data:");
+          console.error("Status:", err.response?.status);
+          console.error("Data:", err.response?.data);
+          console.error("Full error:", err);
+        }
       }
       isSaved()
       console.log(active)
@@ -128,7 +144,7 @@ export default function DonationCard({
           ))}
         </div>
 
-        <p className="text-sm text-gray-600">Автор: {author}</p>
+        <p className="text-sm text-gray-600">Автор: {first_name} {second_name}</p>
         <div className="flex justify-end items-end">
           <div className="text-sm text-main">
             {raised}/{goal}

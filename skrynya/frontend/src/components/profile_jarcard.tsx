@@ -28,6 +28,12 @@ export default function DonationCard({
     status_,
 }: DonationCardProps) {
     const [active, setActive] = useState(false);
+
+
+
+    const [second_name, setSecondName] = useState("");
+    const [first_name, setFirstName] = useState("");
+
     let percentage: number
     if (raised === 0) {
         percentage = 0
@@ -38,7 +44,7 @@ export default function DonationCard({
     else {
         percentage = Math.min((raised / goal) * 100, 100);
     }
-    console.log("percentage", percentage)
+    // console.log("percentage", percentage)
     // console.log("raised", raised)
     // console.log("goal", goal)
     // console.log("id", id)
@@ -107,6 +113,23 @@ export default function DonationCard({
           console.error("Data:", err.response?.data);
           console.error("Full error:", err);
         }
+
+
+        try {
+          const user_info = await axios.get(`http://127.0.0.1:8000/users/me`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+        setFirstName(user_info.data["first_name"])
+        setSecondName(user_info.data["second_name"])
+        // console.log("User info:", first_name, second_name);
+        } catch (err: any) {
+          console.error("Failed to fetch user info:");
+          console.error("Status:", err.response?.status);
+          console.error("Data:", err.response?.data);
+          console.error("Full error:", err);
+        }
       }
       isSaved()
       console.log(active)
@@ -164,7 +187,7 @@ className={`absolute rounded-full bg-white  p-2 w-10 h-10 cursor-pointer right-1
             </span>
           ))}
         </div>
-        <p className="text-sm text-gray-600">Автор: {author}</p>
+        <p className="text-sm text-gray-600">Автор: {first_name} {second_name}</p>
         <div className="flex justify-end items-end">
           <div className="text-sm text-main">
             {raised}/{goal}

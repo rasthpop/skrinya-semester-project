@@ -8,7 +8,7 @@ type MyJarsProps = {
     jars: any[]
   }
   export default function MyJars({jars}: MyJarsProps) {
-    console.log("jars", jars)
+    // console.log("jars", jars)
     const [isall, setAll] = useState(false)
     return (
         <div>
