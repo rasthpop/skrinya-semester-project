@@ -171,7 +171,7 @@ className={`absolute rounded-full bg-white  p-2 w-10 h-10 cursor-pointer right-1
       <div className="flex justify-between">
         <h2 className="tracking-tight text-xl">{title}</h2>
 
-        <button className="cursor-pointer text-sm text-white bg-main p-2 rounded-lg">
+        <button onClick={() => router.push(`/jar_details/${id}`)} className="cursor-pointer text-sm text-white bg-main p-2 rounded-lg">
           Детальніше
         </button>
 
