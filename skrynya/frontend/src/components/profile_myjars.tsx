@@ -7,8 +7,8 @@ import DonationCard from "./profile_jarcard";
 type MyJarsProps = {
     jars: any[]
   }
-
-export default function MyJars({jars}: MyJarsProps) {
+  export default function MyJars({jars}: MyJarsProps) {
+    console.log("jars", jars)
     const [isall, setAll] = useState(false)
     return (
         <div>
@@ -22,8 +22,8 @@ export default function MyJars({jars}: MyJarsProps) {
                     id = {jar.id}
                     title={jar.title}
                     tags={jar.tags}
-                    goal={jar.goal}
-                    raised={jar.raised}
+                    goal={jar.goal_amount}
+                    raised={jar.collected_amount}
                     author={jar.created_by}
                     status_={jar.status}
                     imageUrl={jar.picture}/>
@@ -34,8 +34,8 @@ export default function MyJars({jars}: MyJarsProps) {
                     id = {jar.id}
                     title={jar.title}
                     tags={jar.tags}
-                    goal={jar.goal}
-                    raised={jar.raised}
+                    goal={jar.goal_amount}
+                    raised={jar.collected_amount}
                     author={jar.created_by}
                     status_={jar.status}
                     imageUrl={jar.picture}/>

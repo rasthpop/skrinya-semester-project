@@ -28,7 +28,23 @@ export default function DonationCard({
     status_,
 }: DonationCardProps) {
     const [active, setActive] = useState(false);
-    const percentage = Math.min((raised / goal) * 100, 100);
+    let percentage: number
+    if (raised === 0) {
+        percentage = 0
+    }
+    else if (goal === 0) {
+        percentage = 0
+    }
+    else {
+        percentage = Math.min((raised / goal) * 100, 100);
+    }
+    console.log("percentage", percentage)
+    // console.log("raised", raised)
+    // console.log("goal", goal)
+    // console.log("id", id)
+    // console.log("title", title)
+    // console.log("author", author)
+    // const percentage = Math.min((raised / goal) * 100, 100);
     const tagList = tags.split(",").map((tag) => tag.trim());
     const key = localStorage.getItem("key");
     const router = useRouter()
