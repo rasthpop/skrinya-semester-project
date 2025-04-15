@@ -59,7 +59,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         delete axios.defaults.headers.common["Authorization"];
         localStorage.removeItem("token");
         localStorage.setItem("user", "")
-        router.push("/registration");
+        router.push("/login");
     }
 
     return (

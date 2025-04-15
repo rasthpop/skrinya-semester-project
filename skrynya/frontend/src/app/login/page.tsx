@@ -99,7 +99,7 @@ export default function Registration() {
       try {
         await login(logformData.login, logformData.password);
         localStorage.setItem("user", logformData.login);
-        router.push("/post");
+        router.push("/home");
       } catch (error: any) {
         setFormErrors({ login: "Невірний логін або пароль" });
       }
