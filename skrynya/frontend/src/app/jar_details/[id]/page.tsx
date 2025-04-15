@@ -15,6 +15,7 @@ import axios from "axios";
 //   }
 
 export interface JarBase {
+    id: number
     title: string;
     description: string;
     goal_amount: number;
@@ -91,7 +92,7 @@ export default async function JarDetailsPage({ params }: { params: { id: string 
         ))}
       </div>
 
-      <SupportButton />
+      <SupportButton jar_id={jar.id}/>
     </div>
     </main>
   );

@@ -17,12 +17,16 @@ router = APIRouter(
 )
 
 
+class DonationRequest(BaseModel):
+    amount: int
+
 
 @router.post('/{jar_id}')
-def donate_to_jar(db: db_dependency, jar_id: int, amount: int, user: user_dependency):
+def donate_to_jar(db: db_dependency, donation: DonationRequest, jar_id: int, user: user_dependency):
     '''
     Donate to a jar by id
     '''
+    amount = donation.amount
     jar = get_jar(db, jar_id)
     donation = Donation(amount=amount, campaign_id = jar.id, user_id = user.id)
     user = db.query(User).filter(User.id == user.id).first()
