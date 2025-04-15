@@ -3,6 +3,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
+import Sidebar from "@/components/sidebar";
 
 export default function JarForm() {
   const router = useRouter();
@@ -67,11 +68,12 @@ export default function JarForm() {
   }
 
   return (
+      <main>
     <div className="min-h-screen bg-gradient-to-tr from-zinc-100 to-zinc-300 flex items-center justify-center px-4 relative">
       <a
         href="/home"
         className="absolute left-0 top-0 w-full bg-main h-14 text-2xl font-bold text-white flex items-center justify-center"
-      >
+        >
         Skrynya
       </a>
 
@@ -89,9 +91,9 @@ export default function JarForm() {
               name="title"
               placeholder="Назва збору"
               className="input-style"
-            />
+              />
             {formErrors.title && (
-              <p className="text-red-500 text-sm mt-1">{formErrors.title}</p>
+                <p className="text-red-500 text-sm mt-1">{formErrors.title}</p>
             )}
           </div>
 
@@ -100,13 +102,13 @@ export default function JarForm() {
             <textarea
               onChange={(e) =>
                 setJarData((prev) => ({ ...prev, description: e.target.value }))
-              }
-              name="description"
-              placeholder="Опис"
-              className="input-style h-40 resize-none"
+            }
+            name="description"
+            placeholder="Опис"
+            className="input-style h-40 resize-none"
             />
             {formErrors.description && (
-              <p className="text-red-500 text-sm mt-1">{formErrors.description}</p>
+                <p className="text-red-500 text-sm mt-1">{formErrors.description}</p>
             )}
           </div>
 
@@ -118,9 +120,9 @@ export default function JarForm() {
               name="goal"
               placeholder="Мета (сума)"
               className="input-style"
-            />
+              />
             {formErrors.goal && (
-              <p className="text-red-500 text-sm mt-1">{formErrors.goal}</p>
+                <p className="text-red-500 text-sm mt-1">{formErrors.goal}</p>
             )}
           </div>
 
@@ -136,15 +138,15 @@ export default function JarForm() {
                     accept="image/png"
                     className="hidden"
                     onChange={(e) => setPhoto(e.target.files?.[0] || null)}
-                  />
+                    />
                 </label>
                 <span className="text-sm text-gray-600">
                   {photo ? photo.name : "Файл не вибрано"}
                 </span>
               </div>
               {formErrors.photo && (
-                <p className="text-red-500 text-sm mt-1">{formErrors.photo}</p>
-              )}
+                  <p className="text-red-500 text-sm mt-1">{formErrors.photo}</p>
+                )}
             </label>
           </div>
 
@@ -152,7 +154,7 @@ export default function JarForm() {
           <button
             onClick={handleCreate}
             className="bg-main text-white py-3 rounded-xl font-semibold hover:brightness-110 transition duration-300"
-          >
+            >
             Створити
           </button>
         </div>
@@ -160,9 +162,10 @@ export default function JarForm() {
 
       <style jsx>{`
         .input-style {
-          @apply w-full px-4 py-3 border border-gray-300 rounded-xl bg-white text-base text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-main focus:border-transparent transition;
-        }
-      `}</style>
+            @apply w-full px-4 py-3 border border-gray-300 rounded-xl bg-white text-base text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-main focus:border-transparent transition;
+            }
+            `}</style>
     </div>
+            </main>
   );
 }
