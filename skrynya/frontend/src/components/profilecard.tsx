@@ -13,9 +13,9 @@ type ProfileCardProps = {
 
 export default function ProfileCard(props: ProfileCardProps) {
 
-return (
-  <div className="flex gap-4 items-center mx-4">
-    <div className="h-[180px] w-[180px] 2xl:h-[208px] 2xl:w-[208px] rounded-full bg-fallgray"></div>
+    return(
+        <div className="flex gap-4 item s-center mx-4">
+          <img src={`data:image/png;base64,${props.imageUrl}`} className="h-[180px] w-[180px] 2xl:h-[208px] 2xl:w-[208px] rounded-full bg-fallgray"/>
 
     <div className="flex flex-col">
       <div className="flex items-center">
