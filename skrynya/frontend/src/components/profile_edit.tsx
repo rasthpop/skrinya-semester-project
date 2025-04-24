@@ -1,10 +1,11 @@
 // ProfileEdit.tsx
 import React, { useState } from "react";
+import { useRouter } from 'next/navigation';
 
 type ProfileEditProps = {
   formData: {
     first_name: string;
-    last_name: string;
+    second_name: string;
     email: string;
     phone: string;
     registrationDate: string;
@@ -18,15 +19,27 @@ export default function ProfileEdit({
   onSave,
   onCancel,
 }: ProfileEditProps) {
+  const router = useRouter();
+  const [error, setError] = useState('');
   const [firstName, setFirstName] = useState(formData.first_name);
-  const [lastName, setLastName] = useState(formData.last_name);
+  const [secondName, setSecondName] = useState(formData.second_name);
   const [email, setEmail] = useState(formData.email);
   const [phone, setPhone] = useState(formData.phone);
-
   const handleSave = () => {
-    const updatedData = { first_name: firstName, last_name: lastName, email, phone };
-    onSave(updatedData); // Save the new data and return it to the parent
+    onSave({
+      firstName,
+      secondName,
+      email,
+      phone,
+    });
   };
+const handleCancel = () => {
+  router.push('/profile');
+};
+  // const handleSave = () => {
+  //   const updatedData = { first_name: firstName, second_name: secondName, email, phone };
+  //   onSave(updatedData); // Save the new data and return it to the parent
+  // };
 
   return (
     <div>
@@ -42,8 +55,8 @@ export default function ProfileEdit({
         <label>Прізвище:</label>
         <input
           type="text"
-          value={lastName}
-          onChange={(e) => setLastName(e.target.value)}
+          value={secondName}
+          onChange={(e) => setSecondName(e.target.value)}
         />
       </div>
       <div>
