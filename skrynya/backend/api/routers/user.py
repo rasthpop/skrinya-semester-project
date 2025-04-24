@@ -63,8 +63,8 @@ def update_my_profile(
     db: db_dependency,
     current_user: user_dependency
 ):
-    for key, value in dict(update_data):
-        current_user.key = value
+    for key, value in dict(update_data).items():
+        setattr(current_user, key, value)
     db.commit()
     db.refresh(current_user)
     return current_user
