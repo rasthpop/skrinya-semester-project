@@ -99,7 +99,7 @@ export default function DonationCard({
         }
 
         try {
-          const res = await axios.get(`http://127.0.0.1:8000/users/jars/saved`, {
+          const res = await axios.get(`${process.env.NEXT_PUBLIC_RENDER_URL}/users/jars/saved`, {
             headers: {
               Authorization: `Bearer ${token}`,
             },
@@ -116,7 +116,7 @@ export default function DonationCard({
 
 
         try {
-          const user_info = await axios.get(`http://127.0.0.1:8000/users/me`, {
+          const user_info = await axios.get(`${process.env.NEXT_PUBLIC_RENDER_URL}/users/me`, {
             headers: {
               Authorization: `Bearer ${token}`,
             },

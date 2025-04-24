@@ -83,7 +83,7 @@ export default function Registration() {
       });
 
       try {
-        const res = await axios.post("http://localhost:8000/auth", formData);
+        const res = await axios.post(`${process.env.NEXT_PUBLIC_RENDER_URL}/auth`, formData);
         localStorage.setItem("user", regformData.username);
         await login(regformData.username, regformData.password);
         router.push("/post");

@@ -26,21 +26,21 @@ export default function Profile() {
 
     const fetchData = async () => {
       try {
-        const user = await axios.get("http://127.0.0.1:8000/users/me", {
+        const user = await axios.get(`${process.env.NEXT_PUBLIC_RENDER_URL}/users/me`, {
           headers: {
             Authorization: `Bearer ${storedToken}`,
           },
         });
         setUserData(user.data);
 
-        const jars = await axios.get("http://127.0.0.1:8000/jars/my/", {
+        const jars = await axios.get(`${process.env.NEXT_PUBLIC_RENDER_URL}/jars/my/`, {
           headers: {
             Authorization: `Bearer ${storedToken}`,
           },
         });
         setUserJars(jars.data);
 
-        const activity = await axios.get("http://127.0.0.1:8000/users/me/activity", {
+        const activity = await axios.get(`${process.env.NEXT_PUBLIC_RENDER_URL}/users/me/activity`, {
           headers: {
             Authorization: `Bearer ${storedToken}`,
           },
@@ -72,7 +72,7 @@ export default function Profile() {
           <MyJars jars={user_jars} />
         </div>
         <div className="w-full flex justify-between">
-          <div className="w-[48%]"><Activity activity={activity}/></div>
+          {/* <div className="w-[48%]"><Activity activity={activity}/></div> */}
           <div className="w-[48%]"><History/></div>
         </div>
       </div>

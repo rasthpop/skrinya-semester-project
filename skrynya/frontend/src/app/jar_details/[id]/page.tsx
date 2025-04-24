@@ -30,7 +30,7 @@ export interface JarBase {
 
 
 async function getJar(id: string): Promise<JarBase> {
-  const res = await fetch(`http://localhost:8000/jars/${id}`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_RENDER_URL}/jars/${id}`, {
     cache: "no-store", // щоб не кешувалось
   });
 
@@ -40,7 +40,7 @@ async function getJar(id: string): Promise<JarBase> {
 }
 
 async function getUser(username: string) {
-    const user = await axios.get(`http://localhost:8000/users/${username}`)
+    const user = await axios.get(`${process.env.NEXT_PUBLIC_RENDER_URL}/users/${username}`)
     return user.data
 }
 

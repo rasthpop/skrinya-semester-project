@@ -1,16 +1,9 @@
 "use client"
 
 import React, { useEffect } from "react";
-import HomePage from "./home/page";
 
-import Sidebar from "@/components/sidebar";
-import Profile from "./profile/page";
-import Header from "@/components/header";
-import Registration from "./login/page";
 import JarForm from "./post/page";
-
 import { useRouter } from "next/navigation";
-import { AuthProvider } from "./AuthContext";
 
 
 
@@ -21,6 +14,9 @@ export default function Home() {
   useEffect(() => {
     if (isAuthenticated) {
       router.push("/profile"); // Redirect to profile if logged in
+    }
+    else {
+      router.push("/home")
     }
   }, [isAuthenticated]);
 

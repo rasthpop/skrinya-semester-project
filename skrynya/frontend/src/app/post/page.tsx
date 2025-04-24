@@ -53,7 +53,7 @@ export default function JarForm() {
     if (photo) formData.append("photo", photo);
 
     try {
-      const res = await axios.post("http://127.0.0.1:8000/jars/", formData, {
+      const res = await axios.post(`${process.env.NEXT_PUBLIC_RENDER_URL}/jars/`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "multipart/form-data",
@@ -153,7 +153,7 @@ export default function JarForm() {
           {/* Submit Button */}
           <button
             onClick={handleCreate}
-            className="bg-main text-white py-3 rounded-xl font-semibold hover:brightness-110 transition duration-300"
+            className="bg-main cursor-pointer text-white py-3 rounded-xl font-semibold hover:brightness-110 transition duration-300"
             >
             Створити
           </button>

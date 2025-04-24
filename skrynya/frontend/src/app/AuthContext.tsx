@@ -38,7 +38,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
             formData.append("password", password);
 
             const response = await axios.post<{ access_token: string; user: User }>(
-                "http://localhost:8000/auth/token",
+                `${process.env.NEXT_PUBLIC_RENDER_URL}/auth/token`,
                 formData,
                 {
                     headers: { "Content-Type": "application/x-www-form-urlencoded" },

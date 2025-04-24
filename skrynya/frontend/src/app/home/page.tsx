@@ -2,11 +2,8 @@
 
 import React, { useEffect, useState } from "react"
 import axios from "axios";
-import JarCard from "@/components/profile_jarcard"
-import { GetServerSideProps } from 'next';
 import DonationCard from "@/components/jar_card";
 import Sidebar from "@/components/sidebar";
-import { useRouter } from "next/navigation";
 import Carousel from "../../components/carousel";
 import Header from "@/components/header";
 
@@ -34,7 +31,7 @@ export default function HomePage() {
   useEffect(() => {
     async function fetchJars() {
       try {
-        const res = await axios.get('http://127.0.0.1:8000/jars/');
+        const res = await axios.get(`${process.env.NEXT_PUBLIC_RENDER_URL}/jars/`);
         setJars(res.data);
         console.log(res.data);
       } catch (err) {
@@ -63,7 +60,7 @@ export default function HomePage() {
     async function fetchSavedJars() {
       try {
         const token = localStorage.getItem("token");
-        const res = await axios.get("http://127.0.0.1:8000/users/jars/saved", {
+        const res = await axios.get(`${process.env.NEXT_PUBLIC_RENDER_URL}/users/jars/saved`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },

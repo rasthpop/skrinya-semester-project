@@ -43,7 +43,7 @@ export default function DonationCard({
         try {
           if (!active) {
             // Save jar
-            await axios.post(`http://127.0.0.1:8000/users/jars/${id}/save`, null, {
+            await axios.post(`${process.env.NEXT_PUBLIC_RENDER_URL}/users/jars/${id}/save`, null, {
               headers: {
                 Authorization: `Bearer ${token}`,
               },
@@ -51,7 +51,7 @@ export default function DonationCard({
             console.log("Jar saved!");
           } else {
             // Unsave jar
-            await axios.post(`http://127.0.0.1:8000/users/jars/${id}/unsave`, null, {
+            await axios.post(`${process.env.NEXT_PUBLIC_RENDER_URL}/users/jars/${id}/unsave`, null, {
               headers: {
                 Authorization: `Bearer ${token}`,
               },
@@ -76,7 +76,7 @@ export default function DonationCard({
         }
 
         try {
-          const res = await axios.get(`http://127.0.0.1:8000/users/jars/saved`, {
+          const res = await axios.get(`${process.env.NEXT_PUBLIC_RENDER_URL}/users/jars/saved`, {
             headers: {
               Authorization: `Bearer ${token}`,
             },
@@ -91,7 +91,7 @@ export default function DonationCard({
           console.error("Full error:", err);
         }
         try {
-          const user_info = await axios.get(`http://127.0.0.1:8000/users/${author}`, {
+          const user_info = await axios.get(`${process.env.NEXT_PUBLIC_RENDER_URL}/users/${author}`, {
             headers: {
               Authorization: `Bearer ${token}`,
             },

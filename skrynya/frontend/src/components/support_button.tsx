@@ -34,7 +34,7 @@ export default function SupportButton({ jar_id }: SupportButtonProps) {
 
     try {
       setLoading(true);
-      await axios.post(`http://localhost:8000/donations/${jar_id}`, { amount }, {
+      await axios.post(`${process.env.NEXT_PUBLIC_RENDER_URL}/donations/${jar_id}`, { amount }, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -68,7 +68,7 @@ export default function SupportButton({ jar_id }: SupportButtonProps) {
       <button
         disabled={loading}
         onClick={handleClick}
-        className="px-6 py-3 bg-main text-white rounded-lg text-lg hover:opacity-90 transition disabled:opacity-50"
+        className="px-6 py-3 bg-main text-white cursor-pointer rounded-lg text-lg hover:opacity-90 transition disabled:opacity-50"
       >
         {showInput ? "Надіслати" : "Підтримати"}
       </button>
