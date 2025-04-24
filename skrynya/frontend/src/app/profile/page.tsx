@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState, useEffect } from "react";
+import { useRouter } from 'next/navigation';
 import ProfileCard from "@/components/profilecard";
 import MyJars from "@/components/profile_myjars";
 import Header from "@/components/header";
@@ -10,10 +11,14 @@ import Activity from "@/components/activity";
 import History from "@/components/profile_transaction_history";
 
 export default function Profile() {
+  const router = useRouter();
   const [user_data, setUserData] = useState<any>(null);
   const [user_jars, setUserJars] = useState<any>([]);
   const [token, setToken] = useState<string | null>(null);
   const [activity, setActivity] = useState<any>([]);
+  const handleEdit = () => {
+    router.push('/edit-profile');
+  };
 
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
@@ -66,6 +71,7 @@ export default function Profile() {
             phone={user_data["phone"]}
             since={user_data["created_at"].split("T")[0]}
             imageUrl={user_data["image"]}
+            onEdit={handleEdit}
           />
         )}
         <div>
