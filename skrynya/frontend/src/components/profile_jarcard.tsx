@@ -22,7 +22,7 @@ export default function DonationCard({
     tags,
     goal,
     raised,
-    author,
+    // author,
     imageUrl,
     status_,
 }: DonationCardProps) {

@@ -13,7 +13,7 @@ interface NavItem {
 }
 
 const Sidebar: FC = () => {
-  const [isOpen, setIsOpen] = useState(true);
+  // const [isOpen, setIsOpen] = useState(true);
 
   const authContext = useContext(AuthContext);
 
