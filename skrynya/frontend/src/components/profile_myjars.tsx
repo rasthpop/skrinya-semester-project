@@ -5,7 +5,16 @@ import DonationCard from "./profile_jarcard";
 
 
 type MyJarsProps = {
-    jars: any[]
+    jars: {
+        id: number;
+        title: string;
+        tags: string;
+        goal_amount: number;
+        collected_amount: number;
+        created_by: string;
+        status: string;
+        picture: string;
+    }[]
   }
   export default function MyJars({jars}: MyJarsProps) {
     // console.log("jars", jars)

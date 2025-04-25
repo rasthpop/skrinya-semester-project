@@ -1,6 +1,6 @@
 "use client";
 
-import { FC, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Bookmark } from "lucide-react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
@@ -29,7 +29,7 @@ export default function DonationCard({
     const [first_name, setFirstName] = useState("");
     const percentage = Math.min((raised / goal) * 100, 100);
     const tagList = tags.split(",").map((tag) => tag.trim());
-    const key = localStorage.getItem("key");
+    // const key = localStorage.getItem("key");
     const router = useRouter()
 
     const handleToggleSave = async () => {
@@ -59,11 +59,14 @@ export default function DonationCard({
             console.log("Jar unsaved!");
           }
           setActive(!active);
-        } catch (err: any) {
-          console.error("Failed to toggle jar save:");
-          console.error("Status:", err.response?.status);
-          console.error("Data:", err.response?.data);
-          console.error("Full error:", err);
+        } catch (err: unknown) {
+          if (axios.isAxiosError(err)) {
+            console.error("Failed to toggle jar save:");
+            console.error("Status:", err.response?.status);
+            console.error("Data:", err.response?.data);
+          } else {
+            console.error("An unexpected error occurred:", err);
+          }
         }
       };
 
@@ -82,14 +85,20 @@ export default function DonationCard({
             },
           });
           const savedJars = res.data || [];
-          const isAlreadySaved = savedJars.some((jar: any) => jar.id === id);
+          const isAlreadySaved = savedJars.some((jar: DonationCardProps) => jar.id === id);
           setActive(isAlreadySaved);
-        } catch (err: any) {
-          console.error("Failed to fetch saved jars:");
-          console.error("Status:", err.response?.status);
-          console.error("Data:", err.response?.data);
-          console.error("Full error:", err);
-        }
+
+        } 
+        catch (err: unknown) {
+          if (axios.isAxiosError(err)) {
+            console.error("Failed to fetch saved jars:");
+            console.error("Status:", err.response?.status);
+            console.error("Data:", err.response?.data);
+          } else {
+            console.error("An unexpected error occurred:", err);
+            }        
+          }
+
         try {
           const user_info = await axios.get(`${process.env.NEXT_PUBLIC_RENDER_URL}/users/${author}`, {
             headers: {
@@ -98,12 +107,16 @@ export default function DonationCard({
           });
           setFirstName(user_info.data["first_name"]);
           setSecondName(user_info.data["second_name"]);
-        } catch (err: any) {
-          console.error("Failed to fetch user data:");
-          console.error("Status:", err.response?.status);
-          console.error("Data:", err.response?.data);
-          console.error("Full error:", err);
-        }
+        } 
+        catch (err: unknown) {
+          if (axios.isAxiosError(err)) {
+            console.error("Failed to fetch saved jars:");
+            console.error("Status:", err.response?.status);
+            console.error("Data:", err.response?.data);
+          } else {
+            console.error("An unexpected error occurred:", err);
+            }        
+          }
       }
       isSaved()
       console.log(active)

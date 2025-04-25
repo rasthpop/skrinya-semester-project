@@ -83,12 +83,16 @@ export default function Registration() {
       });
 
       try {
-        const res = await axios.post(`${process.env.NEXT_PUBLIC_RENDER_URL}/auth`, formData);
+        await axios.post(`${process.env.NEXT_PUBLIC_RENDER_URL}/auth`, formData);
         localStorage.setItem("user", regformData.username);
         await login(regformData.username, regformData.password);
         router.push("/home");
-      } catch (error: any) {
-        setFormErrors({ username: error.response?.data || "Помилка реєстрації" });
+      } catch (error: unknown) {
+        if (axios.isAxiosError(error) && error.response) {
+          setFormErrors({ username: error.response.data || "Помилка реєстрації" });
+        } else {
+          setFormErrors({ username: "Помилка реєстрації" });
+        }
       }
 
     } else {
@@ -100,8 +104,12 @@ export default function Registration() {
       try {
         await login(logformData.login, logformData.password);
         localStorage.setItem("user", logformData.login);
-      } catch (error: any) {
-        setFormErrors({ login: "Невірний логін або пароль" });
+      } catch (error: unknown) {
+        if (axios.isAxiosError(error) && error.response) {
+          setFormErrors({ login: error.response.data || "Невірний логін або пароль" });
+        } else {
+          setFormErrors({ login: "Невірний логін або пароль" });
+        }
         err = true
       }
       if (!err) {
