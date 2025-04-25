@@ -15,6 +15,13 @@ import Header from "@/components/header";
 //     tags: string[]; // бо Enums приходять як строки
 //   }
 
+
+interface PageProps {
+  params: {
+    id: string;
+  };
+}
+
 export interface JarBase {
     id: number
     title: string;
@@ -45,7 +52,7 @@ async function getUser(username: string) {
 }
 
 
-export default async function JarDetailsPage({ params }: { params: { id: string } }) {
+export default async function JarDetailsPage({ params }: PageProps) {
   const jar = await getJar(params.id);
     const user = await getUser(jar.created_by)
   const percentage = Math.min((jar.collected_amount / jar.goal_amount) * 100, 100);
