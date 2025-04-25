@@ -1,4 +1,4 @@
-export function StatusBar({ current, total }) {
+export function StatusBar({ current, total }: { current: number; total: number }) {
     const percentage = Math.round((current / total) * 100);
   
     return (

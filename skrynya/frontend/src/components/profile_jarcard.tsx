@@ -1,10 +1,9 @@
 "use client";
 
-import { FC, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Bookmark } from "lucide-react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { stat } from "fs";
 
 interface DonationCardProps {
   id: number;               // 👈 Додано

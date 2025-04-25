@@ -86,7 +86,7 @@ export default function Registration() {
         const res = await axios.post(`${process.env.NEXT_PUBLIC_RENDER_URL}/auth`, formData);
         localStorage.setItem("user", regformData.username);
         await login(regformData.username, regformData.password);
-        router.push("/post");
+        router.push("/home");
       } catch (error: any) {
         setFormErrors({ username: error.response?.data || "Помилка реєстрації" });
       }
@@ -95,13 +95,17 @@ export default function Registration() {
       const formData = new FormData();
       formData.append("login", logformData.login);
       formData.append("password", logformData.password);
+      let err = false
 
       try {
         await login(logformData.login, logformData.password);
         localStorage.setItem("user", logformData.login);
-        router.push("/home");
       } catch (error: any) {
         setFormErrors({ login: "Невірний логін або пароль" });
+        err = true
+      }
+      if (!err) {
+        router.push("/home");
       }
     }
   };

@@ -2,7 +2,6 @@
 
 import React, { useEffect } from "react";
 
-import JarForm from "./post/page";
 import { useRouter } from "next/navigation";
 
 
@@ -21,7 +20,5 @@ export default function Home() {
   }, [isAuthenticated]);
 
   
-  return (
-    <JarForm/>
-  );
+  return <></>;
 }

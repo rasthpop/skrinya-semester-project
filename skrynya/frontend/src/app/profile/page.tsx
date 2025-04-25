@@ -4,10 +4,8 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from 'next/navigation';
 import ProfileCard from "@/components/profilecard";
 import MyJars from "@/components/profile_myjars";
-import Header from "@/components/header";
 import axios from "axios";
 import Sidebar from "@/components/sidebar";
-import Activity from "@/components/activity";
 import History from "@/components/profile_transaction_history";
 
 export default function Profile() {

@@ -1,5 +1,5 @@
 "use client"
-import React, { useEffect, useContext } from "react";
+import React from "react";
 
 type ProfileCardProps = {
   first_name: string;
