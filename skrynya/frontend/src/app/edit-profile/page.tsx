@@ -4,6 +4,17 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import ProfileEdit from '@/components/profile_edit';
 
+type ProfileEditForm = {
+  formData: {
+    firstName: string;
+    lastName: string;
+    phone: string;
+    username: string;
+    password: string;
+    email: string;
+  };
+}
+
 type ProfileData = {
   first_name: string;
   last_name: string;
@@ -12,6 +23,8 @@ type ProfileData = {
   password: string;
   email: string;
 };
+
+
 
 export default function EditProfilePage() {
   const router = useRouter();
@@ -60,7 +73,7 @@ export default function EditProfilePage() {
           password: data.password,
           email: data.email
         });
-      } catch (err: any) {
+      } catch (err: unknown | any) {
         setError(err.message);
       } finally {
         setLoading(false);
@@ -71,7 +84,7 @@ export default function EditProfilePage() {
   }, [token]);
 
   // 3. handle save
-  const handleSave = async (newData: any) => {
+  const handleSave = async (newData: ProfileEditForm) => {
     if (!token) return;
     try {
       const res = await fetch(
@@ -83,12 +96,12 @@ export default function EditProfilePage() {
             Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({
-            "first_name": newData.firstName,
-            "second_name": newData.lastName,
-            "phone": newData.phone,
-            "username": newData.username,
-            "password": newData.password,
-            "email": newData.email
+            "first_name": newData.formData.firstName,
+            "second_name": newData.formData.lastName,
+            "phone": newData.formData.phone,
+            "username": newData.formData.username,
+            "password": newData.formData.password,
+            "email": newData.formData.email
           })
         }
       );
