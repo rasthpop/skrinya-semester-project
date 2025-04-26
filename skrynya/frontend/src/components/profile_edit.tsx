@@ -4,14 +4,14 @@ import { useRouter } from 'next/navigation';
 
 type ProfileEditProps = {
   formData: {
-    first_name: string;
-    last_name: string;
+    firstName: string;
+    lastName: string;
     phone: string;
     username: string;
     password: string;
     email: string;
   };
-  onSave: (newData: any) => void; // Function to save the new profile data
+  onSave: (newData: ProfileEditProps) => void; // Function to save the new profile data
   onCancel: () => void; // Function to cancel the editing and go back to ProfileCard
 };
 
@@ -21,30 +21,32 @@ export default function ProfileEdit({
   onCancel,
 }: ProfileEditProps) {
   const router = useRouter();
-  const [error, setError] = useState('');
-  const [firstName, setFirstName] = useState(formData.first_name);
-  const [lastName, setLastName] = useState(formData.last_name);
+  // const [error, setError] = useState('');
+  const [firstName, setFirstName] = useState(formData.firstName);
+  const [lastName, setLastName] = useState(formData.lastName);
   const [phone, setPhone] = useState(formData.phone);
   const [username, setUserName] = useState(formData.username);
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState(formData.email);
   const handleSave = () => {
     onSave({
-      firstName,
-      lastName,
-      phone,
-      username,
-      password,
-      email,
+      formData: {
+        firstName,
+        lastName,
+        phone,
+        username,
+        password,
+        email,
+      },
+      onSave,
+      onCancel,
     });
   };
-const handleCancel = () => {
-  router.push('/profile');
-};
-  // const handleSave = () => {
-  //   const updatedData = { first_name: firstName, last_name: lastName, email, phone };
-  //   onSave(updatedData); // Save the new data and return it to the parent
-  // };
+// const handleCancel = () => {
+//   router.push('/profile');
+// };
+
+
 
   return (
     <div className="flex gap-4 items-start mx-4">

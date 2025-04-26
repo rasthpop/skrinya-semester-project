@@ -45,8 +45,8 @@ export default function SupportButton({ jar_id }: SupportButtonProps) {
 
       router.refresh();
 
-    } catch (err: any) {
-      console.error("Помилка при донаті:", err.response?.data || err.message);
+    } catch {
+      console.error("Помилка при донаті");
       alert("Щось пішло не так");
     } finally {
       setLoading(false);

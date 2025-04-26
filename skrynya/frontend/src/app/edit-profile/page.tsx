@@ -73,8 +73,12 @@ export default function EditProfilePage() {
           password: data.password,
           email: data.email
         });
-      } catch (err: unknown | any) {
-        setError(err.message);
+      } catch (err: unknown) {
+        if (err instanceof Error) {
+          setError(err.message);
+        } else {
+          setError('An unknown error occurred.');
+        }
       } finally {
         setLoading(false);
       }
@@ -113,8 +117,12 @@ export default function EditProfilePage() {
       }
   
       router.push('/profile');
-    } catch (err: any) {
-      alert(`Could not save profile: ${err.message}`);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        alert(`Could not save profile: ${err.message}`);
+      } else {
+        alert('Could not save profile: An unknown error occurred.');
+      }
     }
   };
 
@@ -129,7 +137,14 @@ export default function EditProfilePage() {
     <div className="p-4">
       <h1 className="text-2xl mb-4">Редагування профілю</h1>
       <ProfileEdit
-        formData={formData}
+        formData={{
+          firstName: formData.first_name,
+          lastName: formData.last_name,
+          phone: formData.phone,
+          username: formData.username,
+          password: formData.password,
+          email: formData.email,
+        }}
         onSave={handleSave}
         onCancel={handleCancel}
       />

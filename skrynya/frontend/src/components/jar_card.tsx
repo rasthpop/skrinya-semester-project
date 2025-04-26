@@ -26,69 +26,105 @@ export default function DonationCard({
     imageUrl,
     created_at
 }: DonationCardProps) {
-  const [active, setActive] = useState(false);
-  const [second_name, setSecondName] = useState("");
-  const [first_name, setFirstName] = useState("");
-  const percentage = Math.min((raised / goal) * 100, 100);
-  const tagList = tags.split(",").map((tag) => tag.trim());
-  const router = useRouter();
+    const [active, setActive] = useState(false);
+    const [second_name, setSecondName] = useState("");
+    const [first_name, setFirstName] = useState("");
+    const percentage = Math.min((raised / goal) * 100, 100);
+    const tagList = tags.split(",").map((tag) => tag.trim());
+    // const key = localStorage.getItem("key");
+    const router = useRouter()
 
-  const handleToggleSave = async () => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      console.error("No token found");
-      router.push("/login");
-      return;
-    }
-    try {
-      if (!active) {
-        await axios.post(`${process.env.NEXT_PUBLIC_RENDER_URL}/users/jars/${id}/save`, null, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-      } else {
-        await axios.post(`${process.env.NEXT_PUBLIC_RENDER_URL}/users/jars/${id}/unsave`, null, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+    const handleToggleSave = async () => {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          console.error("No token found");
+          router.push("/login")
+          return;
+        }
+      
+        try {
+          if (!active) {
+            // Save jar
+            await axios.post(`${process.env.NEXT_PUBLIC_RENDER_URL}/users/jars/${id}/save`, null, {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            });
+            console.log("Jar saved!");
+          } else {
+            // Unsave jar
+            await axios.post(`${process.env.NEXT_PUBLIC_RENDER_URL}/users/jars/${id}/unsave`, null, {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            });
+            console.log("Jar unsaved!");
+          }
+          setActive(!active);
+        } catch (err: unknown) {
+          if (axios.isAxiosError(err)) {
+            console.error("Failed to toggle jar save:");
+            console.error("Status:", err.response?.status);
+            console.error("Data:", err.response?.data);
+          } else {
+            console.error("An unexpected error occurred:", err);
+          }
+        }
+      };
+
+    useEffect(() => {
+      const isSaved = async () => {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          console.error("No token found");
+          return;
+        }
+
+        try {
+          const res = await axios.get(`${process.env.NEXT_PUBLIC_RENDER_URL}/users/jars/saved`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          const savedJars = res.data || [];
+          const isAlreadySaved = savedJars.some((jar: DonationCardProps) => jar.id === id);
+          setActive(isAlreadySaved);
+
+        } 
+        catch (err: unknown) {
+          if (axios.isAxiosError(err)) {
+            console.error("Failed to fetch saved jars:");
+            console.error("Status:", err.response?.status);
+            console.error("Data:", err.response?.data);
+          } else {
+            console.error("An unexpected error occurred:", err);
+            }        
+          }
+
+        try {
+          const user_info = await axios.get(`${process.env.NEXT_PUBLIC_RENDER_URL}/users/${author}`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          setFirstName(user_info.data["first_name"]);
+          setSecondName(user_info.data["second_name"]);
+        } 
+        catch (err: unknown) {
+          if (axios.isAxiosError(err)) {
+            console.error("Failed to fetch saved jars:");
+            console.error("Status:", err.response?.status);
+            console.error("Data:", err.response?.data);
+          } else {
+            console.error("An unexpected error occurred:", err);
+            }        
+          }
       }
-      setActive(!active);
-    } catch (err: any) {
-      console.error("Failed to toggle jar save:", err);
-    }
-  };
+      isSaved()
+      console.log(active)
+    }, [])
 
-  useEffect(() => {
-    async function fetchData() {
-      const token = localStorage.getItem("token");
-      if (!token) return;
-
-      try {
-        const res = await axios.get(`${process.env.NEXT_PUBLIC_RENDER_URL}/users/jars/saved`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        const savedJars = res.data || [];
-        const isAlreadySaved = savedJars.some((jar: any) => jar.id === id);
-        setActive(isAlreadySaved);
-
-        const user_info = await axios.get(`${process.env.NEXT_PUBLIC_RENDER_URL}/users/${author}`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        setFirstName(user_info.data["first_name"]);
-        setSecondName(user_info.data["second_name"]);
-      } catch (err: any) {
-        console.error("Error fetching data:", err);
-      }
-    }
-    fetchData();
-  }, []);
-
-  const formatDate = (dateStr: string) => {
-    const date = new Date(dateStr);
-    return date.toLocaleDateString("uk-UA"); // формат день.місяць.рік
-  };
+  
 
   return (
     <div className="bg-white rounded-xl shadow-md overflow-hidden w-[300px] h-[400px] flex flex-col font-romono mb-10">
