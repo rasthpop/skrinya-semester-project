@@ -173,17 +173,18 @@ export default function DonationCard({
           <p className="text-[10px] sm:text-xs text-gray-600">Автор: {first_name} {second_name}</p>
           <p className="text-[10px] sm:text-xs text-gray-600">Створено: {formatDate(created_at)}</p>
         </div>
-    
-        {/* Raised Amount */}
-        <div className="flex justify-end items-end px-4">
-          <div className="text-xs sm:text-sm font-roman text-main">
-            {raised}/{goal}
+        <div className="mt-auto">
+          {/* Raised Amount */}
+          <div className="flex justify-end items-end px-4">
+            <div className="text-xs sm:text-sm font-roman text-main">
+              {raised}/{goal}
+            </div>
           </div>
-        </div>
-    
-        {/* Progress Bar */}
-        <div className="mt-1 w-full h-2 sm:h-3 bg-gray-200 overflow-hidden rounded">
-          <div className="h-full bg-main" style={{ width: `${percentage}%` }} />
+      
+          {/* Progress Bar */}
+          <div className="mt-1 w-full h-2 sm:h-3 bg-gray-200 overflow-hidden rounded">
+            <div className="h-full bg-main" style={{ width: `${percentage}%` }} />
+          </div>
         </div>
       </div>
     );
