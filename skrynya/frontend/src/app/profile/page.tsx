@@ -86,9 +86,9 @@ export default function Profile() {
   }, []);
 
   return (
-    <main className="flex">
+    <main className="flex ">
       <Sidebar />
-      <div className="font-lex ml-54 pt-8 px-8 flex flex-col gap-12 mb-20">
+      <div className="font-lex  md:justify-start md:ml-54 pt-8 flex flex-col gap-12">
         {user_data && (
           <ProfileCard
             first_name={user_data["first_name"]}
@@ -114,7 +114,7 @@ export default function Profile() {
         </div>
         <div className="w-full flex justify-between">
           {/* <div className="w-[48%]"><Activity activity={activities}/></div> */}
-          <div className="w-[48%]"><History/></div>
+          <div className="w-full md:w-[48%]"><History/></div>
         </div>
       </div>
     </main>
