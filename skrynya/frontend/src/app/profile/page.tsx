@@ -7,13 +7,37 @@ import MyJars from "@/components/profile_myjars";
 import axios from "axios";
 import Sidebar from "@/components/sidebar";
 import History from "@/components/profile_transaction_history";
+// import Activity from "@/components/activity";
 
 export default function Profile() {
   const router = useRouter();
-  const [user_data, setUserData] = useState<any>(null);
-  const [user_jars, setUserJars] = useState<any>([]);
-  const [token, setToken] = useState<string | null>(null);
-  const [activity, setActivity] = useState<any>([]);
+  interface UserData {
+    first_name: string;
+    second_name: string;
+    email: string;
+    phone: string;
+    created_at: string;
+    image: string;
+  }
+  interface Jar {
+    id: string;
+    name: string;
+    balance: number;
+    created_at: string;
+  }
+  // interface Activities {
+  //   id: string;
+  //   type: string;
+  //   description: string;
+  //   date: string;
+  // }
+
+  const [user_data, setUserData] = useState<UserData | null>(null);
+
+  const [user_jars, setUserJars] = useState<Jar[]>([]);
+  // const [activities, setActivity] = useState<Activities[]>([]);
+  
+  // const [token, setToken] = useState<string | null>(null);
   const handleEdit = () => {
     router.push('/edit-profile');
   };
@@ -24,9 +48,9 @@ export default function Profile() {
       console.log("No token found");
       return;
     }
-
-    setToken(storedToken);
-
+    
+    // setToken(storedToken);
+    
     const fetchData = async () => {
       try {
         const user = await axios.get(`${process.env.NEXT_PUBLIC_RENDER_URL}/users/me`, {
@@ -43,14 +67,18 @@ export default function Profile() {
         });
         setUserJars(jars.data);
 
-        const activity = await axios.get(`${process.env.NEXT_PUBLIC_RENDER_URL}/users/me/activity`, {
-          headers: {
-            Authorization: `Bearer ${storedToken}`,
-          },
-        });
-        setActivity(activity.data);
-      } catch (err: any) {
-        console.error("Error fetching data:", err.response?.data || err.message);
+        // const activity = await axios.get(`${process.env.NEXT_PUBLIC_RENDER_URL}/users/me/activity`, {
+        //   headers: {
+        //     Authorization: `Bearer ${storedToken}`,
+        //   },
+        // });
+        // setActivity(activity.data);
+      } catch (err: unknown) {
+        if (axios.isAxiosError(err) && err.response) {
+          console.error("Error fetching data:", err.response.data);
+        } else {
+          console.error("Error fetching data:", (err as Error).message);
+        }
       }
     };
 
@@ -73,10 +101,19 @@ export default function Profile() {
           />
         )}
         <div>
-          <MyJars jars={user_jars} />
+          <MyJars jars={user_jars.map(jar => ({
+            id: parseInt(jar.id),
+            title: jar.name,
+            tags: "",
+            goal_amount: 0,
+            collected_amount: jar.balance,
+            created_by: "",
+            status: "",
+            picture: ""
+          }))} />
         </div>
         <div className="w-full flex justify-between">
-          {/* <div className="w-[48%]"><Activity activity={activity}/></div> */}
+          {/* <div className="w-[48%]"><Activity activity={activities}/></div> */}
           <div className="w-[48%]"><History/></div>
         </div>
       </div>

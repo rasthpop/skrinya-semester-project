@@ -100,8 +100,12 @@ export default function JarForm() {
 
       console.log("Jar created successfully:", res.data);
       router.push("/post");
-    } catch (err: any) {
-      console.error("Error creating jar:", err.response?.data || err.message || err);
+    } catch (err: unknown) {
+      if (axios.isAxiosError(err)) {
+        console.error("Error creating jar:", err.response?.data || err.message);
+      } else {
+        console.error("Error creating jar:", err);
+      }
     }
   }
 

@@ -22,7 +22,7 @@ export default function DonationCard({
     tags,
     goal,
     raised,
-    author,
+    // author,
     imageUrl,
     status_,
 }: DonationCardProps) {
@@ -51,7 +51,7 @@ export default function DonationCard({
     // console.log("author", author)
     // const percentage = Math.min((raised / goal) * 100, 100);
     const tagList = tags.split(",").map((tag) => tag.trim());
-    const key = localStorage.getItem("key");
+    // const key = localStorage.getItem("key");
     const router = useRouter()
 
     const handleToggleSave = async () => {
@@ -65,7 +65,7 @@ export default function DonationCard({
         try {
           if (!active) {
             // Save jar
-            await axios.post(`http://127.0.0.1:8000/users/jars/${id}/save`, null, {
+            await axios.post(`${process.env.NEXT_PUBLIC_RENDER_URL}/users/jars/${id}/save`, null, {
               headers: {
                 Authorization: `Bearer ${token}`,
               },
@@ -73,7 +73,7 @@ export default function DonationCard({
             console.log("Jar saved!");
           } else {
             // Unsave jar
-            await axios.post(`http://127.0.0.1:8000/users/jars/${id}/unsave`, null, {
+            await axios.post(`${process.env.NEXT_PUBLIC_RENDER_URL}/${id}/unsave`, null, {
               headers: {
                 Authorization: `Bearer ${token}`,
               },
@@ -81,11 +81,14 @@ export default function DonationCard({
             console.log("Jar unsaved!");
           }
           setActive(!active);
-        } catch (err: any) {
+        } catch (err: unknown) {
           console.error("Failed to toggle jar save:");
-          console.error("Status:", err.response?.status);
-          console.error("Data:", err.response?.data);
-          console.error("Full error:", err);
+          if (axios.isAxiosError(err) && err.response) {
+            console.error("Status:", err.response.status);
+            console.error("Data:", err.response.data);
+          } else {
+            console.error("Full error:", err);
+          }
         }
     };
 
@@ -104,13 +107,17 @@ export default function DonationCard({
             },
           });
           const savedJars = res.data || [];
-          const isAlreadySaved = savedJars.some((jar: any) => jar.id === id);
+          const isAlreadySaved = savedJars.some((jar: DonationCardProps) => jar.id === id);
           setActive(isAlreadySaved);
-        } catch (err: any) {
+        } 
+        catch (err: unknown) {
           console.error("Failed to fetch saved jars:");
-          console.error("Status:", err.response?.status);
-          console.error("Data:", err.response?.data);
-          console.error("Full error:", err);
+          if (axios.isAxiosError(err) && err.response) {
+            console.error("Status:", err.response.status);
+            console.error("Data:", err.response.data);
+          } else {
+            console.error("Full error:", err);
+          }
         }
 
 
@@ -123,11 +130,15 @@ export default function DonationCard({
         setFirstName(user_info.data["first_name"])
         setSecondName(user_info.data["second_name"])
         // console.log("User info:", first_name, second_name);
-        } catch (err: any) {
-          console.error("Failed to fetch user info:");
-          console.error("Status:", err.response?.status);
-          console.error("Data:", err.response?.data);
-          console.error("Full error:", err);
+        } 
+        catch (err: unknown) {
+          console.error("Failed to fetch saved jars:");
+          if (axios.isAxiosError(err) && err.response) {
+            console.error("Status:", err.response.status);
+            console.error("Data:", err.response.data);
+          } else {
+            console.error("Full error:", err);
+          }
         }
       }
       isSaved()

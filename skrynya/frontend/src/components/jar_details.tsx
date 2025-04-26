@@ -17,7 +17,7 @@ const gatherings = [
   }
 ];
 
-export default function jar_details() {
+export default function JarDetails() {
   const { id } = useParams();
   const numericId = parseInt(id ?? "");
   if (isNaN(numericId)) return <p>Invalid gathering ID</p>;
