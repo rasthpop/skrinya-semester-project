@@ -46,8 +46,12 @@ export default function HomePage() {
 
   useEffect(() => {
     async function fetchSavedJars() {
+    const token = localStorage.getItem("token");
+    if (!token) {
+        setSavedJars([])
+        return; 
+    }
       try {
-        const token = localStorage.getItem("token");
         const res = await axios.get(`${process.env.NEXT_PUBLIC_RENDER_URL}/users/jars/saved`, {
           headers: {
             Authorization: `Bearer ${token}`,

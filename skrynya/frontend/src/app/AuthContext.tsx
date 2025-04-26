@@ -33,26 +33,29 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
     async function login(username: string, password: string): Promise<void> {
         try {
-            const formData = new URLSearchParams();
-            formData.append("username", username);
-            formData.append("password", password);
-
-            const response = await axios.post<{ access_token: string; user: User }>(
-                `${process.env.NEXT_PUBLIC_RENDER_URL}/auth/token`,
-                formData,
-                {
-                    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-                }
-            );
-
-            axios.defaults.headers.common["Authorization"] = `Bearer ${response.data.access_token}`;
-            localStorage.setItem("token", response.data.access_token);
-            setUser(response.data.user);
-            router.push("/");
+          const formData = new URLSearchParams();
+          formData.append("username", username);
+          formData.append("password", password);
+      
+          const response = await axios.post<{ access_token: string; user: User }>(
+            `${process.env.NEXT_PUBLIC_RENDER_URL}/auth/token`,
+            formData,
+            {
+              headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            }
+          );
+      
+          axios.defaults.headers.common["Authorization"] = `Bearer ${response.data.access_token}`;
+          localStorage.setItem("token", response.data.access_token);
+          setUser(response.data.user);
+          // router.push("/") — ВИДАЛИ звідси!!! (бо ти вже редіректиш у handleSubmit)
+          
         } catch (error) {
-            console.error("Login failed:", error);
+          console.error("Login failed:", error);
+          throw error; // ✅ ОБОВ'ЯЗКОВО додати цей рядок
         }
-    }
+      }
+      
 
     function logout(): void {
         setUser(null);

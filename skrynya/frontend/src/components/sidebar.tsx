@@ -30,16 +30,28 @@ const Sidebar: FC = () => {
     setToken(storedToken);
   }, []);
 
+
   const handleLogout = () => {
     logout();
     router.push("/login");
   };
 
+
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(prev => !prev);
   };
 
+  const [token, setToken] = useState<string | null>(null);
+  const [profileHref, setProfileHref] = useState<string>("/login");
+  const router = useRouter();
+
+
   const profileHref = user ? "/profile" : "/login";
+
+  useEffect(() => { 
+    const profileHref = token ? "/profile" : "/login";
+    setProfileHref(profileHref);
+  }, [token]);
 
   const navItems: NavItem[] = [
     { label: "Головна Сторінка", href: "/home", icon: <Home size={20} /> },

@@ -31,6 +31,7 @@ export default function ProfileCard(props: ProfileCardProps) {
         <span>Електронна Пошта: <span className="font-medium">{props.email}</span></span>
         <span>Номер Телефону: <span className="font-medium">{props.phone}</span></span>
         <span>Дата Реєстрації: <span className="font-medium">{props.since}</span></span>
+
       </div>
 
       {/* Edit Button */}
