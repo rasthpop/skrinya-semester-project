@@ -5,15 +5,9 @@ import axios from "axios";
 import Header from "@/components/header";
 // import JarBase from "../../../../../backend/api/routers/jars";
 
-// export interface Jar {
-//     id: number;
-//     title: string;
-//     description: string;
-//     goal_amount: number;
-//     collected_amount: number;
-//     status: string;
-//     tags: string[]; // бо Enums приходять як строки
-//   }
+interface JarDetailsPageProps {
+  params: { id: string }
+}
 
 export interface JarBase {
     id: string;
@@ -45,7 +39,7 @@ async function getUser(username: string) {
 }
 
 
-export default async function JarDetailsPage({ params }: { params: { id: string } }) {
+export default async function JarDetailsPage({ params }: JarDetailsPageProps) {
   const jar = await getJar(params.id);
     const user = await getUser(jar.created_by)
   const percentage = Math.min((jar.collected_amount / jar.goal_amount) * 100, 100);
