@@ -2,7 +2,7 @@
 import SupportButton from "@/components/support_button";
 import Sidebar from "@/components/sidebar";
 import axios from "axios";
-import Header from "@/components/header";
+
 // import JarBase from "../../../../../backend/api/routers/jars";
 
 export type paramsType = Promise<{ id: string }>;

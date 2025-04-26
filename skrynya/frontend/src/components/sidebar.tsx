@@ -1,15 +1,16 @@
 "use client";
 
 import { FC, useState, useContext, MouseEventHandler, useEffect } from "react";
-import { Home, User, Plus, DoorOpen } from "lucide-react";
+import { Home, User, Plus, DoorOpen, LogIn } from "lucide-react";
 import AuthContext from "@/app/AuthContext";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 interface NavItem {
   label: string;
   href: string | CallableFunction;
   icon: React.JSX.Element;
-  action?: MouseEventHandler<HTMLAnchorElement>;
+  action?: MouseEventHandler<HTMLButtonElement>;
 }
 
 const Sidebar: FC = () => {
@@ -22,14 +23,16 @@ const Sidebar: FC = () => {
   }
 
   const { logout, user } = authContext;
-  const ProfileHref = (): string => {
-    if (user) {
-      return "/profile";
-    }
-    return "/login";
+
+  const profileHref = user ? "/profile" : "/login";
+
+  const handleLogout = () => {
+    logout();
+    router.push("/login");
   };
 
   const [token, setToken] = useState<string | null>(null);
+  const router = useRouter();
 
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
@@ -38,56 +41,74 @@ const Sidebar: FC = () => {
 
   const navItems: NavItem[] = [
     { label: "Головна Сторінка", href: "/home", icon: <Home size={20} /> },
-    { label: "Мій Профіль", href: ProfileHref(), icon: <User size={20} /> },
+    { label: "Мій Профіль", href: typeof profileHref === "string" ? profileHref : "/login", icon: <User size={20} /> },
     { label: "Опублікувати Збір", href: "/post", icon: <Plus size={20} /> },
-    {
-      label: "Вийти",
-      href: "#",
-      icon: <DoorOpen size={20} />,
-      action: () => {
-        logout();
-        window.location.reload(); // Refresh the page after logout
-      },
-    },
   ];
+
+  const authItem: NavItem = token
+    ? { label: "Вийти", href: "#", icon: <DoorOpen size={20} />, action: handleLogout }
+    : { label: "Авторизуватися", href: "/login", icon: <LogIn size={20} /> };
+
 
   return (
     <aside
-      className={`fixed h-screen bg-main z-[99999]border-r border-zinc-200 dark:border-zinc-800 transition-all duration-300 ease-in-out `}
-    >
-      <div className="relative p-4">
-        <h1
-          className={`text-xl font-bold text-zinc-800 dark:text-white transition-opacity`}
-        >
-          Skrynya
-        </h1>
+    className={`fixed h-screen bg-main z-[99999] border-r border-zinc-200 dark:border-zinc-800 transition-all duration-300 ease-in-out `}
+  >
+    <div className="relative p-4">
+      <h1
+        className={`text-xl font-bold text-zinc-800 dark:text-white transition-opacity`}
+      >
+        Skrynya
+      </h1>
+    </div>
+
+    <nav className="flex flex-col justify-between h-[calc(100%-64px)] px-4 mt-4 pb-4">
+      <div className="flex flex-col gap-2">
+        {navItems.map((item) => (
+          <Link
+            key={item.label}
+            href={typeof item.href === "string" ? item.href : "#"}
+            className="flex items-center gap-3 text-sm px-3 py-2 rounded-lg text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
+          >
+            {item.icon}
+            <span
+              className={`transition-opacity`}
+            >
+              {item.label}
+            </span>
+          </Link>
+        ))}
       </div>
 
-      <nav className="flex flex-col gap-2 px-4 mt-4">
-        {navItems.map((item) => {
-          if (item.label === "Вийти" && token === null) {
-            return null;
-          }
-          return (
-            <Link
-              key={typeof item.href === "string" ? item.href : "callable-function"}
-              href={typeof item.href === "function" ? item.href() : item.href}
-              onClick={item.action}
-              className={`${
-                item.label === "Вийти" ? "mt-[428px]" : ""
-              }  flex items-center gap-3 text-sm px-3 py-2 rounded-lg text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors`}
+      <div>
+        {authItem.action ? (
+          <button
+            onClick={authItem.action}
+            className="w-full flex items-center gap-3 text-sm px-3 py-2 rounded-lg text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
+          >
+            {authItem.icon}
+            <span
+              className={`transition-opacity`}
             >
-              {item.icon}
-              <span
-                className={`transition-opacity`}
-              >
-                {item.label}
-              </span>
-            </Link>
-          );
-        })}
-      </nav>
-    </aside>
+              {authItem.label}
+            </span>
+          </button>
+        ) : (
+          <Link
+            href={typeof authItem.href === "string" ? authItem.href : "#"}
+            className="flex items-center gap-3 text-sm px-3 py-2 rounded-lg text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
+          >
+            {authItem.icon}
+            <span
+              className={`transition-opacity`}
+            >
+              {authItem.label}
+            </span>
+          </Link>
+        )}
+      </div>
+    </nav>
+  </aside>
   );
 };
 
