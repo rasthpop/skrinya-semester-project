@@ -9,7 +9,10 @@ Base.metadata.create_all(bind=engine)
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=['http://localhost:3000'],
+    allow_origins=[
+        'http://localhost:3000',
+        'skrinya-semester-project-5aljb13x2-rasthpops-projects.vercel.app'
+        ],
     allow_credentials=True,
     allow_methods=['*'],
     allow_headers=['*'],
