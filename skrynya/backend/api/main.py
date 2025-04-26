@@ -11,7 +11,8 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         'http://localhost:3000',
-        'skrinya-semester-project-5aljb13x2-rasthpops-projects.vercel.app'
+        'skrinya-semester-project-5aljb13x2-rasthpops-projects.vercel.app',
+        "https://skrinya-semester-project.vercel.app"
         ],
     allow_credentials=True,
     allow_methods=['*'],
