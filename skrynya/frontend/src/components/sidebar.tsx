@@ -12,41 +12,37 @@ interface NavItem {
   icon: React.JSX.Element;
   action?: MouseEventHandler<HTMLButtonElement>;
 }
-
 const Sidebar: FC = () => {
-  const authContext = useContext(AuthContext);
-
-  if (!authContext) {
+    const authContext = useContext(AuthContext);
+    
+    if (!authContext) {
     throw new Error("AuthContext is not provided");
   }
-
+  
   const { logout, user } = authContext;
-  const router = useRouter();
-  const [token, setToken] = useState<string | null>(null);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
+  
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
     setToken(storedToken);
   }, []);
-
+  
 
   const handleLogout = () => {
-    logout();
+      logout();
     router.push("/login");
-  };
+};
 
 
+const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(prev => !prev);
+      setIsMobileMenuOpen(prev => !prev);
   };
-
+  
   const [token, setToken] = useState<string | null>(null);
   const [profileHref, setProfileHref] = useState<string>("/login");
   const router = useRouter();
 
-
-  const profileHref = user ? "/profile" : "/login";
+  
 
   useEffect(() => { 
     const profileHref = token ? "/profile" : "/login";
