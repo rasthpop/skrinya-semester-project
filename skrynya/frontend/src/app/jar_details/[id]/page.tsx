@@ -16,7 +16,7 @@ import Header from "@/components/header";
 //   }
 
 export interface JarBase {
-    id: number
+    id: string;
     title: string;
     description: string;
     goal_amount: number;
@@ -45,8 +45,8 @@ async function getUser(username: string) {
 }
 
 
-export default async function JarDetailsPage({ params }: { params: { id: number } }) {
-  const jar = await getJar(params.id.toString());
+export default async function JarDetailsPage({ params }: { params: { id: string } }) {
+  const jar = await getJar(params.id);
     const user = await getUser(jar.created_by)
   const percentage = Math.min((jar.collected_amount / jar.goal_amount) * 100, 100);
   const tagList = jar.tags.split(",").map((tag) => tag.trim());
