@@ -29,7 +29,7 @@ export default function MyJars({ jars }: MyJarsProps) {
           onClick={() => setIsAll(!isAll)}
           className="text-lg text-hiblue cursor-pointer"
         >
-          {!isAll ? "Показати більше" : "Сховати"}
+          {!isAll ? "Сховати" : "Показати більше"}
         </span>
       </div>
 

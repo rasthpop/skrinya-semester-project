@@ -129,13 +129,13 @@ export default function DonationCard({
       return date.toLocaleDateString("uk-UA"); // формат день.місяць.рік
     };
 
-  
     return (
-      <div className="bg-white rounded-xl shadow-md overflow-hidden w-[300px] h-[400px] flex flex-col font-romono mb-10">
-        <div className="relative w-full h-[180px] bg-gray-100">
+      <div className="bg-white rounded-xl shadow-md overflow-hidden w-full max-w-[300px] sm:max-w-[340px] flex flex-col font-romono mb-8">
+        {/* Image section */}
+        <div className="relative w-full h-[180px] sm:h-[200px] bg-gray-100">
           <Bookmark
             onClick={handleToggleSave}
-            className="absolute rounded-full bg-white p-2 w-10 h-10 cursor-pointer right-2 top-2 z-10"
+            className="absolute rounded-full bg-white p-2 w-9 h-9 sm:w-10 sm:h-10 cursor-pointer right-2 top-2 z-10"
             fill={active ? "#171717" : "none"}
           />
           <img
@@ -144,43 +144,49 @@ export default function DonationCard({
             alt="Image"
           />
         </div>
-  
+    
+        {/* Title + Button */}
         <div className="flex justify-between items-center px-4 pt-4">
-          <h2 className="tracking-tight text-base font-semibold line-clamp-2 pr-2">{title}</h2>
+          <h2 className="tracking-tight text-sm sm:text-base font-semibold line-clamp-2 pr-2">{title}</h2>
           <button
             onClick={() => router.push(`/jar_details/${id}`)}
-            className="text-xs text-white bg-main py-1 px-2 rounded-lg"
+            className="text-xs sm:text-sm text-white bg-main py-1 px-2 sm:py-2 sm:px-3 rounded-lg"
           >
             Детальніше
           </button>
         </div>
-  
+    
+        {/* Tags */}
         <div className="flex flex-wrap gap-2 px-4 mt-2">
           {tagList.map((tag) => (
             <span
               key={tag}
-              className="text-xs px-2 py-1 rounded-full font-medium bg-gray-100 text-gray-800"
+              className="text-[10px] sm:text-xs px-2 py-1 rounded-full font-medium bg-gray-100 text-gray-800"
             >
               {tag}
             </span>
           ))}
         </div>
-  
+    
+        {/* Author and Date */}
         <div className="px-4 flex flex-col gap-1 mt-2">
-          <p className="text-xs text-gray-600">Автор: {first_name} {second_name}</p>
-          <p className="text-xs text-gray-600">Створено: {formatDate(created_at)}</p>
+          <p className="text-[10px] sm:text-xs text-gray-600">Автор: {first_name} {second_name}</p>
+          <p className="text-[10px] sm:text-xs text-gray-600">Створено: {formatDate(created_at)}</p>
         </div>
-  
+    
+        {/* Raised Amount */}
         <div className="flex justify-end items-end px-4 mt-auto">
-          <div className="text-sm font-roman text-main">
+          <div className="text-xs sm:text-sm font-roman text-main">
             {raised}/{goal}
           </div>
         </div>
-  
-        <div className="mt-1 w-full h-3 bg-gray-200 overflow-hidden rounded">
+    
+        {/* Progress Bar */}
+        <div className="mt-1 w-full h-2 sm:h-3 bg-gray-200 overflow-hidden rounded">
           <div className="h-full bg-main" style={{ width: `${percentage}%` }} />
         </div>
       </div>
     );
+    
   }
   
