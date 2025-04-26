@@ -106,7 +106,7 @@ export default async function JarDetailsPage({ params }: { params: { id: string 
       </div>
   </div>
       <div className="w-[60%]">
-        <SupportButton jar_id={jar.id}/>
+        <SupportButton jar_id={parseInt(jar.id)}/>
       </div>
     </div>
     </main>
