@@ -14,15 +14,6 @@ type ProfileCardProps = {
 export default function ProfileCard(props: ProfileCardProps) {
   return (
     <div className="flex flex-col mt-14 md:flex-row gap-6 items-center md:items-start mx-4">
-      {/* Avatar */}
-      <Image
-        src={`data:image/png;base64,${props.imageUrl}`}
-        width={208}
-        height={208}
-        className="h-[140px] w-[140px] sm:h-[160px] sm:w-[160px] md:h-[180px] md:w-[180px] 2xl:h-[208px] 2xl:w-[208px] rounded-full bg-fallgray object-cover"
-        alt="User Avatar"
-      />
-
       {/* User Info */}
       <div className="flex flex-col flex-1">
         <div className="flex items-center flex-wrap gap-2">

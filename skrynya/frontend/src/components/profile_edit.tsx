@@ -50,9 +50,6 @@ export default function ProfileEdit({
 
   return (
     <div className="flex gap-4 items-start mx-4">
-      {/* Avatar */}
-      <div className="h-[180px] w-[180px] 2xl:h-[208px] 2xl:w-[208px] rounded-full bg-fallgray" />
-
       {/* Form fields */}
       <div className="flex-1 flex flex-col gap-4">
         {/* Username */}
