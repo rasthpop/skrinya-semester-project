@@ -137,7 +137,14 @@ export default function EditProfilePage() {
     <div className="p-4">
       <h1 className="text-2xl mb-4">Редагування профілю</h1>
       <ProfileEdit
-        formData={formData}
+        formData={{
+          firstName: formData.first_name,
+          lastName: formData.last_name,
+          phone: formData.phone,
+          username: formData.username,
+          password: formData.password,
+          email: formData.email,
+        }}
         onSave={handleSave}
         onCancel={handleCancel}
       />
