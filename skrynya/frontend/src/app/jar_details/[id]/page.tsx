@@ -2,7 +2,6 @@
 import SupportButton from "@/components/support_button";
 import Sidebar from "@/components/sidebar";
 import axios from "axios";
-import Header from "@/components/header";
 // import JarBase from "../../../../../backend/api/routers/jars";
 
 export type paramsType = Promise<{ id: string }>;
@@ -47,7 +46,6 @@ export default async function JarDetailsPage(props: { params: paramsType }) {
   return (
     <main className="">
     <Sidebar />
-      <Header/>
     <div className="p-10 flex flex-col justify-center  ml-54 space-y-6 font-romono">
       <div className="w-full flex justify-center">
         <img src={`data:image/png;base64,${jar.picture}`} alt={jar.title} className="w-[70%] h-64 object-cover rounded-lg" />
