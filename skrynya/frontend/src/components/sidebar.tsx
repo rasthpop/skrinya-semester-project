@@ -24,7 +24,7 @@ const Sidebar: FC = () => {
 
   const { logout, user } = authContext;
 
-  const profileHref = user ? "/profile" : "/login";
+//   const profileHref = user ? "/profile" : "/login";
 
   const handleLogout = () => {
     logout();
@@ -32,6 +32,7 @@ const Sidebar: FC = () => {
   };
 
   const [token, setToken] = useState<string | null>(null);
+  const [profileHref, setProfileHref] = useState<string>("/login");
   const router = useRouter();
 
   useEffect(() => {
@@ -39,9 +40,14 @@ const Sidebar: FC = () => {
     setToken(storedToken);
   }, []);
 
+  useEffect(() => { 
+    const profileHref = token ? "/profile" : "/login";
+    setProfileHref(profileHref);
+  }, [token]);
+
   const navItems: NavItem[] = [
     { label: "Головна Сторінка", href: "/home", icon: <Home size={20} /> },
-    { label: "Мій Профіль", href: typeof profileHref === "string" ? profileHref : "/login", icon: <User size={20} /> },
+    { label: "Мій Профіль", href: profileHref, icon: <User size={20} /> },
     { label: "Опублікувати Збір", href: "/post", icon: <Plus size={20} /> },
   ];
 
