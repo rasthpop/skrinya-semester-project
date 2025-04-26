@@ -19,7 +19,7 @@ const Sidebar: FC = () => {
     throw new Error("AuthContext is not provided");
   }
   
-  const { logout, user } = authContext;
+  const { logout } = authContext;
   
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
