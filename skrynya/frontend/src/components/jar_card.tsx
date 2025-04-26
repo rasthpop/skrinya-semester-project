@@ -130,7 +130,7 @@ export default function DonationCard({
     };
 
     return (
-      <div className="bg-white rounded-xl shadow-md overflow-hidden w-full max-w-[300px] sm:max-w-[340px] flex flex-col font-romono mb-8">
+      <div className="bg-white rounded-xl shadow-md overflow-hidden w-full max-h-[450px] max-w-[300px] sm:max-w-[340px] flex flex-col font-romono mb-8">
         {/* Image section */}
         <div className="relative w-full h-[180px] sm:h-[200px] bg-gray-100">
           <Bookmark
