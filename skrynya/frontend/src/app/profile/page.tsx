@@ -7,7 +7,7 @@ import MyJars from "@/components/profile_myjars";
 import axios from "axios";
 import Sidebar from "@/components/sidebar";
 import History from "@/components/profile_transaction_history";
-import Activity from "@/components/activity";
+// import Activity from "@/components/activity";
 
 export default function Profile() {
   const router = useRouter();
@@ -25,17 +25,17 @@ export default function Profile() {
     balance: number;
     created_at: string;
   }
-  interface Activities {
-    id: string;
-    type: string;
-    description: string;
-    date: string;
-  }
+  // interface Activities {
+  //   id: string;
+  //   type: string;
+  //   description: string;
+  //   date: string;
+  // }
 
   const [user_data, setUserData] = useState<UserData | null>(null);
 
   const [user_jars, setUserJars] = useState<Jar[]>([]);
-  const [activities, setActivity] = useState<Activities[]>([]);
+  // const [activities, setActivity] = useState<Activities[]>([]);
   
   // const [token, setToken] = useState<string | null>(null);
   const handleEdit = () => {
@@ -67,12 +67,12 @@ export default function Profile() {
         });
         setUserJars(jars.data);
 
-        const activity = await axios.get(`${process.env.NEXT_PUBLIC_RENDER_URL}/users/me/activity`, {
-          headers: {
-            Authorization: `Bearer ${storedToken}`,
-          },
-        });
-        setActivity(activity.data);
+        // const activity = await axios.get(`${process.env.NEXT_PUBLIC_RENDER_URL}/users/me/activity`, {
+        //   headers: {
+        //     Authorization: `Bearer ${storedToken}`,
+        //   },
+        // });
+        // setActivity(activity.data);
       } catch (err: unknown) {
         if (axios.isAxiosError(err) && err.response) {
           console.error("Error fetching data:", err.response.data);
@@ -101,10 +101,19 @@ export default function Profile() {
           />
         )}
         <div>
-          <MyJars jars={user_jars} />
+          <MyJars jars={user_jars.map(jar => ({
+            id: parseInt(jar.id),
+            title: jar.name,
+            tags: "",
+            goal_amount: 0,
+            collected_amount: jar.balance,
+            created_by: "",
+            status: "",
+            picture: ""
+          }))} />
         </div>
         <div className="w-full flex justify-between">
-          <div className="w-[48%]"><Activity activity={activities}/></div>
+          {/* <div className="w-[48%]"><Activity activity={activities}/></div> */}
           <div className="w-[48%]"><History/></div>
         </div>
       </div>

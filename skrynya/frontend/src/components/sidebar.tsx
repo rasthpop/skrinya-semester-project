@@ -53,15 +53,11 @@ const Sidebar: FC = () => {
 
   return (
     <aside
-      className={`fixed h-screen bg-main z-[99999]border-r border-zinc-200 dark:border-zinc-800 transition-all duration-300 ease-in-out ${
-        isOpen ? "w-54" : "w-12"
-      }`}
+      className={`fixed h-screen bg-main z-[99999]border-r border-zinc-200 dark:border-zinc-800 transition-all duration-300 ease-in-out `}
     >
       <div className="relative p-4">
         <h1
-          className={`text-xl font-bold text-zinc-800 dark:text-white transition-opacity ${
-            !isOpen ? "opacity-0 pointer-events-none" : ""
-          }`}
+          className={`text-xl font-bold text-zinc-800 dark:text-white transition-opacity`}
         >
           Skrynya
         </h1>
@@ -74,8 +70,8 @@ const Sidebar: FC = () => {
           }
           return (
             <Link
-              key={item.href}
-              href={item.href}
+              key={typeof item.href === "string" ? item.href : "callable-function"}
+              href={typeof item.href === "function" ? item.href() : item.href}
               onClick={item.action}
               className={`${
                 item.label === "Вийти" ? "mt-[428px]" : ""
@@ -83,9 +79,7 @@ const Sidebar: FC = () => {
             >
               {item.icon}
               <span
-                className={`transition-opacity ${
-                  !isOpen ? "opacity-0 pointer-events-none" : ""
-                }`}
+                className={`transition-opacity`}
               >
                 {item.label}
               </span>
