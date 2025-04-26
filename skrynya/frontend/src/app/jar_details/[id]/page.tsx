@@ -5,9 +5,7 @@ import axios from "axios";
 import Header from "@/components/header";
 // import JarBase from "../../../../../backend/api/routers/jars";
 
-interface JarDetailsPageProps {
-  params: { id: string }
-}
+export type paramsType = Promise<{ id: string }>;
 
 export interface JarBase {
     id: string;
@@ -39,8 +37,9 @@ async function getUser(username: string) {
 }
 
 
-export default async function JarDetailsPage({ params }: JarDetailsPageProps) {
-  const jar = await getJar(params.id);
+export default async function JarDetailsPage(props: { params: paramsType }) {
+  const { id } = await props.params
+  const jar = await getJar(id);
     const user = await getUser(jar.created_by)
   const percentage = Math.min((jar.collected_amount / jar.goal_amount) * 100, 100);
   const tagList = jar.tags.split(",").map((tag) => tag.trim());
