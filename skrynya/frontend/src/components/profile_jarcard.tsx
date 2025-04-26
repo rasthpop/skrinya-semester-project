@@ -83,7 +83,7 @@ export default function ProfileJarCard({
         </p>
         <img
           src={`data:image/png;base64,${imageUrl}`}
-          className="object-cover w-full h-full"
+          className="object-cover w-full h-[200px]"
           alt="Image"
         />
       </div>
