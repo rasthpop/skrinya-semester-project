@@ -117,21 +117,28 @@ export default function Registration() {
       }
     }
   };
-
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-zinc-100 to-zinc-300 px-4">
-      <a href="/home" className="absolute left-0 top-0 w-full bg-main h-14 text-2xl font-bold text-white flex items-center justify-center">Skrynya</a>
-      <div className="w-full max-w-xl bg-white rounded-2xl shadow-lg p-6 space-y-6">
-        <h2 className="text-2xl font-bold text-center text-gray-800">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-zinc-100 to-zinc-300 px-2 md:px-4 relative">
+      {/* Header link */}
+      <a
+        href="/home"
+        className="absolute left-0 top-0 w-full bg-main h-14 text-lg md:text-2xl font-bold text-white flex items-center justify-center"
+      >
+        Skrynya
+      </a>
+  
+      {/* White box */}
+      <div className="w-full max-w-xl md:rounded-2xl bg-white shadow-lg p-4 md:p-6 pt-20 space-y-6 min-h-screen md:min-h-fit flex flex-col justify-center">
+        <h2 className="text-xl md:text-2xl font-bold text-center text-gray-800">
           {isreg ? "Створити акаунт" : "Вхід"}
         </h2>
-
-        <form onSubmit={handleSubmit} className="flex flex-col space-y-6 p-5">
+  
+        <form onSubmit={handleSubmit} className="flex flex-col space-y-6 p-2 md:p-5">
           {isreg && (
             <>
               <div className="flex gap-2 flex-wrap">
                 <div className="w-full md:w-1/2">
-                  {formErrors.first_name && <p className="text-red-500 text-sm mb-1">{formErrors.first_name}</p>}
+                  {formErrors.first_name && <p className="text-red-500 text-xs md:text-sm mb-1">{formErrors.first_name}</p>}
                   <input
                     className={`input-style ${formErrors.first_name ? "border-red-500" : ""}`}
                     type="text"
@@ -143,7 +150,7 @@ export default function Registration() {
                   />
                 </div>
                 <div className="w-full md:w-1/2">
-                  {formErrors.second_name && <p className="text-red-500 text-sm mb-1">{formErrors.second_name}</p>}
+                  {formErrors.second_name && <p className="text-red-500 text-xs md:text-sm mb-1">{formErrors.second_name}</p>}
                   <input
                     className={`input-style ${formErrors.second_name ? "border-red-500" : ""}`}
                     type="text"
@@ -156,7 +163,7 @@ export default function Registration() {
                 </div>
               </div>
               <div className="flex flex-col gap-2">
-                {formErrors.username && <p className="text-red-500 text-sm mb-1">{formErrors.username}</p>}
+                {formErrors.username && <p className="text-red-500 text-xs md:text-sm mb-1">{formErrors.username}</p>}
                 <input
                   className={`input-style ${formErrors.username ? "border-red-500" : ""}`}
                   type="text"
@@ -166,7 +173,7 @@ export default function Registration() {
                   onChange={handleChange}
                   required
                 />
-                {formErrors.email && <p className="text-red-500 text-sm mb-1">{formErrors.email}</p>}
+                {formErrors.email && <p className="text-red-500 text-xs md:text-sm mb-1">{formErrors.email}</p>}
                 <input
                   className={`input-style ${formErrors.email ? "border-red-500" : ""}`}
                   type="email"
@@ -176,7 +183,7 @@ export default function Registration() {
                   onChange={handleChange}
                   required
                 />
-                {formErrors.phone && <p className="text-red-500 text-sm mb-1">{formErrors.phone}</p>}
+                {formErrors.phone && <p className="text-red-500 text-xs md:text-sm mb-1">{formErrors.phone}</p>}
                 <input
                   className={`input-style ${formErrors.phone ? "border-red-500" : ""}`}
                   type="text"
@@ -189,10 +196,10 @@ export default function Registration() {
               </div>
             </>
           )}
-
+  
           {!isreg && (
             <>
-              {formErrors.login && <p className="text-red-500 text-sm mb-1">{formErrors.login}</p>}
+              {formErrors.login && <p className="text-red-500 text-xs md:text-sm mb-1">{formErrors.login}</p>}
               <input
                 className={`input-style ${formErrors.login ? "border-red-500" : ""}`}
                 type="text"
@@ -204,8 +211,8 @@ export default function Registration() {
               />
             </>
           )}
-
-          {formErrors.password && <p className="text-red-500 text-sm mb-1">{formErrors.password}</p>}
+  
+          {formErrors.password && <p className="text-red-500 text-xs md:text-sm mb-1">{formErrors.password}</p>}
           <input
             className={`input-style ${formErrors.password ? "border-red-500" : ""}`}
             type="password"
@@ -215,10 +222,10 @@ export default function Registration() {
             onChange={handleChange}
             required
           />
-
+  
           {isreg && (
             <>
-              {formErrors.confirm && <p className="text-red-500 text-sm mb-1">{formErrors.confirm}</p>}
+              {formErrors.confirm && <p className="text-red-500 text-xs md:text-sm mb-1">{formErrors.confirm}</p>}
               <input
                 className={`input-style ${formErrors.confirm ? "border-red-500" : ""}`}
                 type="password"
@@ -230,38 +237,40 @@ export default function Registration() {
               />
             </>
           )}
-
+  
           <button
             type="submit"
-            className="w-full bg-main cursor-pointer text-white font-semibold py-2 px-4 rounded-lg transition"
+            className="w-full bg-main cursor-pointer text-white font-semibold py-2 px-4 rounded-lg transition text-sm md:text-base"
           >
             {isreg ? "Зареєструватися" : "Увійти"}
           </button>
-
-          <div className="flex justify-center gap-4">
+  
+          <div className="flex flex-col md:flex-row justify-center gap-2 md:gap-4 text-center">
             <span
               onClick={() => {
                 setReg(!isreg);
                 setFormErrors({});
               }}
-              className="text-sm text-hiblue hover:underline cursor-pointer"
+              className="text-xs md:text-sm text-hiblue hover:underline cursor-pointer"
             >
               {isreg ? "У мене вже є акаунт" : "Зареєструватися"}
             </span>
             {!isreg && (
-              <span className="text-sm text-hiblue hover:underline cursor-pointer">
+              <span className="text-xs md:text-sm text-hiblue hover:underline cursor-pointer">
                 Забули пароль?
               </span>
             )}
           </div>
         </form>
       </div>
-
+  
+      {/* Custom input styles */}
       <style jsx>{`
         .input-style {
-          @apply w-full px-4 py-2 border border-gray-300 rounded-lg bg-white text-sm text-gray-800 placeholder-gray-400 focus:outline-none transition;
+          @apply w-full px-4 py-2 border border-gray-300 rounded-lg bg-white text-sm md:text-base text-gray-800 placeholder-gray-400 focus:outline-none transition;
         }
       `}</style>
     </div>
   );
+  
 }

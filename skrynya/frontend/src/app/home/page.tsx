@@ -106,7 +106,7 @@ export default function HomePage() {
   return (
     <main className="flex mb-6">
       <Sidebar />
-      <div className="flex flex-col items-center justify-center w-full ml-54 overflow-x-hidden">
+      <div className="flex flex-col items-center justify-center w-full md:ml-54 overflow-x-hidden">
         <h1 className="text-4xl font-bold my-6 text-center">Головна</h1>
 
         {savedJars.length > 0 && (
@@ -116,7 +116,7 @@ export default function HomePage() {
         )}
 
         {/* Сортування і пошук на одному рівні */}
-        <div className="w-full max-w-6xl flex flex-col sm:flex-row sm:items-center justify-between mb-6 px-6 gap-4">
+        <div className="w-full max-w-6xl flex flex-col-reverse sm:flex-row-reverse sm:items-center justify-between mb-6 px-6 gap-4">
           <div className="flex items-center gap-2">
             <label htmlFor="sort" className="text-sm font-medium text-black dark:text-gray-700">
               Сортувати за:
