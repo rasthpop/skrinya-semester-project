@@ -65,7 +65,7 @@ export default function DonationCard({
         try {
           if (!active) {
             // Save jar
-            await axios.post(`http://127.0.0.1:8000/users/jars/${id}/save`, null, {
+            await axios.post(`${process.env.NEXT_PUBLIC_RENDER_URL}/users/jars/${id}/save`, null, {
               headers: {
                 Authorization: `Bearer ${token}`,
               },
@@ -73,7 +73,7 @@ export default function DonationCard({
             console.log("Jar saved!");
           } else {
             // Unsave jar
-            await axios.post(`http://127.0.0.1:8000/users/jars/${id}/unsave`, null, {
+            await axios.post(`${process.env.NEXT_PUBLIC_RENDER_URL}/${id}/unsave`, null, {
               headers: {
                 Authorization: `Bearer ${token}`,
               },
