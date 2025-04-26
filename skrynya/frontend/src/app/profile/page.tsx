@@ -86,9 +86,9 @@ export default function Profile() {
   }, []);
 
   return (
-    <main className="flex ">
+    <main className="flex justify-center md:justify-start">
       <Sidebar />
-      <div className="font-lex  md:justify-start md:ml-54 pt-8 flex flex-col gap-12">
+      <div className="font-lex md:justify-start md:ml-54 pt-8 flex justify-center flex-col gap-12">
         {user_data && (
           <ProfileCard
             first_name={user_data["first_name"]}

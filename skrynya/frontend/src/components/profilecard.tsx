@@ -1,5 +1,6 @@
 "use client"
 import React from "react";
+import Image from "next/image";
 
 type ProfileCardProps = {
   first_name: string;
@@ -12,10 +13,12 @@ type ProfileCardProps = {
 };
 export default function ProfileCard(props: ProfileCardProps) {
   return (
-    <div className="flex flex-col md:flex-row gap-6 items-center md:items-start mx-4">
+    <div className="flex flex-col mt-14 md:flex-row gap-6 items-center md:items-start mx-4">
       {/* Avatar */}
-      <img
+      <Image
         src={`data:image/png;base64,${props.imageUrl}`}
+        width={208}
+        height={208}
         className="h-[140px] w-[140px] sm:h-[160px] sm:w-[160px] md:h-[180px] md:w-[180px] 2xl:h-[208px] 2xl:w-[208px] rounded-full bg-fallgray object-cover"
         alt="User Avatar"
       />
