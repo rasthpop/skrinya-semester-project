@@ -99,7 +99,8 @@ export default function JarForm() {
       });
 
       console.log("Jar created successfully:", res.data);
-      router.push("/post");
+      alert("Збір створено! Зовсім скоро він буде перевірений.")
+      router.push("/profile");
     } catch (err: unknown) {
       if (axios.isAxiosError(err)) {
         console.error("Error creating jar:", err.response?.data || err.message);
