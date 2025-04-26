@@ -73,15 +73,15 @@ export default function Registration() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
+  
     if (isreg) {
       if (!validateReg()) return;
-
+  
       const formData = new FormData();
       Object.entries(regformData).forEach(([key, value]) => {
         if (key !== "confirm") formData.append(key, value);
       });
-
+  
       try {
         await axios.post(`${process.env.NEXT_PUBLIC_RENDER_URL}/auth`, formData);
         localStorage.setItem("user", regformData.username);
@@ -94,27 +94,19 @@ export default function Registration() {
           setFormErrors({ username: "Помилка реєстрації" });
         }
       }
-
+  
     } else {
-      const formData = new FormData();
-      formData.append("login", logformData.login);
-      formData.append("password", logformData.password);
-      let err = false
-
-      try {
-        await login(logformData.login, logformData.password);
-        localStorage.setItem("user", logformData.login);
-      } catch (error: unknown) {
-        if (axios.isAxiosError(error) && error.response) {
-          setFormErrors({ login: error.response.data || "Невірний логін або пароль" });
-        } else {
-          setFormErrors({ login: "Невірний логін або пароль" });
-        }
-        err = true
-      }
-      if (!err) {
-        router.push("/home");
-      }
+        try {
+            await login(logformData.login, logformData.password);
+            localStorage.setItem("user", logformData.login);
+            router.push("/home");
+          } catch (error: unknown) {
+            if (axios.isAxiosError(error) && error.response) {
+              const errorMessage = "Невірний логін або пароль";
+              setFormErrors({ login: errorMessage });
+            }
+          }
+          
     }
   };
 
