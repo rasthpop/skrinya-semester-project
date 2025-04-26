@@ -175,7 +175,7 @@ export default function DonationCard({
         </div>
     
         {/* Raised Amount */}
-        <div className="flex justify-end items-end px-4 mt-auto">
+        <div className="flex justify-end items-end px-4">
           <div className="text-xs sm:text-sm font-roman text-main">
             {raised}/{goal}
           </div>
