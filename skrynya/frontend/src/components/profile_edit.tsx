@@ -23,7 +23,7 @@ export default function ProfileEdit({
     const [firstName, setFirstName] = useState(formData.firstName);
     const [lastName, setLastName] = useState(formData.lastName);
     const [phone, setPhone] = useState(formData.phone);
-    const [username, setUserName] = useState(formData.username);
+    const [username] = useState(formData.username);
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState(formData.email);
     
