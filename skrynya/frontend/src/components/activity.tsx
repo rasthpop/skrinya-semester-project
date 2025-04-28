@@ -30,7 +30,7 @@ export default function Activity({ activity }: ActivityProps) {
         <h2 className="text-2xl">Статистика</h2>
       </div>
 
-      <div className="bg-fallgray py-8 pl-2 grid grid-cols-2 gap-y-4 gap-x-6 justify-items-start rounded-[4px] h-full mt-4">
+      <div className="bg-fallgray pt-8 pl-2 grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-6 justify-items-start rounded-[4px] h-[400px] ">
         <div className="flex flex-col gap-1">
           <h2 className="text-sm text-gray-700 font-semibold">Поточний стрік:</h2>
           <p className="text-lg">{activity.current_streak}</p>

@@ -247,11 +247,6 @@ export default function Registration() {
             >
               {isreg ? "У мене вже є акаунт" : "Зареєструватися"}
             </span>
-            {!isreg && (
-              <span className="text-xs md:text-sm text-hiblue hover:underline cursor-pointer">
-                Забули пароль?
-              </span>
-            )}
           </div>
         </form>
       </div>
