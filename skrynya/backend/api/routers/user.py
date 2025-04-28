@@ -1,12 +1,10 @@
 from fastapi import APIRouter, HTTPException
 from fastapi.responses import Response
-from api.deps import user_dependency, db_dependency
+from api.deps import user_dependency, db_dependency, bcrypt_context
 from api.models import User, Campaign, Donation
 from sqlalchemy.orm import joinedload
 from pydantic import BaseModel
 from datetime import datetime
-import base64
-
 class DonationBase(BaseModel):
     amount: int
     date: datetime
@@ -65,17 +63,25 @@ router = APIRouter(
 def get_my_profile(current_user: user_dependency):
     return current_user
 
-@router.post("/me")
+@router.put("/me")
 def update_my_profile(
     update_data: UserDict,
     db: db_dependency,
     current_user: user_dependency
 ):
-    for key, value in update_data.dict().items():
-        setattr(current_user, key, value)
+    current_user.first_name = update_data.first_name
+    current_user.second_name = update_data.second_name
+    current_user.phone = update_data.phone
+    current_user.username = update_data.username
+    current_user.email = update_data.email
+    if update_data.password:
+        current_user.hashed_password = bcrypt_context.hash(update_data.password)
+    
+    # for key, value in update_data.dict().items():
+    #     setattr(current_user, key, value)
     db.commit()
     db.refresh(current_user)
-    return current_user
+    return {"message": "Profile updated successfully"}
 
 
 def add_streak(db: db_dependency, user: user_dependency):
@@ -181,6 +187,11 @@ def unsave_jar(jar_id: int, db: db_dependency, user: user_dependency):
 def get_saved_jars(user : user_dependency, db: db_dependency):
     return db.query(Campaign).filter(Campaign.saved_by_users.any(id=user.id)).all()
 
+
+# @router.put("/user/hash")
+# def set_new_hashed_password(user: user_dependency, db: db_dependency, new_password: str):
+#     user.password = bcrypt_context.hash(new_password)
+#     db.commit()
 # response = requests.get("http://localhost:8000/users/profile_picture/admin")
 # img = Image.open(BytesIO(response.content))
 # img.show()
