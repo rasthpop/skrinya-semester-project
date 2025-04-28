@@ -184,3 +184,16 @@ def get_saved_jars(user : user_dependency, db: db_dependency):
 # response = requests.get("http://localhost:8000/users/profile_picture/admin")
 # img = Image.open(BytesIO(response.content))
 # img.show()
+
+
+
+# @router.patch("/me")
+# def make_admin(user_id: int, db: db_dependency):
+#     user = db.query(models.User).filter(models.User.id == user_id).first()
+#     if not user:
+#         raise HTTPException(status_code=404, detail="User not found")
+    
+#     user.is_admin = True
+#     db.commit()
+#     db.refresh(user)
+#     return {"message": f"User {user.username} is now an admin."}
