@@ -115,11 +115,11 @@ export default function Profile() {
         }))} />
 
         {activities && (
-          <div className="w-full flex justify-between">
-            <div className="w-[48%]">
+          <div className="w-full flex md:flex-row flex-col justify-between">
+            <div className="w-full md:w-[48%] mb-2 ">
               <Activity activity={activities} />
             </div>
-            <div className="w-[48%]">
+            <div className="w-full md:w-[48%]">
               <History donations={activities.donations} />
             </div>
           </div>
