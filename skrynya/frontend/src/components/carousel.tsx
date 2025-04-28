@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { Bookmark } from "lucide-react";
 // interface Jar {
 //   id: number
 //   title: string
@@ -48,8 +49,11 @@ export default function Carousel({ jars }: CarouselProps) {
         {jars.map((jar) => (
           <div key={jar.id} className="relative w-full flex-shrink-0">
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/50 to-transparent p-6 flex flex-col justify-end">
-              <span className="text-white/80 text-sm">{jar.created_by} збирає на</span>
-              <h2 className="text-3xl md:text-4xl text-white font-bold">{jar.title}</h2>
+              <span className="text-white/80 text-sm">{jar.created_by} збирає</span>
+              <div className="flex items-center gap-2">
+                <h2 className="text-3xl md:text-4xl text-white font-bold">{jar.title}</h2>
+                <Bookmark className='text-white/80' size={36} fill="white"/>
+                </div>
             </div>
         <img src={`data:image/png;base64,${jar.picture}`} alt="Image" className='w-full h-72 object-cover'/>
           </div>
