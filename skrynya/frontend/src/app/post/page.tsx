@@ -1,7 +1,7 @@
 "use client";
 
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useState, useEffect} from "react";
 import { useRouter } from "next/navigation";
 
 const MAX_DESCRIPTION_LENGTH = 500;
@@ -32,8 +32,13 @@ const TAG_OPTIONS = [
   "Інше",
 ];
 
+
 export default function JarForm() {
-  const router = useRouter();
+    const router = useRouter();
+    useEffect(() => {
+        const storedToken = localStorage.getItem("token");
+        if (!storedToken)
+            return router.push('/login')})
   const [jardata, setJarData] = useState({
     title: "",
     description: "",

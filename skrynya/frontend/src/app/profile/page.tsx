@@ -61,7 +61,8 @@ export default function Profile() {
 
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
-    if (!storedToken) return;
+    if (!storedToken)
+        return router.push('/home')
 
     const fetchData = async () => {
       try {
