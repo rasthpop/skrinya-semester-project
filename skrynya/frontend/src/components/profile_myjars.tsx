@@ -24,7 +24,7 @@ export default function MyJars({ jars }: MyJarsProps) {
   return (
     <div>
       <div className="flex justify-between w-full">
-        <h2 className="text-2xl font-bold">Мої Збори</h2>
+        <h2 className="text-2xl">Мої Збори</h2>
         <span
           onClick={() => setIsAll(!isAll)}
           className="text-lg text-hiblue cursor-pointer"

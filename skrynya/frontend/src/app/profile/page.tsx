@@ -11,6 +11,7 @@ import History from "@/components/profile_transaction_history";
 import Activity from "@/components/activity";
 
 interface UserData {
+username: string;
   first_name: string;
   second_name: string;
   email: string;
@@ -94,6 +95,7 @@ export default function Profile() {
       <div className="font-lex md:justify-start md:ml-54 pt-8 flex justify-center flex-col gap-12">
         {user_data && (
           <ProfileCard
+          username={user_data.username}
             first_name={user_data.first_name}
             last_name={user_data.second_name}
             email={user_data.email}
