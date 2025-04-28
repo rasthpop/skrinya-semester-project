@@ -63,7 +63,7 @@ export default function ProfileEdit({
             
                 setFormErrors(errors);
       
-        return Object.keys(errors).length === 1;
+        return Object.keys(errors).length === 0;
       };
 
     const renderError = (field: string) => (
