@@ -93,7 +93,7 @@ export default function ProfileJarCard({
         <h2 className="tracking-tight text-sm sm:text-base font-semibold line-clamp-2 flex-1">{title}</h2>
         <button
           onClick={() => router.push(`/jar_details/${id}`)}
-          className="text-[10px] sm:text-xs text-white bg-main py-1 px-2 rounded-lg whitespace-nowrap"
+          className="text-[10px] sm:text-xs text-white bg-main py-1 px-2 rounded-lg whitespace-nowrap cursor-pointer"
         >
           Детальніше
         </button>

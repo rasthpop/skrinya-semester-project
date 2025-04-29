@@ -56,10 +56,6 @@ input {
   font-size: 0.8rem;
 } */
 
-.input-style {
-  border-bottom: 1;
-  border-color: #171717;
-}
 
 textarea {
   resize: none;

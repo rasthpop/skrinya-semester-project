@@ -109,7 +109,7 @@ export default async function JarDetailsPage(props: { params: paramsType }) {
         </div>
 
         {/* Support button */}
-        <div className="w-full md:w-3/5">
+        <div className="w-full md:w-3/5 cursor-pointer">
           <SupportButton jar_id={parseInt(jar.id)} />
         </div>
       </div>

@@ -150,7 +150,7 @@ export default function DonationCard({
           <h2 className="tracking-tight text-sm sm:text-base font-semibold line-clamp-2 pr-2">{title}</h2>
           <button
             onClick={() => router.push(`/jar_details/${id}`)}
-            className="text-xs sm:text-sm text-white bg-main py-1 px-2 sm:py-2 sm:px-3 rounded-lg"
+            className="text-xs sm:text-sm text-white bg-main py-1 px-2 sm:py-2 sm:px-3 rounded-lg cursor-pointer"
           >
             Детальніше
           </button>

@@ -138,7 +138,7 @@ export default function JarForm() {
                 type="text"
                 name="title"
                 placeholder="Назва збору"
-                className="input-style"
+                className="border-b-1 border-gray-300"
               />
               {formErrors.title && (
                 <p className="text-red-500 text-sm mt-1">{formErrors.title}</p>
@@ -154,7 +154,7 @@ export default function JarForm() {
                 name="description"
                 maxLength={MAX_DESCRIPTION_LENGTH}
                 placeholder="Опис"
-                className="input-style h-40 resize-none w-full"
+                className="border-b-1 border-gray-300 h-40 resize-none w-full"
               />
               <div className="flex justify-between text-xs text-gray-500 mt-1">
                 <span>
@@ -173,7 +173,7 @@ export default function JarForm() {
                 type="text"
                 name="goal"
                 placeholder="Мета (сума)"
-                className="input-style"
+                className="border-b-1 border-gray-300"
               />
               {formErrors.goal && (
                 <p className="text-red-500 text-sm mt-1">{formErrors.goal}</p>
@@ -236,7 +236,7 @@ export default function JarForm() {
         </div>
 
         <style jsx>{`
-          .input-style {
+          .border-b-1 border-gray-300 {
             @apply w-full px-4 py-3 border border-gray-300 rounded-xl bg-white text-base text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-main focus:border-transparent transition;
           }
         `}</style>

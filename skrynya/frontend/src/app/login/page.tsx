@@ -71,7 +71,7 @@ export default function Registration() {
         break;
 
       case "phone":
-        if (!/^\+?\d{10,15}$/.test(value)) errors.phone = "Некоректний номер телефону, введіть номер у форматі 9 цифр без знаків.";
+        if (!/^\+?\d{10,15}$/.test(value)) errors.phone = "Некоректний номер телефону, введіть номер у форматі 10 цифр без знаків.";
         break;
 
       case "password":
@@ -214,7 +214,7 @@ export default function Registration() {
                 <div className="w-full md:w-1/2">
                   {renderError("first_name")}
                   <input
-                    className={`input-style ${formErrors.first_name ? "border-red-500" : ""}`}
+                    className={`border-b-1 border-gray-300 ${formErrors.first_name ? "border-red-500" : ""}`}
                     type="text"
                     name="first_name"
                     placeholder="Ім’я"
@@ -226,7 +226,7 @@ export default function Registration() {
                 <div className="w-full md:w-1/2">
                   {renderError("second_name")}
                   <input
-                    className={`input-style ${formErrors.second_name ? "border-red-500" : ""}`}
+                    className={`border-b-1 border-gray-300 ${formErrors.second_name ? "border-red-500" : ""}`}
                     type="text"
                     name="second_name"
                     placeholder="Прізвище"
@@ -240,7 +240,7 @@ export default function Registration() {
               <div className="flex flex-col gap-4">
                 {renderError("username")}
                 <input
-                  className={`input-style ${formErrors.username ? "border-red-500" : ""}`}
+                  className={`border-b-1 border-gray-300 ${formErrors.username ? "border-red-500" : ""}`}
                   type="text"
                   name="username"
                   placeholder="Ім'я користувача"
@@ -251,7 +251,7 @@ export default function Registration() {
   
                 {renderError("email")}
                 <input
-                  className={`input-style ${formErrors.email ? "border-red-500" : ""}`}
+                  className={`border-b-1 border-gray-300 ${formErrors.email ? "border-red-500" : ""}`}
                   type="email"
                   name="email"
                   placeholder="Електронна пошта"
@@ -262,7 +262,7 @@ export default function Registration() {
   
                 {renderError("phone")}
                 <input
-                  className={`input-style ${formErrors.phone ? "border-red-500" : ""}`}
+                  className={`border-b-1 border-gray-300 ${formErrors.phone ? "border-red-500" : ""}`}
                   type="text"
                   name="phone"
                   placeholder="Номер телефону"
@@ -278,7 +278,7 @@ export default function Registration() {
             <>
               {renderError("login")}
               <input
-                className={`input-style ${formErrors.login ? "border-red-500" : ""}`}
+                className={`border-b-1 border-gray-300 ${formErrors.login ? "border-red-500" : ""}`}
                 type="text"
                 name="login"
                 placeholder="Логін"
@@ -291,7 +291,7 @@ export default function Registration() {
   
           {renderError("password")}
           <input
-            className={`input-style ${formErrors.password ? "border-red-500" : ""}`}
+            className={`border-b-1 border-gray-300 ${formErrors.password ? "border-red-500" : ""}`}
             type="password"
             name="password"
             placeholder="Пароль"
@@ -305,7 +305,7 @@ export default function Registration() {
             <>
               {renderError("confirm")}
               <input
-                className={`input-style ${formErrors.confirm ? "border-red-500" : ""}`}
+                className={`border-b-1 border-gray-300 ${formErrors.confirm ? "border-red-500" : ""}`}
                 type="password"
                 name="confirm"
                 placeholder="Підтвердіть пароль"
@@ -339,11 +339,7 @@ export default function Registration() {
       </div>
   
       {/* Custom input styles */}
-      <style jsx>{`
-        .input-style {
-          @apply w-full px-4 py-2 border border-gray-300 rounded-lg bg-white text-sm md:text-base text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-main transition hover:border-main;
-        }
-      `}</style>
+
     </div>
   );
 } 

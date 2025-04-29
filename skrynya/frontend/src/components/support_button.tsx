@@ -54,7 +54,7 @@ export default function SupportButton({ jar_id }: SupportButtonProps) {
   };
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-2 cursor-pointer">
       {showInput && (
         <input
           type="number"
