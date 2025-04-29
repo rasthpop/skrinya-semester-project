@@ -59,7 +59,7 @@ The platform enables users to create, view, and support fundraising campaigns wi
 ### 1. Backend (local)
 
 ```bash
-cd backend
+cd backend/api
 pip install -r requirements.txt
 py fastapi run main.py #or py -m fastapi run main.py on Windows
 ```
