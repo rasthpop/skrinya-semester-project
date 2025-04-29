@@ -19,10 +19,10 @@ The platform enables users to create, view, and support fundraising campaigns wi
 
 | Frontend          | Backend        | Database      |
 |-------------------|----------------|---------------|
-| Next.js 14        | FastAPI         | PostgreSQL    |
-| React 18          | Uvicorn         | Prisma ORM    |
-| TailwindCSS       | Pydantic        |               |
-| TypeScript        |                 |               |
+| Next.js 14        | FastAPI        | SQLite        |
+| React 18          | Uvicorn        |               |
+| TailwindCSS       | Pydantic       |               |
+| TypeScript        |                |               |
 
 ## Project Structure
 
@@ -41,9 +41,9 @@ The platform enables users to create, view, and support fundraising campaigns wi
 ├── frontend/
 │   ├── public  
 │   ├── src
-│       ├── app     
-│       ├── components
-│       ├── fonts
+│   │   ├── app     
+│   │   ├── components
+│   │   ├── fonts
 │   ├── package.json  
 ├── alembic.ini
 └── README.md
@@ -76,17 +76,6 @@ npm run dev
 ```
 
 > Frontend will run at `http://localhost:3000`.
-
-### 3. Database
-
-- Set up a PostgreSQL database.
-- Configure your `.env` file in both `backend/` and `frontend/` for DB connection strings and API URLs.
-
-Example `.env` for backend:
-
-```
-DATABASE_URL=postgresql://user:password@localhost:5432/skrinya_db
-```
 
 ## Example Screenshots
 
