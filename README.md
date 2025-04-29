@@ -20,8 +20,8 @@ The platform enables users to create, view, and support fundraising campaigns wi
 | Frontend          | Backend        | Database      |
 |-------------------|----------------|---------------|
 | Next.js 14        | FastAPI        | SQLite        |
-| React 18          | Uvicorn        |               |
-| TailwindCSS       | Pydantic       |               |
+| React 19          |                |               |
+| TailwindCSS       |                |               |
 | TypeScript        |                |               |
 
 ## Project Structure
