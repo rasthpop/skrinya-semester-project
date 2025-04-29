@@ -1,26 +1,21 @@
-Of course!  
-I checked the repository [`rasthpop/skrinya-semester-project`](https://github.com/rasthpop/skrinya-semester-project), and based on its structure and purpose, here’s a **professional and complete README** you could use:
-
----
-
 # Skrinya Semester Project
 
-**Skrinya** is a web platform for hosting and supporting fundraising campaigns (similar to Kickstarter), developed as a semester project at УКУ (Ukrainian Catholic University).  
+**Skrinya** is a web application for hosting and supporting fundraising campaigns.
 The platform enables users to create, view, and support fundraising campaigns with detailed descriptions, progress tracking, and contributor management.
 
 ## Features
 
-- 📋 **Campaign Management**: Create and view detailed fundraising campaigns.
-- 🎯 **Progress Tracking**: Campaigns show current funding progress toward a goal.
-- 🔥 **Tagging System**: Easily categorize and discover campaigns by tags.
-- 👤 **User Profiles**: Manage your campaigns and view your contributions.
-- 🚀 **Support Campaigns**: Users can contribute to active campaigns.
-- 🛠 **Modern Stack**:
+- **Campaign management**: Create and view detailed fundraising campaigns.
+- **Progress tracking**: Campaigns show current funding progress toward a goal.
+- **Tagging system**: Easily categorize and discover campaigns by tags.
+- **User profiles**: Edit your profile and view your contributions.
+- **Support campaigns**: Users can contribute to active campaigns.
+- **Internal sturcture**:
   - **Frontend**: Next.js, React, TailwindCSS
   - **Backend**: FastAPI
-  - **Database**: PostgreSQL (via Prisma ORM)
+  - **Database**: SQLite
 
-## Tech Stack
+## Structure
 
 | Frontend          | Backend        | Database      |
 |-------------------|----------------|---------------|
@@ -33,15 +28,25 @@ The platform enables users to create, view, and support fundraising campaigns wi
 
 ```bash
 .
-├── backend/             # FastAPI backend app
-│   ├── main.py          # FastAPI entry point
-│   ├── routers/         # API route handlers
-│   └── models/          # Pydantic models
-├── frontend/            # Next.js frontend app
-│   ├── app/             # Next.js 14 (app router)
-│   ├── components/      # Reusable React components
-│   └── lib/             # API clients, helpers
-└── README.md            # This file
+├── backend/
+│   ├── api
+│   │   ├── routers/
+│   │   ├── __init__.py   
+│   │   ├── database.py
+│   │   ├── deps.py
+│   │   ├── main.py
+│   │   ├── models.py
+│   │── .env
+│   └── requirements.txt
+├── frontend/
+│   ├── public  
+│   ├── src
+│       ├── app     
+│       ├── components
+│       ├── fonts
+│   ├── package.json  
+├── alembic.ini
+└── README.md
 ```
 
 ## Setup Instructions
@@ -49,17 +54,15 @@ The platform enables users to create, view, and support fundraising campaigns wi
 ### Prerequisites
 
 - Node.js (v18+)
-- Python (v3.11+)
-- PostgreSQL database
+- Python (v3.12.5)
+- SQLite database
 
 ### 1. Backend
 
 ```bash
 cd backend
-python -m venv venv
-source venv/bin/activate   # or .\venv\Scripts\activate on Windows
 pip install -r requirements.txt
-uvicorn main:app --reload
+py fastapi run main.py #or py -m fastapi run main.py on Windows
 ```
 
 > By default, backend runs at `http://localhost:8000`.
@@ -85,35 +88,28 @@ Example `.env` for backend:
 DATABASE_URL=postgresql://user:password@localhost:5432/skrinya_db
 ```
 
-### 4. Prisma (if needed)
-
-```bash
-cd frontend
-npx prisma generate
-npx prisma migrate dev
-```
-
----
-
 ## Example Screenshots
 
-> (You can add screenshots here, e.g., campaign creation page, campaign list, contribution page.)
-
----
+![alt text](screenshots/image1.png)
+![alt text](screenshots/image2.png)
+![alt text](screenshots/image.png)
+![alt text](screenshots/image3.png)
 
 ## Development Notes
 
 - **Routing**: Frontend uses Next.js App Router (`/app`) structure.
 - **Backend CORS** is configured to allow connections from the frontend.
-- **APIs**: Campaigns, donations, and users are managed through RESTful FastAPI endpoints.
+- **APIs**: Campaigns, donations, and users are managed through RESTful FastAPI endpoints(GET, PUT, POST, DELETE).
 - **Styling**: TailwindCSS is used for fast, responsive UI development.
 
 ---
 
 ## Authors
 
-- [Rasthpop](https://github.com/rasthpop) — main developer
-- Semester Project — Ukrainian Catholic University
+- [rasthpop](https://github.com/rasthpop)
+- [ruzhylopv](https://github.com/ruzhylopv)
+- [LiliAlania](https://github.com/LiliAlania)
+- [irasvyrydenko](https://github.com/irasvyrydenko)
 
 ---
 
