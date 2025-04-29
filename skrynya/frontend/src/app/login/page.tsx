@@ -210,7 +210,7 @@ export default function Registration() {
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           {isreg && (
             <>
-              <div className="flex gap-4 flex-wrap">
+              <div className="flex w-full gap-4 flex-col md:flex-row">
                 <div className="w-full md:w-1/2">
                   {renderError("first_name")}
                   <input
