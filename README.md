@@ -1,6 +1,6 @@
-# Skrinya Semester Project
+# Skrynya Semester Project
 
-**Skrinya** is a web application for hosting and supporting fundraising campaigns.
+**Skrynya** is a web application for hosting and supporting fundraising campaigns.
 The platform enables users to create, view, and support fundraising campaigns with detailed descriptions, progress tracking, and contributor management.
 
 ## Features
@@ -11,15 +11,15 @@ The platform enables users to create, view, and support fundraising campaigns wi
 - **User profiles**: Edit your profile and view your contributions.
 - **Support campaigns**: Users can contribute to active campaigns.
 - **Internal sturcture**:
-  - **Frontend**: Next.js, React, TailwindCSS
-  - **Backend**: FastAPI
-  - **Database**: SQLite
+  - **Frontend**: Next.js, React, TailwindCSS, hosted on Vercel
+  - **Backend**: FastAPI, hosted on render
+  - **Database**: PostgreSQL, hosted on Render
 
 ## Structure
 
 | Frontend          | Backend        | Database      |
 |-------------------|----------------|---------------|
-| Next.js 14        | FastAPI        | SQLite        |
+| Next.js 14        | FastAPI        | PostgreSQL    |
 | React 19          |                |               |
 | TailwindCSS       |                |               |
 | TypeScript        |                |               |
@@ -55,9 +55,8 @@ The platform enables users to create, view, and support fundraising campaigns wi
 
 - Node.js (v18+)
 - Python (v3.12.5)
-- SQLite database
 
-### 1. Backend
+### 1. Backend (local)
 
 ```bash
 cd backend
@@ -67,7 +66,7 @@ py fastapi run main.py #or py -m fastapi run main.py on Windows
 
 > By default, backend runs at `http://localhost:8000`.
 
-### 2. Frontend
+### 2. Frontend (local)
 
 ```bash
 cd frontend
@@ -77,6 +76,9 @@ npm run dev
 
 > Frontend will run at `http://localhost:3000`.
 
+
+### 3. Hosted
+The website runs at `https://skrinya-semester-project.vercel.app/home`
 ## Example Screenshots
 
 ![alt text](screenshots/image1.png)
@@ -87,8 +89,8 @@ npm run dev
 ## Development Notes
 
 - **Routing**: Frontend uses Next.js App Router (`/app`) structure.
-- **Backend CORS** is configured to allow connections from the frontend.
-- **APIs**: Campaigns, donations, and users are managed through RESTful FastAPI endpoints(GET, PUT, POST, DELETE).
+- **Backend** is configured to allow connections from the frontend.
+- **APIs**: Jars (campaigns), donations, and users are managed through FastAPI endpoints(GET, PUT, POST, DELETE).
 - **Styling**: TailwindCSS is used for fast, responsive UI development.
 
 ---
@@ -99,13 +101,3 @@ npm run dev
 - [ruzhylopv](https://github.com/ruzhylopv)
 - [LiliAlania](https://github.com/LiliAlania)
 - [irasvyrydenko](https://github.com/irasvyrydenko)
-
----
-
-## License
-
-This project is licensed under the [MIT License](LICENSE).
-
----
-
-Would you also like me to prepare a shorter "TL;DR" version of the README for the repo description? 🚀
