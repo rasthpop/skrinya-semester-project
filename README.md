@@ -81,10 +81,10 @@ npm run dev
 The website runs at `https://skrinya-semester-project.vercel.app/home`
 ## Example Screenshots
 
-![alt text](screenshots/image1.png)
-![alt text](screenshots/image2.png)
-![alt text](screenshots/image.png)
-![alt text](screenshots/image3.png)
+![alt text](image1.png)
+![alt text](image2.png)
+![alt text](image.png)
+![alt text](image3.png)
 
 ## Development Notes
 
