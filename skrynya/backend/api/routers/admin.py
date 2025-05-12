@@ -45,7 +45,7 @@ def get_user(db: db_dependency, admin: admin_dependency, user_id: int):
     return user
 
 @router.post('/{jar_id}')
-def change_status(db: db_dependency, jar_id: int, status: JarStatus, user: user_dependency):
+def change_status(db: db_dependency, jar_id: int, status: JarStatus):
     '''
     Changes the status in the database
     Options:
@@ -55,6 +55,6 @@ def change_status(db: db_dependency, jar_id: int, status: JarStatus, user: user_
 
     '''
     jar = get_jar(db, jar_id)
-    if jar and validate_jar_by_user(db, user, jar):
+    if jar:
         jar.status = status
         db.commit()

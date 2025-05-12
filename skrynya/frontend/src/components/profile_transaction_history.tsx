@@ -27,8 +27,8 @@ export default function History({ donations }: HistoryProps) {
           try {
             const res = await axios.get(`${process.env.NEXT_PUBLIC_RENDER_URL}/jars/${donation.campaign_id}`);
             titles[donation.campaign_id] = res.data.title;
-          } catch (error: any) {
-            if (axios.isAxiosError(error) && error.response?.status === 404) {
+          } catch (error: unknown) {
+            if (error instanceof Error && axios.isAxiosError(error) && error.response?.status === 404) {
               console.warn(`Не знайдено збір з id ${donation.campaign_id}`);
               titles[donation.campaign_id] = "Збір видалено або закрито";
             } else {
@@ -60,7 +60,7 @@ export default function History({ donations }: HistoryProps) {
   return (
     <div className="h-full">
       <div className="flex justify-between">
-        <h2 className="text-2xl">Історія транзакцій</h2>
+        <h2 className="text-2xl ml-2">Історія транзакцій</h2>
       </div>
       <div className="bg-fallgray py-4 p-4 rounded-[4px] h-[400px] overflow-y-auto grid gap-4">
         {donations.length === 0 ? (

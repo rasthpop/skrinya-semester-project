@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import ProfileEdit from '@/components/profile_edit';
+import axios from 'axios';
 
 type ProfileEditForm = {
   formData: {
@@ -33,7 +34,7 @@ export default function EditProfilePage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // 1. load token on mount
+//   // 1. load token on mount
   useEffect(() => {
     const stored = localStorage.getItem('token');
     if (!stored) {
@@ -44,7 +45,7 @@ export default function EditProfilePage() {
     setToken(stored);
   }, []);
 
-  // 2. once token is set, fetch profile
+//   // 2. once token is set, fetch profile
   useEffect(() => {
     if (!token) return;    // wait until we have token
 
@@ -87,42 +88,28 @@ export default function EditProfilePage() {
     loadProfile();
   }, [token]);
 
-  // 3. handle save
-  const handleSave = async (newData: ProfileEditForm) => {
+//   // 3. handle save
+const handleSave = async (newData: ProfileEditForm) => {
     if (!token) return;
     try {
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_RENDER_URL}/users/me`,
-        {
-          method: 'POST',   // PATCH is more semantically correct for partial update
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({
-            "first_name": newData.formData.firstName,
-            "second_name": newData.formData.lastName,
-            "phone": newData.formData.phone,
-            "username": newData.formData.username,
-            "password": newData.formData.password,
-            "email": newData.formData.email
-          })
-        }
-      );
-      if (!res.ok) {
-        // parse out the JSON error detail
-        const errorDetail = await res.json().catch(() => null);
-        console.error('⚠️ 422 response detail:', errorDetail);
-        throw new Error(`Save failed ${res.status}`);
-      }
-  
+    console.log(`ROUTEROUTEROUTE ${process.env.NEXT_PUBLIC_RENDER_URL}/users/me`);
+      await axios.put(`${process.env.NEXT_PUBLIC_RENDER_URL}/users/me`, {
+        first_name: newData.formData.firstName,
+        second_name: newData.formData.lastName,
+        phone: newData.formData.phone,
+        username: newData.formData.username,
+        password: newData.formData.password,
+        email: newData.formData.email,
+      }, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
       router.push('/profile');
-    } catch (err: unknown) {
-      if (err instanceof Error) {
-        alert(`Could not save profile: ${err.message}`);
-      } else {
-        alert('Could not save profile: An unknown error occurred.');
-      }
+    } catch (error) {
+      console.error('Error updating profile:', error);
+      setError(`Failed to update profile: ${error}`);
     }
   };
 
@@ -130,9 +117,11 @@ export default function EditProfilePage() {
     router.push('/profile');
   };
 
-  if (loading) return <p>Завантаження…</p>;
-  if (error || !formData) return <p>Помилка: {error || 'Немає даних'}</p>;
-
+//   if (loading) return <p>Завантаження…</p>;
+//   if (error || !formData) return <p>Помилка: {error || 'Немає даних'}</p>;
+    if (loading) return <p>Завантаження…</p>;
+    if (error) return <p>Помилка: {error}</p>;
+    if (!formData) return <p>Немає даних профілю</p>;
   return (
     <div className="p-4">
       <h1 className="text-2xl mb-4">Редагування профілю</h1>

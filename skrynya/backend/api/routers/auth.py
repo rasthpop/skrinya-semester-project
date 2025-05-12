@@ -97,7 +97,9 @@ async def create_user(db: db_dependency,
         db.add(user_uploads_pfp)
 
     db.commit()
-    return {'message': 'User created successfully', 'user_id': create_user_model.id}	
+    return {'message': 'User created successfully', 'user_id': create_user_model.id}
+
+
 
 # @router.post('/', status_code=status.HTTP_201_CREATED)
 # async def create_user(db: db_dependency, create_user_request: UserCreatesRequest):

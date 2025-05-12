@@ -72,7 +72,8 @@ export default function HomePage() {
     return (
       jar.title.toLowerCase().includes(search) ||
       jar.description.toLowerCase().includes(search) ||
-      jar.created_by.toLowerCase().includes(search)
+      jar.created_by.toLowerCase().includes(search) ||
+      jar.tags.toLowerCase().includes(search)
     );
   });
 
@@ -110,7 +111,7 @@ export default function HomePage() {
   return (
     <main className="flex mb-6">
       <Sidebar />
-      <div className="flex flex-col items-center justify-center w-full ml-54 overflow-x-hidden">
+      <div className="flex flex-col items-center justify-center w-full md:ml-54 overflow-x-hidden">
         <h1 className="text-4xl font-bold my-6 text-center">Головна</h1>
 
         {savedJars.length > 0 && (
@@ -120,7 +121,7 @@ export default function HomePage() {
         )}
 
         {/* Сортування і пошук на одному рівні */}
-        <div className="w-full max-w-6xl flex flex-col sm:flex-row sm:items-center justify-between mb-6 px-6 gap-4">
+        <div className="w-full max-w-6xl flex flex-col-reverse sm:flex-row-reverse sm:items-center justify-between mb-6 px-6 gap-4">
           <div className="flex items-center gap-2">
             <label htmlFor="sort" className="text-sm font-medium text-black dark:text-gray-700">
               Сортувати за:
@@ -153,6 +154,16 @@ export default function HomePage() {
               }}
               className="border border-gray-300 dark:border-gray-700 rounded px-4 py-2 text-sm w-64 bg-white dark:bg-gray-800 text-gray-800 dark:text-white"
             />
+            <div className="group relative flex items-center">
+            <div className="w-5 h-5 flex items-center justify-center rounded-full bg-gray-300 dark:bg-gray-600 text-xs font-bold text-white cursor-pointer">
+            ?
+            </div>
+
+            {/* Підказка при наведенні */}
+            <div className="absolute left-1/2 -translate-x-1/2 top-8 hidden group-hover:block bg-gray-800 text-white text-xs rounded px-3 py-2 whitespace-nowrap z-10">
+            Пошук за назвою, описом, автором і тегами
+            </div>
+        </div>
           </div>
         </div>
 

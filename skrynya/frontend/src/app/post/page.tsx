@@ -1,7 +1,7 @@
 "use client";
 
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useState, useEffect} from "react";
 import { useRouter } from "next/navigation";
 
 const MAX_DESCRIPTION_LENGTH = 500;
@@ -32,8 +32,13 @@ const TAG_OPTIONS = [
   "Інше",
 ];
 
+
 export default function JarForm() {
-  const router = useRouter();
+    const router = useRouter();
+    useEffect(() => {
+        const storedToken = localStorage.getItem("token");
+        if (!storedToken)
+            return router.push('/login')})
   const [jardata, setJarData] = useState({
     title: "",
     description: "",
@@ -99,7 +104,8 @@ export default function JarForm() {
       });
 
       console.log("Jar created successfully:", res.data);
-      router.push("/post");
+      alert("Збір створено! Зовсім скоро він буде перевірений.")
+      router.push("/profile");
     } catch (err: unknown) {
       if (axios.isAxiosError(err)) {
         console.error("Error creating jar:", err.response?.data || err.message);
@@ -119,7 +125,7 @@ export default function JarForm() {
           Skrynya
         </a>
 
-        <div className="w-full max-w-xl bg-white shadow-xl rounded-2xl p-10 space-y-8">
+        <div className="w-full mt-14 max-w-xl bg-white shadow-xl p-10 space-y-8">
           <h2 className="text-3xl font-bold text-center text-gray-800">
             Відкрити Банку
           </h2>
@@ -148,7 +154,7 @@ export default function JarForm() {
                 name="description"
                 maxLength={MAX_DESCRIPTION_LENGTH}
                 placeholder="Опис"
-                className="input-style h-40 resize-none"
+                className="input-style h-40 resize-none w-full"
               />
               <div className="flex justify-between text-xs text-gray-500 mt-1">
                 <span>
@@ -177,7 +183,7 @@ export default function JarForm() {
             {/* Tags */}
             <div>
               <span className="text-gray-700 mb-2 block font-medium">Оберіть теги:</span>
-              <div className="flex flex-wrap gap-2">
+              <div className="flex flex-wrap gap-2 max-h-60 border-2 border-main sm:border-none overflow-y-auto ">
                 {TAG_OPTIONS.map((tag) => (
                   <button
                     key={tag}

@@ -2,6 +2,7 @@
 import React from "react";
 
 type ProfileCardProps = {
+    username: string;
   first_name: string;
   last_name: string;
   email: string;
@@ -10,33 +11,38 @@ type ProfileCardProps = {
     since: string;
     imageUrl: string;
 };
-
 export default function ProfileCard(props: ProfileCardProps) {
-
-    return(
-        // <div className="flex gap-4 item s-center mx-4">
-        //   <img src={`data:image/png;base64,${props.imageUrl}`} className="h-[180px] w-[180px] 2xl:h-[208px] 2xl:w-[208px] rounded-full bg-fallgray"/>
-    <div className="flex flex-col gap-4">
-    <div className="flex flex-col">
-      <div className="flex items-center">
-        <span className="text-3xl">{props.first_name} {props.last_name}</span>
-        <div className="ml-2 w-[26px] h-[26px] rounded-[7px] bg-fallgray mt-2"></div>
+  return (
+    <div className="flex flex-col mt-14 md:flex-row gap-6 items-center md:items-start mx-4">
+      {/* User Info */}
+      <div className="flex flex-col flex-1">
+        <div className="flex flex-col items-left flex-wrap gap-1">
+          <span className="text-xl sm:text-2xl md:text-3xl font-semibold">{props.first_name} {props.last_name}</span>
+          <span className="text-s text-textgray sm:text-m md:text-l">{props.username} </span>
+          {/* <div className="w-[20px] h-[20px] sm:w-[24px] sm:h-[24px] md:w-[26px] md:h-[26px] rounded-[7px] bg-fallgray"></div> */}
+        </div>
       </div>
-      <div className="text-xl">Status</div>
-    </div>
 
-    <div className="w-[2px] h-[161px] bg-[#D9D9D9]"></div>
-    <div className="flex flex-col">
-      <span className="text-textgray">Електронна Пошта: <span>{props.email}</span></span>
-      <span className="text-textgray">Номер Телефону: <span>{props.phone}</span></span>
-      <span className="text-textgray">Дата Реєстрації: <span>{props.since}</span></span>
-    </div>
+      {/* Vertical Divider (only on medium and larger screens) */}
+      <div className="hidden md:block w-[2px] h-[161px] bg-[#D9D9D9]"></div>
 
-    <div
-      onClick={props.onEdit} // When the button is clicked, it triggers the edit mode
-      className="cursor-pointer flex ml-auto w-[160px] h-[60px] 2xl:w-[208px] justify-center items-center 2xl:h-[69px] text-sm 2xl:text-lg bg-[#14111F] text-white rounded-xl"
-    >Редагувати Профіль
+      {/* Contact Info */}
+      <div className="flex flex-col gap-3 flex-1 text-sm sm:text-base text-textgray">
+        <span>Електронна Пошта: <span className="font-medium">{props.email}</span></span>
+        <span>Номер Телефону: <span className="font-medium">{props.phone}</span></span>
+        <span>Дата Реєстрації: <span className="font-medium">{props.since}</span></span>
+
+        {/* Edit Button */}
+        <div className="h-full flex items-center">
+            <div
+            onClick={props.onEdit}
+            className="cursor-pointer mt-4 md:mt-0 w-full md:w-auto bg-[#14111F] text-white rounded-xl px-6 py-3 text-center text-sm sm:text-base md:text-lg font-semibold hover:bg-opacity-90 transition"
+            >
+            Редагувати Профіль
+            </div>
+        </div>
+      </div>
+
     </div>
-  </div>
-);
+  );
 }

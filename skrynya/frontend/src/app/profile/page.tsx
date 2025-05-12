@@ -11,6 +11,7 @@ import History from "@/components/profile_transaction_history";
 import Activity from "@/components/activity";
 
 interface UserData {
+username: string;
   first_name: string;
   second_name: string;
   email: string;
@@ -61,7 +62,8 @@ export default function Profile() {
 
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
-    if (!storedToken) return;
+    if (!storedToken)
+        return router.push('/home')
 
     const fetchData = async () => {
       try {
@@ -88,11 +90,12 @@ export default function Profile() {
   }, []);
 
   return (
-    <main className="flex">
+    <main className="flex justify-center md:justify-start">
       <Sidebar />
-      <div className="font-lex ml-54 pt-8 px-8 flex flex-col gap-12 mb-20">
+      <div className="font-lex md:justify-start md:ml-54 pt-8 flex justify-center flex-col gap-12">
         {user_data && (
           <ProfileCard
+          username={user_data.username}
             first_name={user_data.first_name}
             last_name={user_data.second_name}
             email={user_data.email}
@@ -115,11 +118,11 @@ export default function Profile() {
         }))} />
 
         {activities && (
-          <div className="w-full flex justify-between">
-            <div className="w-[48%]">
+          <div className="w-full flex md:flex-row flex-col justify-between">
+            <div className="w-full md:w-[48%] mb-2 ">
               <Activity activity={activities} />
             </div>
-            <div className="w-[48%]">
+            <div className="w-full md:w-[48%]">
               <History donations={activities.donations} />
             </div>
           </div>
